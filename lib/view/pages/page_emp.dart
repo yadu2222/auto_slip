@@ -32,7 +32,7 @@ class _PageEmpState extends State<PageEmp> {
           onPressed: () async {
             FocusScope.of(context).unfocus(); //キーボードを閉じる
 
-            // List newList = await RegulerManager.getSerchData(serchRoom);
+            // List newList = await RegulerManager.getsearchData(searchRoom);
             List newList = await SalaryManager.getEmpList();
 
             setState(() {

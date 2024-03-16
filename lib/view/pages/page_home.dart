@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart'; //アプリがファイルを
 
 // 遷移するページ
 import 'page_add.dart';
-import 'page_now_table.dart';
+import 'page_regular.dart';
 import 'page_salary.dart';
 import 'page_emp.dart';
 import 'page_magazines_count.dart';
@@ -55,7 +55,7 @@ class _PageHomeState extends State<PageHome> {
         children: [
           menuTile("店舗の追加", PageAdd()),
           menuTile("定期の追加", PageAdd()),
-          menuTile("現在の定期一覧", PageNowTable()),
+          menuTile("現在の定期一覧", PageRegular()),
           menuTile("数取り", PageMagazinesCount()),
           menuTile(
             "勤怠管理",

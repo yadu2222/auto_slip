@@ -31,13 +31,13 @@ class SalaryManager {
     if (empName != "") {
       if (empName != null) {
         debugPrint("検索はしてるよ");
-        // List empList = await DatabaseHelper.serachRows('employee', 6, ['emp_name'], [empName], "emp_id");
-        List empList = await DatabaseHelper.serachRows('employee', 1, ['emp_name'], [empName], "emp_id");
+        // List empList = await DatabaseHelper.searchRows('employee', 6, ['emp_name'], [empName], "emp_id");
+        List empList = await DatabaseHelper.searchRows('employee', 1, ['emp_name'], [empName], "emp_id");
         debugPrint(empList[0]["emp_name"]);
 
         if (empList.isEmpty) {
           debugPrint("検索結果は空だよ");
-          List empList = await DatabaseHelper.serachRows('employee', 1, ['emp_name'], [empName], "emp_id");
+          List empList = await DatabaseHelper.searchRows('employee', 1, ['emp_name'], [empName], "emp_id");
           debugPrint(empList[0]["emp_name"]);
         }
         return empList;
@@ -45,7 +45,7 @@ class SalaryManager {
         return [];
       }
     } else if (empName == "てんちょ") {
-      List empList = await DatabaseHelper.serachRows('employee', 0, [], [], "emp_id");
+      List empList = await DatabaseHelper.searchRows('employee', 0, [], [], "emp_id");
       print(empList);
       return empList;
     } else {
@@ -55,12 +55,12 @@ class SalaryManager {
 
   // 従業員の勤怠情報の取得
   static Future<List> getEmpWorkTime(int empId) async {
-    List workTimeList = await DatabaseHelper.serachRows('employee', 6, ['emp_id'], [empId], "emp_id");
+    List workTimeList = await DatabaseHelper.searchRows('employee', 6, ['emp_id'], [empId], "emp_id");
     return workTimeList;
   }
 
   static Future<List> getEmpList() async {
-    List empList = await DatabaseHelper.serachRows('employee', 0, [], [], "emp_id");
+    List empList = await DatabaseHelper.searchRows('employee', 0, [], [], "emp_id");
     return empList;
   }
 
@@ -74,6 +74,7 @@ class SalaryManager {
     // typeが0の場合はx月24日、typeが１の場合はx＋１月23日を返す
 
     // 24日以降であれば今の月の23日を返す
+    // TODO:うまくうごいてないよ
     switch (type) {
       case 0:
         if (betWeenTime.day > 23) {
@@ -105,7 +106,7 @@ class SalaryManager {
     String startDay = Process.dateformat(betWeenTime.toString(), 6);
     String endDay = Process.dateformat(betWeenTime.add(const Duration(days: 30)).toString(), 7); // 次の月
     // TODO: 日付の範囲指定を実装
-    List workTime = await DatabaseHelper.serachRows('worktime', 7, ['emp_id'], [empId, startDay, endDay], "record_day");
+    List workTime = await DatabaseHelper.searchRows('worktime', 7, ['emp_id'], [empId, startDay, endDay], "record_day");
     print(workTime);
     return workTime;
   }

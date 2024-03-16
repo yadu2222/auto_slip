@@ -37,7 +37,7 @@ class _salaryPageState extends State<salaryPage> {
     double widthData = 0.7;
     double heightData = 0.1;
 
-    Widget searchButton(String serchRoom) {
+    Widget searchButton(String searchRoom) {
       return IconButton(
           icon: Icon(Icons.send), // Replace 'some_icon' with the desired icon
           onPressed: () async {
@@ -247,7 +247,7 @@ class _salaryPageState extends State<salaryPage> {
     }
 
     // 検索バー
-    Widget serchBar() {
+    Widget searchBar() {
       return // 検索バー
           Container(
               width: screenSizeWidth * widthData,
@@ -331,7 +331,7 @@ class _salaryPageState extends State<salaryPage> {
       ),
       body: Center(
         child: Column(children: [
-          serchBar(),
+          searchBar(),
           FutureBuilder(
             future: SalaryManager.getEmp(_empUserController.text),
             builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -36,7 +36,7 @@ class RegulerManager {
       // 追加用のデータを作成
       Map<String, dynamic> addMagazineData = {"magazine_code": magazine["magazineCode"], "magazine_name": magazine["magazineName"]};
       // 重複確認のために検索
-      List magazineData = await DatabaseHelper.serachRows("magazines", 1, ["magazine_code"], [magazine["magazinCode"]], "magazine_code");
+      List magazineData = await DatabaseHelper.searchRows("magazines", 1, ["magazine_code"], [magazine["magazinCode"]], "magazine_code");
       // 重複データがない場合のみ追加
       if (magazineData.isEmpty) {
         DatabaseHelper.insert("magazines", addMagazineData);
@@ -50,7 +50,7 @@ class RegulerManager {
 
   // 店舗リストの取得
   static Future<List> getStores() async {
-    List storeList = await DatabaseHelper.serachRows("stores", 0, [], [], "store_id");
+    List storeList = await DatabaseHelper.searchRows("stores", 0, [], [], "store_id");
     return storeList;
   }
 
@@ -60,7 +60,6 @@ class RegulerManager {
     int storeId = await _addStore(storeName);
     // 雑誌データ追加
     await _addMagazine(addMagazines);
-
     // 定期データ追加
     for (var magazine in addMagazines) {
       DatabaseHelper.insert("regulars", {"store_id": storeId, "magazine_code": magazine["magazineCode"], "quantity": magazine["quantity"]});
@@ -69,28 +68,32 @@ class RegulerManager {
   }
 
   // 定期リストの検索と取得
-  static Future<List> getStoreList(String? storeName) async {
-    // 入力があれば
-    if (storeName != "") {
+  static Future<List> getRegularList(String? searchData, int searchType) async {
+    // 0なら店舗名検索、1なら雑誌コード検索、それ以外なら全件取得
+    // 入力の有無でも弾く
+    if (searchData != "") {
       debugPrint("検索あり");
-      if (storeName != null) {
-        return await getSerchData(storeName);
+      if (searchData != null) {
+        return await DatabaseHelper.searchRegulerList(searchType, searchData);
       } else {
         return [];
       }
     } else {
       debugPrint("検索なし");
-      List storeList = await DatabaseHelper.serachRows("", 4, [], [], "");
+      // 全件取得
+      List storeList = await DatabaseHelper.searchRegulerList(10, "");
       return storeList;
     }
   }
 
   // 定期データの取得
   // TODO:いまのところつかってないよ
-  static Future<List> getSerchData(String storeName) async {
-    List regularData = await DatabaseHelper.serachRows("regulars", 5, ["store_name"], [storeName], "store_name");
-    return regularData;
-  }
+  // 2023.3.16 使ってるっぽいよ、、、？
+  // やっぱいらないね
+  // static Future<List> getsearchData(String searchData, int searchType) async {
+  //   List regularData = await DatabaseHelper.searchRegulerList(searchType, searchData);
+  //   return regularData;
+  // }
 
   // 入荷リストのデータ取得
   static Future<List> getImportData(String path) async {

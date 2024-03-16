@@ -120,9 +120,9 @@ class DatabaseHelper {
   }
 
   // テーブル名、検索タイプ、検索行、検索ワード、ソート列
-  static Future<List<Map<String, dynamic>>> serachRows(String tableName, int serachType, List serachColum, List serachWords, String sort) async {
+  static Future<List<Map<String, dynamic>>> searchRows(String tableName, int searchhType, List searchColum, List searchWords, String sort) async {
     Database? db = await instance.database;
-    switch (serachType) {
+    switch (searchhType) {
       // table名のみで検索
       case 0:
         return await db!.rawQuery("select * from $tableName");
@@ -130,45 +130,28 @@ class DatabaseHelper {
       case 1:
         return await db!.query(
           '$tableName',
-          where: '${serachColum[0]} = ?',
-          whereArgs: ['${serachWords[0]}'],
+          where: '${searchColum[0]} = ?',
+          whereArgs: ['${searchWords[0]}'],
           orderBy: '${sort} ASC',
         );
       // 検索あり 2語
       case 2:
         return await db!.query(
           '$tableName',
-          where: '${serachColum[0]} = ? AND ${serachColum[1]} = ?',
-          whereArgs: ['${serachWords[0]}', '${serachWords[1]}'],
+          where: '${searchColum[0]} = ? AND ${searchColum[1]} = ?',
+          whereArgs: ['${searchWords[0]}', '${searchWords[1]}'],
           orderBy: '${sort} ASC',
         );
+      // 検索あり 3語
       case 3:
         return await db!.query(
           '$tableName',
-          where: '${serachColum[0]} = ? AND ${serachColum[1]} = ? AND ${serachColum[2]} = ?',
-          whereArgs: ['${serachWords[0]}', '${serachWords[1]}', '${serachWords[2]}'],
+          where: '${searchColum[0]} = ? AND ${searchColum[1]} = ? AND ${searchColum[2]} = ?',
+          whereArgs: ['${searchWords[0]}', '${searchWords[1]}', '${searchWords[2]}'],
           orderBy: '${sort} ASC',
         );
 
-      case 4:
-        // return await db!.rawQuery("select s.store_name as,m.magazine_code ,m.magazine_name from stores as s join regulars as r on r.store_id = s.store_id join magazines as m on r.magazine_code = m.magazine_code");
-        return await db!.rawQuery('''
-      SELECT s.store_name, m.magazine_code, m.magazine_name
-      FROM stores AS s
-      JOIN regulars AS r ON r.store_id = s.store_id
-      JOIN magazines AS m ON r.magazine_code = m.magazine_code
-      order by s.store_name asc
-    ''');
-
-      case 5:
-        return await db!.rawQuery('''
-      SELECT s.store_name, m.magazine_code, m.magazine_name
-      FROM stores AS s
-      JOIN regulars AS r ON r.store_id = s.store_id
-      JOIN magazines AS m ON r.magazine_code = m.magazine_code
-      where s.store_name = '${serachWords[0]}'
-    ''');
-
+      // TODO:getShiftを整備したら消すぞ
       case 6:
         debugPrint("とおってるよ");
         return await db!.rawQuery('''
@@ -176,17 +159,80 @@ class DatabaseHelper {
       FROM employee AS e
       JOIN worktime AS w on e.emp_id = w.emp_id
       where w.emp_id = ? and w.record_day between ? and ?
-    ''', [serachWords[0], serachWords[1], serachWords[2]]);
+    ''', [searchWords[0], searchWords[1], searchWords[2]]);
 
+      // TODO:getShiftを整備したら消すぞ
       case 7:
         return await db!.query(
           '$tableName',
-          where: '${serachColum[0]} = ? and record_day BETWEEN ? AND ?',
-          whereArgs: [serachWords[0], serachWords[1], serachWords[2]],
+          where: '${searchColum[0]} = ? and record_day BETWEEN ? AND ?',
+          whereArgs: [searchWords[0], searchWords[1], searchWords[2]],
           orderBy: '$sort ASC',
         );
     }
     return await db!.rawQuery("select * from $tableName");
+  }
+
+  // 勤怠情報取得
+  static Future<List<Map<String, dynamic>>> getShift(int empId, String startTime, String endTime, int searchType) async {
+    Database? db = await instance.database;
+    return await db!.rawQuery('''
+      SELECT w.work_id, e.emp_name, w.record_day, w.start_time, w.end_time,w.break_time
+      FROM employee AS e
+      JOIN worktime AS w on e.emp_id = w.emp_id
+      where w.emp_id = ${empId} w.record_day between ${startTime} and ${endTime}
+    ''');
+  }
+
+  // 定期一覧取得
+  static Future<List<Map<String, dynamic>>> searchRegulerList(int searchType, String serchData) async {
+    // db 接続
+    Database? db = await instance.database;
+    switch (searchType) {
+      // 店舗名検索
+      case 0:
+        return await db!.rawQuery('''
+      SELECT s.store_name, m.magazine_code, m.magazine_name
+      FROM stores AS s
+      JOIN regulars AS r ON r.store_id = s.store_id
+      JOIN magazines AS m ON r.magazine_code = m.magazine_code
+      where s.store_name like '%${serchData}%'
+      order by r.store_id asc
+    ''');
+      // 雑誌コード検索
+      case 1:
+        return await db!.rawQuery(
+          '''
+          SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+          FROM stores AS s
+          JOIN regulars AS r ON r.store_id = s.store_id
+          JOIN magazines AS m ON r.magazine_code = m.magazine_code
+          where r.magazine_code = '${serchData}'
+          order by r.magazine_code asc
+        ''',
+        );
+      // 雑誌名検索
+      case 2:
+        return await db!.rawQuery(
+          '''
+          SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+          FROM stores AS s
+          JOIN regulars AS r ON r.store_id = s.store_id
+          JOIN magazines AS m ON r.magazine_code = m.magazine_code
+          where m.magazine_name like '%${serchData}%'
+          order by r.magazine_code asc
+        ''',
+        );
+    }
+
+    // 全件取得
+    return await db!.rawQuery('''
+      SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+      FROM stores AS s
+      JOIN regulars AS r ON r.store_id = s.store_id
+      JOIN magazines AS m ON r.magazine_code = m.magazine_code
+      order by s.store_name asc
+    ''');
   }
 
   static Future<bool> firstdb() async {
@@ -223,7 +269,6 @@ class DatabaseHelper {
   // 比較終わり次第削除する
   static Future<void> createImportDateTable() async {
     print("つくるよ");
-
     // db作成処理
     // 肝心のデータが文字化けしているので、雑誌コードと入荷数のみを登録する
     Database? db = await instance.database;
@@ -240,23 +285,22 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> getRegulerMagazine() async {
     Database? db = await instance.database;
     return await db!.rawQuery('''
-
-SELECT r.magazine_code, m.magazine_name, r.quantity, s.store_name, i.quantity_in_stock
-FROM regulars AS r
-INNER JOIN stores AS s ON r.store_id = s.store_id
-INNER JOIN magazines AS m ON r.magazine_code = m.magazine_code
-INNER JOIN importData AS i ON r.magazine_code = i.magazine_code
-ORDER BY r.magazine_code ASC;
-
-
-     
+      SELECT r.magazine_code, m.magazine_name, r.quantity, s.store_name, i.quantity_in_stock
+      FROM regulars AS r
+      INNER JOIN stores AS s ON r.store_id = s.store_id
+      INNER JOIN magazines AS m ON r.magazine_code = m.magazine_code
+      INNER JOIN importData AS i ON r.magazine_code = i.magazine_code
+      ORDER BY r.magazine_code ASC;
     ''');
   }
 
+  // 入荷チェック用臨時テーブル削除
   static Future<void> dropTable() async {
     Database? db = await instance.database;
     await db!.execute('''
     DROP TABLE importData
   ''');
   }
+
+  // TODO:編集履歴を保存するテーブルをつくるなどしないといけない
 }
