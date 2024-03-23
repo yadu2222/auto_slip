@@ -16,7 +16,7 @@ class _PageAddState extends State<PageAdd> {
   TextEditingController magezineNumController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
 
-  String addType = "店舗データ";
+  String addType = "定期";
 
   List addMagezens = [
     // {

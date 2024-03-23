@@ -53,8 +53,8 @@ class _PageHomeState extends State<PageHome> {
       height: 500,
       child: ListView(
         children: [
-          menuTile("店舗の追加", PageAdd()),
           menuTile("定期の追加", PageAdd()),
+          // menuTile("定期の追加", PageAdd()),
           menuTile("現在の定期一覧", PageRegular()),
           menuTile("数取り", PageMagazinesCount()),
           menuTile(

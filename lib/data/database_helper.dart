@@ -192,7 +192,7 @@ class DatabaseHelper {
       // 店舗名検索
       case 0:
         return await db!.rawQuery('''
-      SELECT s.store_name, m.magazine_code, m.magazine_name
+      SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code
