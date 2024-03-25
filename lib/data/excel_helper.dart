@@ -83,4 +83,73 @@ class ExcelHandler {
       });
     }
   }
+
+  static void excel(String path, int type) async {
+    // ファイルオブジェクトを作成
+    final File file = new File(path);
+    // 読み込み
+    Stream input = file.openRead();
+
+    int constant = 0;
+    switch (type) {
+      case 0:
+      // 店舗情報
+        constant = 5;
+        break;
+      case 1:
+      // 雑誌情報
+        constant = 2;
+        break;
+      case 2:
+      // 定期情報
+        constant = 3;
+    }
+
+    final contents = await input.transform(const Utf8Decoder(allowMalformed: true)).transform(const LineSplitter()).join();
+
+    final rows = contents.split(',');
+    print(rows);
+
+    int count = 0;
+    List storesList = []; // countの個数ずつ一つのリストにまとめる
+    List store = []; // 各雑誌の情報を格納するリスト
+    for (String? row in rows) {
+      if (row == "") {
+        row = null;
+      }
+      store.add(row);
+      print(count++);
+      if (count % constant == 0) {
+        storesList.add(store);
+        store = [];
+      }
+    }
+    print(storesList);
+    String tableName = "";
+
+    for (int i = 0; i < storesList.length; i++) {
+      List storeData = storesList[i];
+      Map<String, dynamic> row = {};
+
+      switch (type) {
+        case 0:
+          tableName = "stores";
+          row = {"store_name": storeData[0], "regular_type": storeData[1], "address": storeData[2], "tell_type": storeData[3], "note": storeData[4]};
+          break;
+        case 1:
+          tableName = "magazines";
+          row = {"magazine_code": storeData[0].toString(), "magazine_name": storeData[1]};
+          break;
+        case 2:
+          tableName = "regulars";
+          row = {"store_id": storeData[0], "magazine_code": storeData[1].toString(), "quantity": storeData[2]};
+      }
+
+      await DatabaseHelper.insert(tableName, row);
+      print("データを追加しました");
+    }
+
+    List result = await DatabaseHelper.queryAllRows(tableName);
+    print(result);
+  }
 }

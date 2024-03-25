@@ -10,6 +10,7 @@ import 'page_regular.dart';
 import 'page_salary.dart';
 import 'page_emp.dart';
 import 'page_magazines_count.dart';
+import 'page_test.dart';
 
 class PageHome extends StatefulWidget {
   @override
@@ -61,7 +62,8 @@ class _PageHomeState extends State<PageHome> {
             "勤怠管理",
             salaryPage(),
           ),
-          menuTile("従業員情報", PageEmp())
+          menuTile("従業員情報", PageEmp()),
+          menuTile("従業員情報", Test())
         ],
       ),
     );

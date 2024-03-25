@@ -1,31 +1,24 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'dart:io'; // ファイル入出力用ライブラリ
 import 'dart:convert';
-import 'package:csv/csv.dart';
-
 import 'database_helper.dart';
-import 'excel_helper.dart';
-import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
-import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
-import 'package:charset_converter/charset_converter.dart';
 
 class RegulerManager {
   // 店舗追加
   static Future<int> _addStore(String storeName) async {
     // 店舗データ追加
-    // TODO:ここも重複で弾く処理をいれるべきでは？
-    DatabaseHelper.insert("stores", {"store_name": storeName});
+
+    List storeDataCheck = await DatabaseHelper.searchRows("stores", 1, ["store_name"], [storeName], "store_id");
+
+    if (storeDataCheck.isEmpty) {
+      // TODO:ここも重複で弾く処理をいれるべきでは？
+      DatabaseHelper.insert("stores", {"store_name": storeName});
+    }
 
     // 追加した店舗のIDを取得
-    int? storeId = await DatabaseHelper.queryRowCount("stores");
-    // nullの場合は-1を返す
-    if (storeId == null) {
-      return -1;
-    }
-    return storeId;
+    List storeId = await DatabaseHelper.searchRows("stores", 1, ["store_name"], [storeName], "store_id");
+    return storeId[0]["store_id"];
   }
 
   // 雑誌追加
@@ -81,7 +74,13 @@ class RegulerManager {
     } else {
       debugPrint("検索なし");
       // 全件取得
-      List storeList = await DatabaseHelper.searchRegulerList(10, "");
+      List storeList = [];
+      switch (searchType) {
+        case 0:
+          storeList = await DatabaseHelper.searchRegulerList(10, "");
+        default:
+          storeList = await DatabaseHelper.searchRegulerList(11, "");
+      }
       return storeList;
     }
   }

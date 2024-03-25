@@ -57,7 +57,11 @@ class DatabaseHelper {
     await db.execute('''
     CREATE TABLE stores (
       store_id integer PRIMARY KEY autoincrement,
-      store_name TEXT
+      store_name TEXT,
+      regular_type TEXT,
+      address text,
+      tell_type text,
+      note text
     )
   ''');
 
@@ -76,7 +80,7 @@ class DatabaseHelper {
     CREATE TABLE regulars (
       regular_id integer PRIMARY KEY autoincrement,
       store_id integer,
-      magazine_code integer,
+      magazine_code text,
       quantity integer
     )
   ''');
@@ -192,30 +196,30 @@ class DatabaseHelper {
       // 店舗名検索
       case 0:
         return await db!.rawQuery('''
-      SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity,s.regular_type, s.address,s.tell_type,s.note
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code
       where s.store_name like '%${serchData}%'
-      order by r.store_id asc
+      order by s.store_name asc
     ''');
       // 雑誌コード検索
       case 1:
         return await db!.rawQuery(
           '''
-          SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+          SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
           FROM stores AS s
           JOIN regulars AS r ON r.store_id = s.store_id
           JOIN magazines AS m ON r.magazine_code = m.magazine_code
           where r.magazine_code = '${serchData}'
-          order by r.magazine_code asc
+          order by m.magazine_code asc
         ''',
         );
       // 雑誌名検索
       case 2:
         return await db!.rawQuery(
           '''
-          SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+          SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
           FROM stores AS s
           JOIN regulars AS r ON r.store_id = s.store_id
           JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -223,11 +227,29 @@ class DatabaseHelper {
           order by r.magazine_code asc
         ''',
         );
+      // 店舗名優先検索
+      case 10:
+        return await db!.rawQuery('''
+      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity,s.regular_type, s.address,s.tell_type,s.note
+      FROM stores AS s
+      JOIN regulars AS r ON r.store_id = s.store_id
+      JOIN magazines AS m ON r.magazine_code = m.magazine_code
+      order by s.store_name asc
+    ''');
+      // 雑誌コード優先検索
+      case 11:
+        return await db!.rawQuery('''
+      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
+      FROM stores AS s
+      JOIN regulars AS r ON r.store_id = s.store_id
+      JOIN magazines AS m ON r.magazine_code = m.magazine_code
+      order by m.magazine_code asc
+    ''');
     }
 
     // 全件取得
     return await db!.rawQuery('''
-      SELECT s.store_name, m.magazine_code, m.magazine_name,r.quantity
+      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code

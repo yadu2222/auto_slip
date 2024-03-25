@@ -64,11 +64,37 @@ class _PageRegular extends State<PageRegular> {
 
     // 店舗名優先表示カード
     Widget storeListCard(int index) {
-      bool isBool = index == 0 || regularList[index]["store_name"] == regularList[index - 1]["store_name"];
-      Widget isWidget = Text(
-        regularList[index]["store_name"],
-      );
+      String? regularType = regularList[index]["regular_type"];
+      regularType = regularType == "0"
+          ? "配達"
+          : regularType == "1"
+              ? "店取り"
+              : regularType == "2"
+                  ? "店取り伝票"
+                  : "配達";
+      String? tellType = regularList[index]["tell_type"];
+      tellType = tellType == "0"
+          ? "tell不要"
+          : tellType == "1"
+              ? "tell要"
+              : tellType == "2"
+                  ? "着信のみ"
+                  : "";
+      String? address = regularList[index]["address"];
+      if (address == null) {
+        address = "";
+      }
 
+      bool isBool = index == 0 || regularList[index]["store_name"] != regularList[index - 1]["store_name"];
+      Widget isWidget = Row(children: [
+        Text(regularList[index]["store_name"].toString()),
+        SizedBox(width: screenSizeWidth * 0.02),
+        Text(address),
+        SizedBox(width: screenSizeWidth * 0.02),
+        // Text(regularType),
+        // SizedBox(width: screenSizeWidth * 0.02),
+        Text(tellType)
+      ]);
       Widget repeatWidget = Row(children: [
         Text(regularList[index]["magazine_code"].toString()),
         SizedBox(width: screenSizeWidth * 0.02),
@@ -109,8 +135,9 @@ class _PageRegular extends State<PageRegular> {
                   debugPrint(searchType.toString());
                   debugPrint("なにがはいってるのかというと[${searchType == 0 ? _storeNameController.text : _magazineController.text}]");
                   regularList = snapshot.data;
+                  print(regularList);
                   return Container(
-                      width: screenSizeWidth * widthData * 0.8,
+                      width: screenSizeWidth * widthData,
                       height: screenSizeHeight * heightData * 5,
                       alignment: Alignment.topCenter,
                       child: ListView.builder(

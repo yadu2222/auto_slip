@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_flip/view/pages/page_add.dart';
-import '../../view/pages/page_regular.dart';
 
 class Parts {
   static Widget searchBar(
@@ -104,14 +102,14 @@ class DispCard {
               // 編集画面に遷移
             },
             child: Container(
-              width: screenSizeWidth * 0.6,
+              width: screenSizeWidth * 0.9,
               alignment: Alignment.center,
               child: Column(
                 children: [
                   // 見出し
                   isdisp
                       ? Container(
-                          width: screenSizeWidth * 0.6,
+                          width: screenSizeWidth * 0.9,
                           decoration: const BoxDecoration(
                             border: Border(bottom: BorderSide(width: 1, color: Colors.black)),
                           ),

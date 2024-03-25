@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auto_flip/data/regular_manager.dart';
+import "../parts/parts.dart";
+import "../../data/excel_helper.dart";
 
 import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
@@ -27,51 +29,31 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
 
     // 雑誌コード、雑誌名に対して　店舗名と冊数　配達なのか店取りなのかを表示したい
     Widget regulerCard(int index) {
-      return ListTile(
-        title: Container(
-          width: screenSizeWidth * 0.6,
-          // height: screenSizeHeight * 0.1,
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              // 一番最初である、または
-              // 一つ前のデータと雑誌コードが同一かを判別
-              index == 0 || regulerData[index]["magazine_code"] != regulerData[index - 1]["magazine_code"]
-                  ? Container(
-                      width: screenSizeWidth * 0.6,
-                      decoration: const BoxDecoration(
-                        border: Border(bottom: BorderSide(width: 1, color: Colors.black)),
-                      ),
-                      child: Container(
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Text(regulerData[index]["magazine_code"].toString()),
-                              SizedBox(width: screenSizeWidth * 0.02),
-                              Text(regulerData[index]["magazine_name"]),
-                              SizedBox(width: screenSizeWidth * 0.02),
-                              Text(regulerData[index]["quantity_in_stock"].toString()),
-                            ],
-                          )))
-                  : const SizedBox.shrink(),
-
-              Container(
-                  alignment: Alignment.center,
-                  child: Row(children: [
-                    Text(regulerData[index]["store_name"]),
-                    SizedBox(width: screenSizeWidth * 0.02),
-                    Text(regulerData[index]["quantity"].toString()),
-                  ]))
-            ],
-          ),
-        ),
+      bool isbool = index == 0 || regulerData[index]["magazine_code"] != regulerData[index - 1]["magazine_code"];
+      Widget isWidget = Row(
+        children: [
+          Text(regulerData[index]["magazine_code"].toString()),
+          SizedBox(width: screenSizeWidth * 0.02),
+          Text(regulerData[index]["magazine_name"]),
+          SizedBox(width: screenSizeWidth * 0.02),
+          Text("入荷数：" + regulerData[index]["quantity_in_stock"].toString()),
+        ],
       );
+      Widget repeatWidget = Row(
+        children: [
+          Text(regulerData[index]["store_name"]),
+          SizedBox(width: screenSizeWidth * 0.02),
+          Text(regulerData[index]["quantity"].toString()),
+        ],
+      );
+
+      return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight);
     }
 
     Widget regulerList() {
       return Container(
           width: screenSizeWidth * 0.6,
-          height: screenSizeHeight * 0.5,
+          height: screenSizeHeight * 0.8,
           alignment: Alignment.topCenter,
           child: ListView.builder(
             itemCount: regulerData.length,
@@ -124,6 +106,7 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
                         setState(() {
                           regulerData = resultData;
                         });
+                        // regulerData = await RegulerManager.getImportData(path);
                       } else {
                         // ファイルが選択されなかった場合の処理
                       }
@@ -169,3 +152,43 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
 //     return [];
 //   }
 // }
+
+// return ListTile(
+      //   title: Container(
+      //     width: screenSizeWidth * 0.6,
+      //     // height: screenSizeHeight * 0.1,
+      //     alignment: Alignment.center,
+      //     child: Column(
+      //       children: [
+      //         // 一番最初である、または
+      //         // 一つ前のデータと雑誌コードが同一かを判別
+      //         index == 0 || regulerData[index]["magazine_code"] != regulerData[index - 1]["magazine_code"]
+      //             ? Container(
+      //                 width: screenSizeWidth * 0.6,
+      //                 decoration: const BoxDecoration(
+      //                   border: Border(bottom: BorderSide(width: 1, color: Colors.black)),
+      //                 ),
+      //                 child: Container(
+      //                     alignment: Alignment.center,
+      //                     child: Row(
+      //                       children: [
+      //                         Text(regulerData[index]["magazine_code"].toString()),
+      //                         SizedBox(width: screenSizeWidth * 0.02),
+      //                         Text(regulerData[index]["magazine_name"]),
+      //                         SizedBox(width: screenSizeWidth * 0.02),
+      //                         Text(regulerData[index]["quantity_in_stock"].toString()),
+      //                       ],
+      //                     )))
+      //             : const SizedBox.shrink(),
+
+      //         Container(
+      //             alignment: Alignment.center,
+      //             child: Row(children: [
+      //               Text(regulerData[index]["store_name"]),
+      //               SizedBox(width: screenSizeWidth * 0.02),
+      //               Text(regulerData[index]["quantity"].toString()),
+      //             ]))
+      //       ],
+      //     ),
+      //   ),
+      // );
