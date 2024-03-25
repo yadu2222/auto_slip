@@ -310,8 +310,11 @@ class DatabaseHelper {
       SELECT r.magazine_code, m.magazine_name, r.quantity, s.store_name, i.quantity_in_stock
       FROM regulars AS r
       INNER JOIN stores AS s ON r.store_id = s.store_id
-      INNER JOIN magazines AS m ON r.magazine_code = m.magazine_code
-      INNER JOIN importData AS i ON r.magazine_code = i.magazine_code
+      INNER JOIN magazines AS m ON  r.magazine_code = m.magazine_code
+      INNER JOIN importData AS i ON case
+        when r.magazine_code > 20000  then SUBSTR(r.magazine_code, 1, 4) = SUBSTR(i.magazine_code, 1, 4)
+        else r.magazine_code = i.magazine_code
+        end
       ORDER BY r.magazine_code ASC;
     ''');
   }

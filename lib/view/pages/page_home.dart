@@ -63,7 +63,7 @@ class _PageHomeState extends State<PageHome> {
             salaryPage(),
           ),
           menuTile("従業員情報", PageEmp()),
-          menuTile("従業員情報", Test())
+          menuTile("てすと", Test())
         ],
       ),
     );

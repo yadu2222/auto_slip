@@ -144,14 +144,14 @@ class RegulerManager {
       List result2 = await DatabaseHelper.getRegulerMagazine();
       print(result2);
 
-      // 用が済んだテーブルを削除
-      await DatabaseHelper.dropTable();
-
       return result2;
     } catch (e) {
       print(e);
 
       return [];
+    } finally {
+      // 用が済んだテーブルを削除
+      await DatabaseHelper.dropTable();
     }
   }
 }
