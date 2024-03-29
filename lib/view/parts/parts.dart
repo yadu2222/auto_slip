@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../pages/page_edit.dart';
 
 class Parts {
   static Widget searchBar(
@@ -11,8 +12,8 @@ class Parts {
     return SearchBar(icon: icon, hintText: hintText, controller: controller, addType: addType, function: function);
   }
 
-  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight) {
-    return DispCard.dispListCard(isdisp, iswidget, repeatWidget, screenSizeWidth, screenSizeHeight);
+  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight,BuildContext context) {
+    return DispCard.dispListCard(isdisp, iswidget, repeatWidget, screenSizeWidth, screenSizeHeight,context);
   }
 }
 
@@ -95,11 +96,15 @@ class _SearchBar extends State<SearchBar> {
 
 class DispCard {
   // 表示するindex、表示するかの条件、その際表示するウィジェット、繰り返すウィジェット、画面サイズ
-  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight) {
+  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight,BuildContext context) {
     return ListTile(
         title: InkWell(
             onTap: () {
               // 編集画面に遷移
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditPage(0,"てすと")),
+              );
             },
             child: Container(
               width: screenSizeWidth * 0.9,

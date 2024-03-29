@@ -196,7 +196,7 @@ class DatabaseHelper {
       // 店舗名検索
       case 0:
         return await db!.rawQuery('''
-      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity,s.regular_type, s.address,s.tell_type,s.note
+      SELECT r.regular_id, s.store_name,s.store_id, m.magazine_code, m.magazine_name,r.quantity,s.regular_type, s.address,s.tell_type,s.note
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -207,7 +207,7 @@ class DatabaseHelper {
       case 1:
         return await db!.rawQuery(
           '''
-          SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
+          SELECT r.regular_id, s.store_name,s.store_id, m.magazine_code, m.magazine_name,r.quantity
           FROM stores AS s
           JOIN regulars AS r ON r.store_id = s.store_id
           JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -219,7 +219,7 @@ class DatabaseHelper {
       case 2:
         return await db!.rawQuery(
           '''
-          SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
+          SELECT r.regular_id, s.store_name,s.store_id, m.magazine_code, m.magazine_name,r.quantity
           FROM stores AS s
           JOIN regulars AS r ON r.store_id = s.store_id
           JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -230,7 +230,7 @@ class DatabaseHelper {
       // 店舗名優先検索
       case 10:
         return await db!.rawQuery('''
-      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity,s.regular_type, s.address,s.tell_type,s.note
+      SELECT r.regular_id, s.store_name,s.store_id, m.magazine_code, m.magazine_name,r.quantity,s.regular_type, s.address,s.tell_type,s.note
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -239,7 +239,7 @@ class DatabaseHelper {
       // 雑誌コード優先検索
       case 11:
         return await db!.rawQuery('''
-      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
+      SELECT r.regular_id, s.store_name,s.store_id, m.magazine_code, m.magazine_name,r.quantity
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -249,7 +249,7 @@ class DatabaseHelper {
 
     // 全件取得
     return await db!.rawQuery('''
-      SELECT r.regular_id, s.store_name, m.magazine_code, m.magazine_name,r.quantity
+      SELECT r.regular_id, s.store_name,s.store_id, m.magazine_code, m.magazine_name,r.quantity
       FROM stores AS s
       JOIN regulars AS r ON r.store_id = s.store_id
       JOIN magazines AS m ON r.magazine_code = m.magazine_code
@@ -307,15 +307,16 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> getRegulerMagazine() async {
     Database? db = await instance.database;
     return await db!.rawQuery('''
-      SELECT r.magazine_code, m.magazine_name, r.quantity, s.store_name, i.quantity_in_stock
+      SELECT r.magazine_code, m.magazine_name, r.quantity,s.store_id, s.store_name,s.regular_type, i.quantity_in_stock
       FROM regulars AS r
       INNER JOIN stores AS s ON r.store_id = s.store_id
       INNER JOIN magazines AS m ON  r.magazine_code = m.magazine_code
       INNER JOIN importData AS i ON case
         when r.magazine_code > 20000  then SUBSTR(r.magazine_code, 1, 4) = SUBSTR(i.magazine_code, 1, 4)
+        
         else r.magazine_code = i.magazine_code
         end
-      ORDER BY r.magazine_code ASC;
+      ORDER BY r.magazine_code ASC
     ''');
   }
 

@@ -59,7 +59,7 @@ class _PageRegular extends State<PageRegular> {
         ],
       );
       Widget repeatWidget = Row(children: [Text(regularList[index]["store_name"]), SizedBox(width: screenSizeWidth * 0.02), Text(regularList[index]["quantity"].toString() + "冊")]);
-      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight);
+      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context);
     }
 
     // 店舗名優先表示カード
@@ -103,7 +103,7 @@ class _PageRegular extends State<PageRegular> {
         Text(regularList[index]["quantity"].toString() + "冊")
       ]);
 
-      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight);
+      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context);
     }
 
     return Scaffold(

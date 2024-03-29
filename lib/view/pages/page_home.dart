@@ -25,7 +25,7 @@ class _PageHomeState extends State<PageHome> {
   String inputText = "0回出力しました";
   int inputNum = 0;
 
-  // 出力するが押されたときの動作
+  // 出力するを押されたときの動作
   void output(String str) async {
     setState(() {
       ++inputNum;

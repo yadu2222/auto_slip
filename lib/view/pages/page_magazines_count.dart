@@ -30,6 +30,15 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
     // 雑誌コード、雑誌名に対して　店舗名と冊数　配達なのか店取りなのかを表示したい
     Widget regulerCard(int index) {
       bool isbool = index == 0 || regulerData[index]["magazine_code"] != regulerData[index - 1]["magazine_code"];
+
+      String regularType = regulerData[index]["regular_type"] == "0"
+          ? "配達"
+          : regulerData[index]["regular_type"] == "1"
+              ? "店取り"
+              : regulerData[index]["regular_type"] == "2"
+                  ? "店取り伝票"
+                  : "配達";
+
       Widget isWidget = Row(
         children: [
           Text(regulerData[index]["magazine_code"].toString()),
@@ -43,11 +52,12 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
         children: [
           Text(regulerData[index]["store_name"]),
           SizedBox(width: screenSizeWidth * 0.02),
+          Text(regularType),
+          SizedBox(width: screenSizeWidth * 0.02),
           Text(regulerData[index]["quantity"].toString()),
         ],
       );
-
-      return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight);
+      return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight, context);
     }
 
     Widget regulerList() {
