@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/view/parts/molecules.dart';
 import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
 import '../../data/excel_helper.dart';
+import 'package:flutter_auto_flip/view/parts/parts.dart';
+import '../../data/database_helper.dart';
 
 class Test extends StatefulWidget {
   @override
@@ -29,6 +32,7 @@ class _Test extends State<Test> {
               ExcelHandler.excel(path, type);
             } else {
               // ファイルが選択されなかった場合の処理
+              
             }
           },
           child: Text(text),
@@ -38,6 +42,16 @@ class _Test extends State<Test> {
 
     // 表示するリスト
 
+    TextEditingController controller = TextEditingController();
+    List test = [];
+
+    void function(int n) async {
+      test = await DatabaseHelper.queryBuilder("magazines", ["magazine_code = ?"], [controller.text.toString()], "magazine_code");
+      setState(() {
+        print(test);
+      });
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('データを読み込もう'),
@@ -45,9 +59,8 @@ class _Test extends State<Test> {
         body: Center(
           child: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [loadBottun("連絡先を読み込む", 0), loadBottun("雑誌情報を読み込む", 1), loadBottun("定期情報を読み込む", 2)],
-            ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [loadBottun("連絡先を読み込む", 0), loadBottun("雑誌情報を読み込む", 1), loadBottun("定期情報を読み込む", 2), Parts.searchBar(Icons.search, '検索してみよう', controller, 0, function)]),
           ),
         ));
   }

@@ -36,15 +36,13 @@ class _PageRegular extends State<PageRegular> {
       // 検索タイプの切り替え
       setState(() {
         if (changeType == 0) {
-          searchType = 0;
-          debugPrint(searchType.toString());
+          searchType = 0;   
         } else if (changeType == 1) {
-          searchType = 1;
-          debugPrint(searchType.toString());
+          searchType = 1;  
         } else {
-          searchType = 2;
-          debugPrint(searchType.toString());
+          searchType = 2;  
         }
+        debugPrint(searchType.toString());
       });
     }
 
@@ -59,7 +57,9 @@ class _PageRegular extends State<PageRegular> {
         ],
       );
       Widget repeatWidget = Row(children: [Text(regularList[index]["store_name"]), SizedBox(width: screenSizeWidth * 0.02), Text(regularList[index]["quantity"].toString() + "冊")]);
-      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context);
+
+      String code = regularList[index]["magazine_code"].toString();
+      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context,code);
     }
 
     // 店舗名優先表示カード
@@ -103,7 +103,10 @@ class _PageRegular extends State<PageRegular> {
         Text(regularList[index]["quantity"].toString() + "冊")
       ]);
 
-      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context);
+      // store_idを渡すことで編集画面遷移時の検索に利用できる
+      String code = regularList[index]["store_id"].toString();
+
+      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context,code);
     }
 
     return Scaffold(
@@ -159,7 +162,6 @@ class _PageRegular extends State<PageRegular> {
   void dispose() {
     // Stateがdisposeされる際に、TextEditingControllerも破棄する
     _storeNameController.dispose();
-
     super.dispose();
   }
 }

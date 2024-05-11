@@ -105,6 +105,17 @@ class DatabaseHelper {
       break_time text
     )
     ''');
+
+    // 編集履歴を保存するテーブル
+    await db.execute('''
+    CREATE TABLE editHistory(
+      edit_id integer PRIMARY KEY autoincrement,
+      emp_id integer,
+      edit_time text,
+      edit_type integer,
+      edit_data text
+    )
+    ''');
   }
 
   // 登録処理
@@ -123,37 +134,50 @@ class DatabaseHelper {
     return await db!.rawQuery("select * from $tableName");
   }
 
+  // TODO:クエリビルダ―
+  // テーブル名、とるカラム、検索条件、検索ワード、ソート
+  static Future<List<Map<String, dynamic>>> queryBuilder(String tableName, List<String> where, List<String> whereArgs, String orderBy) async {
+    Database? db = await instance.database;
+    return await db!.query(
+      tableName,
+      where: where.join(" = ? "),
+      whereArgs: whereArgs,
+      orderBy: orderBy,
+    );
+  }
+
   // テーブル名、検索タイプ、検索行、検索ワード、ソート列
   static Future<List<Map<String, dynamic>>> searchRows(String tableName, int searchhType, List searchColum, List searchWords, String sort) async {
     Database? db = await instance.database;
     switch (searchhType) {
-      // table名のみで検索
-      case 0:
-        return await db!.rawQuery("select * from $tableName");
-      // 検索あり 1語
-      case 1:
-        return await db!.query(
-          '$tableName',
-          where: '${searchColum[0]} = ?',
-          whereArgs: ['${searchWords[0]}'],
-          orderBy: '${sort} ASC',
-        );
-      // 検索あり 2語
-      case 2:
-        return await db!.query(
-          '$tableName',
-          where: '${searchColum[0]} = ? AND ${searchColum[1]} = ?',
-          whereArgs: ['${searchWords[0]}', '${searchWords[1]}'],
-          orderBy: '${sort} ASC',
-        );
-      // 検索あり 3語
-      case 3:
-        return await db!.query(
-          '$tableName',
-          where: '${searchColum[0]} = ? AND ${searchColum[1]} = ? AND ${searchColum[2]} = ?',
-          whereArgs: ['${searchWords[0]}', '${searchWords[1]}', '${searchWords[2]}'],
-          orderBy: '${sort} ASC',
-        );
+      // クエリビルダ―での検索に切り替え
+      // // table名のみで検索
+      // case 0:
+      //   return await db!.rawQuery("select * from $tableName");
+      // // 検索あり 1語
+      // case 1:
+      //   return await db!.query(
+      //     '$tableName',
+      //     where: '${searchColum[0]} = ?',
+      //     whereArgs: ['${searchWords[0]}'],
+      //     orderBy: '${sort} ASC',
+      //   );
+      // // 検索あり 2語
+      // case 2:
+      //   return await db!.query(
+      //     '$tableName',
+      //     where: '${searchColum[0]} = ? AND ${searchColum[1]} = ?',
+      //     whereArgs: ['${searchWords[0]}', '${searchWords[1]}'],
+      //     orderBy: '${sort} ASC',
+      //   );
+      // // 検索あり 3語
+      // case 3:
+      //   return await db!.query(
+      //     '$tableName',
+      //     where: '${searchColum[0]} = ? AND ${searchColum[1]} = ? AND ${searchColum[2]} = ?',
+      //     whereArgs: ['${searchWords[0]}', '${searchWords[1]}', '${searchWords[2]}'],
+      //     orderBy: '${sort} ASC',
+      //   );
 
       // TODO:getShiftを整備したら消すぞ
       case 6:
@@ -307,7 +331,7 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> getRegulerMagazine() async {
     Database? db = await instance.database;
     return await db!.rawQuery('''
-      SELECT r.magazine_code, m.magazine_name, r.quantity,s.store_id, s.store_name,s.regular_type, i.quantity_in_stock
+      SELECT r.regular_id, r.magazine_code, m.magazine_name, r.quantity,s.store_id, s.store_name,s.regular_type, i.quantity_in_stock
       FROM regulars AS r
       INNER JOIN stores AS s ON r.store_id = s.store_id
       INNER JOIN magazines AS m ON  r.magazine_code = m.magazine_code
@@ -327,6 +351,4 @@ class DatabaseHelper {
     DROP TABLE importData
   ''');
   }
-
-  // TODO:編集履歴を保存するテーブルをつくるなどしないといけない
 }

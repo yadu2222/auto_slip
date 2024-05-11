@@ -9,7 +9,7 @@ class RegulerManager {
   static Future<int> _addStore(String storeName) async {
     // 店舗データ追加
 
-    List storeDataCheck = await DatabaseHelper.searchRows("stores", 1, ["store_name"], [storeName], "store_id");
+    List storeDataCheck = await DatabaseHelper.queryBuilder("stores", ["store_name = ?"], [storeName], "store_id");
 
     if (storeDataCheck.isEmpty) {
       // TODO:ここも重複で弾く処理をいれるべきでは？
@@ -17,7 +17,7 @@ class RegulerManager {
     }
 
     // 追加した店舗のIDを取得
-    List storeId = await DatabaseHelper.searchRows("stores", 1, ["store_name"], [storeName], "store_id");
+    List storeId = await DatabaseHelper.queryBuilder("stores", ["store_name = ?"], [storeName], "store_id");
     return storeId[0]["store_id"];
   }
 
@@ -29,7 +29,7 @@ class RegulerManager {
       // 追加用のデータを作成
       Map<String, dynamic> addMagazineData = {"magazine_code": magazine["magazineCode"], "magazine_name": magazine["magazineName"]};
       // 重複確認のために検索
-      List magazineData = await DatabaseHelper.searchRows("magazines", 1, ["magazine_code"], [magazine["magazinCode"]], "magazine_code");
+      List magazineData = await DatabaseHelper.queryBuilder("magazines", ["magazine_code = ?"], [magazine["magazinCode"]], "magazine_code");
       // 重複データがない場合のみ追加
       if (magazineData.isEmpty) {
         DatabaseHelper.insert("magazines", addMagazineData);
@@ -43,7 +43,7 @@ class RegulerManager {
 
   // 店舗リストの取得
   static Future<List> getStores() async {
-    List storeList = await DatabaseHelper.searchRows("stores", 0, [], [], "store_id");
+    List storeList = await DatabaseHelper.queryBuilder("stores", [], [], "store_id");
     return storeList;
   }
 
@@ -67,7 +67,7 @@ class RegulerManager {
     if (searchData != "") {
       debugPrint("検索あり");
       if (searchData != null) {
-        return await DatabaseHelper.searchRegulerList(searchType, searchData);
+        return await DatabaseHelper.searchRegulerList(searchType, "");
       } else {
         return [];
       }
@@ -104,11 +104,14 @@ class RegulerManager {
 
       final contents = await input.transform(const Utf8Decoder(allowMalformed: true)).transform(const LineSplitter()).join();
 
+      // 改行コードがlfであることが確認できたが、うまくとれない；；
+      // final rows = contents.split('0A');
       final rows = contents.split(',');
       print(rows);
 
       int count = 1; // 22個でカウントして止めたい
       // 文字化けが一向に治らないので一旦雑誌コードのみでの運用を想定する
+      // TODO:誌名も取得したい
       // 各リストの要素６個目が雑誌コード、12個目が冊数
       List magazinesList = []; // 22個ずつで一つのリストにまとめる
       List magazine = []; // 各雑誌の情報を格納するリスト

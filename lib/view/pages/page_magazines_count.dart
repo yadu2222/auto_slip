@@ -57,7 +57,9 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
           Text(regulerData[index]["quantity"].toString()),
         ],
       );
-      return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight, context);
+
+      String code = regulerData[index]["regular_id"].toString();
+      return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight, context,code);
     }
 
     Widget regulerList() {

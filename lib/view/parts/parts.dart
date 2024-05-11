@@ -12,8 +12,8 @@ class Parts {
     return SearchBar(icon: icon, hintText: hintText, controller: controller, addType: addType, function: function);
   }
 
-  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight,BuildContext context) {
-    return DispCard.dispListCard(isdisp, iswidget, repeatWidget, screenSizeWidth, screenSizeHeight,context);
+  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight,BuildContext context,String code) {
+    return DispCard.dispListCard(isdisp, iswidget, repeatWidget, screenSizeWidth, screenSizeHeight,context,code);
   }
 }
 
@@ -96,13 +96,16 @@ class _SearchBar extends State<SearchBar> {
 
 class DispCard {
   // 表示するindex、表示するかの条件、その際表示するウィジェット、繰り返すウィジェット、画面サイズ
-  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight,BuildContext context) {
+  static Widget dispListCard(bool isdisp, Widget iswidget, Widget repeatWidget, double screenSizeWidth, double screenSizeHeight,BuildContext context,String code) {
     return ListTile(
         title: InkWell(
             onTap: () {
               // 編集画面に遷移
               Navigator.push(
                 context,
+                // TODO:押した定期の番号を渡したい
+                // ここか〜〜〜〜〜〜〜
+                // でも0渡してますね。。
                 MaterialPageRoute(builder: (context) => EditPage(0,"てすと")),
               );
             },

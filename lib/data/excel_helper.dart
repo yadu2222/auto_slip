@@ -84,6 +84,7 @@ class ExcelHandler {
     }
   }
 
+  // データの読み込み
   static void excel(String path, int type) async {
     // ファイルオブジェクトを作成
     final File file = new File(path);
@@ -105,44 +106,46 @@ class ExcelHandler {
         constant = 3;
     }
 
+    // 文字コードの変換
     final contents = await input.transform(const Utf8Decoder(allowMalformed: true)).transform(const LineSplitter()).join();
 
     final rows = contents.split(',');
     print(rows);
 
     int count = 0;
-    List storesList = []; // countの個数ずつ一つのリストにまとめる
-    List store = []; // 各雑誌の情報を格納するリスト
+    List dataList = []; // countの個数ずつ一つのリストにまとめる
+    List data = []; // 各雑誌の情報を格納するリスト
     for (String? row in rows) {
       if (row == "") {
         row = null;
       }
-      store.add(row);
+      data.add(row);
       print(count++);
       if (count % constant == 0) {
-        storesList.add(store);
-        store = [];
+        dataList.add(data);
+        data = [];
       }
     }
-    print(storesList);
+    print(dataList);
     String tableName = "";
 
-    for (int i = 0; i < storesList.length; i++) {
-      List storeData = storesList[i];
+    for (int i = 0; i < dataList.length; i++) {
+      List loadData = dataList[i];
       Map<String, dynamic> row = {};
 
+      // TODO:すっきりさせたいねという話
       switch (type) {
         case 0:
           tableName = "stores";
-          row = {"store_name": storeData[0], "regular_type": storeData[1], "address": storeData[2], "tell_type": storeData[3], "note": storeData[4]};
+          row = {"store_name": loadData[0], "regular_type": loadData[1], "address": loadData[2], "tell_type": loadData[3], "note": loadData[4]};
           break;
         case 1:
           tableName = "magazines";
-          row = {"magazine_code": storeData[0].toString(), "magazine_name": storeData[1]};
+          row = {"magazine_code": loadData[0].toString(), "magazine_name": loadData[1]};
           break;
         case 2:
           tableName = "regulars";
-          row = {"store_id": storeData[0], "magazine_code": storeData[1].toString(), "quantity": storeData[2]};
+          row = {"store_id": loadData[0], "magazine_code": loadData[1].toString(), "quantity": loadData[2]};
       }
 
       await DatabaseHelper.insert(tableName, row);
