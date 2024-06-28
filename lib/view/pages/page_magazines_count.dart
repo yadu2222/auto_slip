@@ -37,7 +37,7 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
               ? "店取り"
               : regulerData[index]["regular_type"] == "2"
                   ? "店取り伝票"
-                  : "配達";
+                  : "図書館";
 
       Widget isWidget = Row(
         children: [
@@ -113,10 +113,12 @@ class _PageMagazinesCountState extends State<PageMagazinesCount> {
                         String path = result.files.single.path!;
                         // 選択したファイルのパスを取得して処理を行う
 
-                        List resultData = await RegulerManager.getImportData(path);
+
+                        // TODO:ここでファイルをサーバーに投げる処理を呼び出す
+                        // List resultData = await RegulerManager.getImportData(path);
 
                         setState(() {
-                          regulerData = resultData;
+                          // regulerData = resultData;
                         });
                         // regulerData = await RegulerManager.getImportData(path);
                       } else {

@@ -21,11 +21,11 @@ class EditPage extends StatefulWidget {
 ///  ・定期情報
 
 class _EditPageState extends State<EditPage> {
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController storeNameController = TextEditingController();
-  TextEditingController magazineNameController = TextEditingController();
-  TextEditingController magazineCodeController = TextEditingController();
-  TextEditingController regularController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();     // 編集者の名前
+  TextEditingController storeNameController = TextEditingController();    // 店舗名
+  TextEditingController magazineNameController = TextEditingController(); // 雑誌名
+  TextEditingController magazineCodeController = TextEditingController(); // 雑誌コード
+  TextEditingController regularController = TextEditingController();      // 定期情報
 
   @override
   initState() {
@@ -82,10 +82,10 @@ class _EditPageState extends State<EditPage> {
 
       return ElevatedButton(
         onPressed: () {
-          // 編集内容を確定
-          DatabaseHelper.insert(tableName, addData);
-          // 編集履歴の保存
-          DatabaseHelper.insert("editHistory", addHistory);
+          // // 編集内容を確定
+          // DatabaseHelper.insert(tableName, addData);
+          // // 編集履歴の保存
+          // DatabaseHelper.insert("editHistory", addHistory);
         },
         child: const Text('確定'),
       );
@@ -111,8 +111,9 @@ class _EditPageState extends State<EditPage> {
     Widget disListView(TextEditingController controller, int searchType, List updData) {
       // 表示したいこと
       List columns = [];
+      debugPrint("よみこんでる？？？？？？？？？");
 
-      // TODO:1つ目以外整備してない
+      // // TODO:1つ目以外整備してない
       switch (searchType) {
         case 0:
           columns = ["store_id", "store_name", "regular_type", "address", "tell_type", "note"];
@@ -125,18 +126,20 @@ class _EditPageState extends State<EditPage> {
           break;
       }
 
-      // 変更前と、同じフォームを並べて、比較して入力できるようにする
+      // TODO:変更前と、同じフォームを並べて、比較して入力できるようにする
       return
-
           // とってきた情報を表示する
           FutureBuilder(
               future: RegulerManager.getRegularList(controller.text.toString(), searchType),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
+                  debugPrint("さーち${searchType.toString()}");
+                  debugPrint("およよよよよよよ ${snapshot.data.toString()}");
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // TODO:column名の反映をどうしよう
+                      // 場合分けでいちいち書くのか、、？でもそれが一番わかりやすいかもしれない
                       // for文で回せないわ　どうしようかしら
 
                       Container(
@@ -146,8 +149,10 @@ class _EditPageState extends State<EditPage> {
                     },
                   );
                 } else if (snapshot.hasError) {
+                  debugPrint("??? error");
                   return const Text("エラーが発生しました");
                 } else {
+                  debugPrint("???　karadayo");
                   return const Text("検索結果がありません");
                 }
               });
@@ -159,11 +164,16 @@ class _EditPageState extends State<EditPage> {
     // 画面の再読み込みくらい？
     // 使わないけど引数として必要なのでこのままにしておく
     void hoge(int n) {
+      debugPrint(userNameController.text);
       if (userNameController.text != "") {
         // 画面の再読み込み
-        setState() {}
+        setState() {
+          debugPrint("うごいてるよ");
+        }
         // 名前が入力されていない場合はエラーを表示
-      } else {}
+      } else {
+        debugPrint("空だけどだいじょぶそ？");
+      }
     }
 
     Widget mainDisp(int editType, IconData icon, String hintText, TextEditingController controller) {

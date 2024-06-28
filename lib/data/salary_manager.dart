@@ -9,7 +9,7 @@ class SalaryManager {
       'emp_name': empName,
       'salary': salary,
     };
-    await DatabaseHelper.insert('employee', newEmp);
+    // await DatabaseHelper.insert('employee', newEmp);
   }
 
   // 従業員情報の更新
@@ -18,36 +18,37 @@ class SalaryManager {
       'emp_name': empName,
       'salary': salary,
     };
-    await DatabaseHelper.update('employee', "emp_id", updEmp, empId);
+    // await DatabaseHelper.update('employee', "emp_id", updEmp, empId);
   }
 
   // 従業員情報の削除
   static Future<void> removeEmployee(int empId) async {
-    await DatabaseHelper.delete('employee', "emp_num", empId);
+    // await DatabaseHelper.delete('employee', "emp_num", empId);
   }
 
   // 従業員情報の参照
   static Future<List> getEmp(String? empName) async {
     if (empName != "") {
       if (empName != null) {
-        debugPrint("検索はしてるよ");
-        // List empList = await DatabaseHelper.searchRows('employee', 6, ['emp_name'], [empName], "emp_id");
-        List empList = await DatabaseHelper.searchRows('employee', 1, ['emp_name'], [empName], "emp_id");
-        debugPrint(empList[0]["emp_name"]);
+        // debugPrint("検索はしてるよ");
+        // // List empList = await DatabaseHelper.searchRows('employee', 6, ['emp_name'], [empName], "emp_id");
+        // List empList = await DatabaseHelper.searchRows('employee', 1, ['emp_name'], [empName], "emp_id");
+        // debugPrint(empList[0]["emp_name"]);
 
-        if (empList.isEmpty) {
-          debugPrint("検索結果は空だよ");
-          List empList = await DatabaseHelper.searchRows('employee', 1, ['emp_name'], [empName], "emp_id");
-          debugPrint(empList[0]["emp_name"]);
-        }
-        return empList;
+        // if (empList.isEmpty) {
+        //   debugPrint("検索結果は空だよ");
+        //   List empList = await DatabaseHelper.searchRows('employee', 1, ['emp_name'], [empName], "emp_id");
+        //   debugPrint(empList[0]["emp_name"]);
+        // }
+        // return empList;
+        return [];
       } else {
         return [];
       }
     } else if (empName == "てんちょ") {
-      List empList = await DatabaseHelper.searchRows('employee', 0, [], [], "emp_id");
-      print(empList);
-      return empList;
+      // List empList = await DatabaseHelper.searchRows('employee', 0, [], [], "emp_id");
+      // print(empList);
+      return [];
     } else {
       return [];
     }
@@ -55,19 +56,21 @@ class SalaryManager {
 
   // 従業員の勤怠情報の取得
   static Future<List> getEmpWorkTime(int empId) async {
-    List workTimeList = await DatabaseHelper.searchRows('employee', 6, ['emp_id'], [empId], "emp_id");
-    return workTimeList;
+    // List workTimeList = await DatabaseHelper.searchRows('employee', 6, ['emp_id'], [empId], "emp_id");
+    // return workTimeList;
+    return [];
   }
 
   static Future<List> getEmpList() async {
-    List empList = await DatabaseHelper.searchRows('employee', 0, [], [], "emp_id");
-    return empList;
+    // List empList = await DatabaseHelper.searchRows('employee', 0, [], [], "emp_id");
+    // return empList;
+    return [];
   }
 
   // 勤務時間の追加
   static Future<void> addWorkTime(int empId, DateTime recordDay, String startTime, String endTime, String breakTime) async {
     Map<String, dynamic> newWorkTime = {'emp_id': empId, 'record_day': recordDay.toString(), 'start_time': startTime, 'end_time': endTime, 'break_time': breakTime};
-    await DatabaseHelper.insert('worktime', newWorkTime);
+    // await DatabaseHelper.insert('worktime', newWorkTime);
   }
 
   String getBetWeenTime(DateTime betWeenTime, int type) {
@@ -103,12 +106,13 @@ class SalaryManager {
 
   // 勤務時間の参照
   static Future<List> getWorkTime(int empId, DateTime betWeenTime) async {
-    String startDay = Process.dateformat(betWeenTime.toString(), 6);
-    String endDay = Process.dateformat(betWeenTime.add(const Duration(days: 30)).toString(), 7); // 次の月
-    // TODO: 日付の範囲指定を実装
-    List workTime = await DatabaseHelper.searchRows('worktime', 7, ['emp_id'], [empId, startDay, endDay], "record_day");
-    print(workTime);
-    return workTime;
+    // String startDay = Process.dateformat(betWeenTime.toString(), 6);
+    // String endDay = Process.dateformat(betWeenTime.add(const Duration(days: 30)).toString(), 7); // 次の月
+    // // TODO: 日付の範囲指定を実装
+    // List workTime = await DatabaseHelper.searchRows('worktime', 7, ['emp_id'], [empId, startDay, endDay], "record_day");
+    // print(workTime);
+    // return workTime;
+    return [];
   }
 
   // 勤務時間の更新
@@ -119,11 +123,11 @@ class SalaryManager {
       'start_time': startTime,
       'end_time': endTime,
     };
-    await DatabaseHelper.update('worktime', "work_id", updWorkTime, workId);
+    // await DatabaseHelper.update('worktime', "work_id", updWorkTime, workId);
   }
 
   // 勤務時間の削除
   static Future<void> deleteWorkTime(int workId) async {
-    await DatabaseHelper.delete('worktime', "work_id", workId);
+    // await DatabaseHelper.delete('worktime', "work_id", workId);
   }
 }

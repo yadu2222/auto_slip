@@ -7,12 +7,52 @@ import '../../data/excel_helper.dart';
 import 'package:flutter_auto_flip/view/parts/parts.dart';
 import '../../data/database_helper.dart';
 
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+
 class Test extends StatefulWidget {
   @override
   _Test createState() => _Test();
 }
 
 class _Test extends State<Test> {
+
+
+
+Future<void> _uploadCsv(File csvFile) async {
+    // CSVファイルを読み込む
+    List<int> csvBytes = await csvFile.readAsBytes();
+
+    // HTTPリクエストの設定
+    Uri url = Uri.parse('http://127.0.0.1:8080/v1/csv/magazines');
+    Map<String, String> headers = {
+      'Content-Type': 'text/csv', // CSVファイZルの場合、Content-Type を text/csv に設定する
+    };
+    // CSVデータをBase64エンコードしてbodyに設定
+    String body = base64.encode(csvBytes);
+
+
+    // // HTTP POSTリクエストの送信
+    // http.Response response = await http.post(url, headers: headers, body: body);
+
+    try {
+      http.Response response = await http.post(url, headers: headers, body: body);
+      // レスポンスの処理
+   
+      if (response.statusCode == 200) {
+        print("Success");
+      } else {
+        print("Failed: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+
+    
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var screenSizeWidth = MediaQuery.of(context).size.width;
@@ -29,7 +69,8 @@ class _Test extends State<Test> {
             FilePickerResult? result = await FilePicker.platform.pickFiles();
             if (result != null) {
               String path = result.files.single.path!;
-              ExcelHandler.excel(path, type);
+              // ExcelHandler.excel(path, type);
+              _uploadCsv(File(path));
             } else {
               // ファイルが選択されなかった場合の処理
               
@@ -46,11 +87,12 @@ class _Test extends State<Test> {
     List test = [];
 
     void function(int n) async {
-      test = await DatabaseHelper.queryBuilder("magazines", ["magazine_code = ?"], [controller.text.toString()], "magazine_code");
+      // test = await DatabaseHelper.queryBuilder("magazines", ["magazine_code = ?"], [controller.text.toString()], "magazine_code");
       setState(() {
         print(test);
       });
     }
+
 
     return Scaffold(
         appBar: AppBar(

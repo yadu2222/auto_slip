@@ -55,13 +55,12 @@ class _PageHomeState extends State<PageHome> {
       child: ListView(
         children: [
           menuTile("定期の追加", PageAdd()),
-          // menuTile("定期の追加", PageAdd()),
           menuTile("現在の定期一覧", PageRegular()),
           menuTile("数取り", PageMagazinesCount()),
-          menuTile(
-            "勤怠管理",
-            salaryPage(),
-          ),
+          // menuTile(
+          //   "勤怠管理",
+          //   salaryPage(),
+          // ),
           menuTile("従業員情報", PageEmp()),
           menuTile("てすと", Test())
         ],

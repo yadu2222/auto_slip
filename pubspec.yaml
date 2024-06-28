@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.18.1
+  pdf: ^3.6.4
+  printing: ^5.10.0
   flutter_localizations:
     sdk: flutter
   file_picker: ^4.0.0
@@ -66,6 +68,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/fonts/NotoSansJP-VariableFont_wght.ttf
+    - assets/fonts/NotoSansJP-Bold.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
