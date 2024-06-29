@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/process.dart';
-import 'package:flutter_auto_flip/data/database_helper.dart';
+import '../../common/worktime_calc.dart';
+import 'package:flutter_auto_flip/models/database_helper.dart';
 
 class SalaryManager {
   // 従業員情報の追加

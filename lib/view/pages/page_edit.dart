@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_auto_flip/data/database_helper.dart';
-import 'package:flutter_auto_flip/data/regular_manager.dart';
+import 'package:flutter_auto_flip/models/database_helper.dart';
+import 'package:flutter_auto_flip/apis/controller/regular_manager.dart';
 import '../parts/parts.dart';
+
+
+import '../molecles/edit_form.dart';
 
 class EditPage extends StatefulWidget {
   // 0で店舗情報、1で雑誌情報、2で定期情報

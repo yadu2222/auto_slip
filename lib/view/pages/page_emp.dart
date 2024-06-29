@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/salary_manager.dart';
+import '../../apis/controller/salary_manager.dart';
 
 class PageEmp extends StatefulWidget {
   @override

@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_auto_flip/data/salary_manager.dart';
-import '../../data/regular_manager.dart';
-import '../../data/process.dart';
+import 'package:flutter_auto_flip/apis/controller/salary_manager.dart';
+import '../../apis/controller/regular_manager.dart';
+import '../../common/worktime_calc.dart';
+
+import '../../common/date_format.dart';
 
 class salaryPage extends StatefulWidget {
   @override
@@ -305,11 +307,11 @@ class _salaryPageState extends State<salaryPage> {
                   setState(() {});
                 },
                 icon: const Icon(Icons.delete))),
-            DataCell(Text(Process.dateformat(workList[i]['record_day'], 5))),
+            DataCell(Text(DateFormatProces.dateformat(workList[i]['record_day'], 5))),
             DataCell(Text(workList[i]['start_time'])),
             DataCell(Text(workList[i]['end_time'])),
             DataCell(Text(workList[i]['break_time'])),
-            DataCell(Text(Process.workTimeCalc(workList, i))),
+            DataCell(Text(WorkTimeCalc.workTimeCalc(workList, i))),
           ]),
       ]);
     }
@@ -372,7 +374,7 @@ class _salaryPageState extends State<salaryPage> {
                                               children: [
                                                 Container(
                                                   alignment: Alignment.center,
-                                                  child: Text("合計実働時間: ${Process.totalWorkTimeCalc(workList)}"),
+                                                  child: Text("合計実働時間: ${WorkTimeCalc.totalWorkTimeCalc(workList)}"),
                                                 ),
                                                 workDataTable(),
                                               ],

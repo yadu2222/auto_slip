@@ -61,7 +61,7 @@ class _PageHomeState extends State<PageHome> {
           //   "勤怠管理",
           //   salaryPage(),
           // ),
-          menuTile("従業員情報", PageEmp()),
+          // menuTile("従業員情報", PageEmp()),
           menuTile("てすと", Test())
         ],
       ),

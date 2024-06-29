@@ -34,30 +34,6 @@ class editFormWidget extends MoleculesWidget {
         ));
   }
 
-  Widget dispListView(List<String> dispList, Widget listCard, Function reduceFunction, {String? key_1, String? key_2, String? key_3}) {
-    return
-
-        // SizedBox(
-        //     width: screenSizeWidth * width,
-        //     height: height * 5,
-        //     child:
-
-        ListView.builder(
-            itemCount: dispList.length,
-            itemBuilder: (context, index) {
-              return dispListCard(
-                index,
-
-                dispList,
-                reduceButtun(reduceFunction),
-                // null でも渡される
-                key_1: key_1,
-                key_2: key_2,
-                key_3: key_3,
-              );
-            });
-    // );
-  }
 
   Widget reduceButtun(Function reduceFunction) {
     return IconButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../data/regular_manager.dart';
+import '../../apis/controller/regular_manager.dart';
 import '../parts/parts.dart';
 
 class PageRegular extends StatefulWidget {

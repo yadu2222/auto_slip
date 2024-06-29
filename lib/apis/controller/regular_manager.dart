@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'dart:io'; // ファイル入出力用ライブラリ
 import 'dart:convert';
-import 'database_helper.dart';
+import '../../models/database_helper.dart';
 
 class RegulerManager {
   // 店舗追加
