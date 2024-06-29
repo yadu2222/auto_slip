@@ -4,13 +4,8 @@ import 'dart:async'; // 非同期処理用ライブラリ
 
 import 'package:path_provider/path_provider.dart'; //アプリがファイルを保存可能な場所を取得するライブラリ
 
-// 遷移するページ
-import 'page_add.dart';
-import 'page_regular.dart';
-import 'page_salary.dart';
-import 'page_emp.dart';
-import 'page_magazines_count.dart';
-import 'page_test.dart';
+import 'package:flutter_auto_flip/view/organisms/main_menu.dart';
+
 
 class PageHome extends StatefulWidget {
   @override
@@ -48,37 +43,7 @@ class _PageHomeState extends State<PageHome> {
     });
   }
 
-  Widget menu() {
-    return Container(
-      width: 200,
-      height: 500,
-      child: ListView(
-        children: [
-          menuTile("定期の追加", PageAdd()),
-          menuTile("現在の定期一覧", PageRegular()),
-          menuTile("数取り", PageMagazinesCount()),
-          // menuTile(
-          //   "勤怠管理",
-          //   salaryPage(),
-          // ),
-          // menuTile("従業員情報", PageEmp()),
-          menuTile("てすと", Test())
-        ],
-      ),
-    );
-  }
-
-  Widget menuTile(String title, Widget page) {
-    return ListTile(
-        title: Text(title),
-        onTap: () {
-          // 画面遷移
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => page),
-          );
-        });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -88,12 +53,12 @@ class _PageHomeState extends State<PageHome> {
         ),
         body: Center(
           child: Row(children: [
-            menu(),
+            const MainMenu(),
             Column(
               children: [
                 Container(
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     width: 300,
                     height: 100,
                     child: TextField(
