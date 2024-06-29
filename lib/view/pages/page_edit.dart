@@ -6,7 +6,7 @@ import 'package:flutter_auto_flip/apis/controller/regular_manager.dart';
 import '../parts/parts.dart';
 
 
-import '../molecles/edit_form.dart';
+import '../atoms/edit_form.dart';
 
 class EditPage extends StatefulWidget {
   // 0で店舗情報、1で雑誌情報、2で定期情報

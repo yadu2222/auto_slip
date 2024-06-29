@@ -92,6 +92,14 @@ Future<GoRouter> createRouter() async {
         routes: [
           // かずとり
           GoRoute(
+            path: 'add',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: PageAdd(),
+            ),
+          ),
+          // かずとり
+          GoRoute(
             path: 'count',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
