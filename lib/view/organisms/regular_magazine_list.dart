@@ -10,6 +10,9 @@ import '../../models/magazine_model.dart';
 import '../../models/regular_model.dart';
 import '../../models/load_regular_model.dart';
 
+
+
+// 雑誌優先表示リスト
 class RegularList extends StatelessWidget {
   const RegularList({
     super.key,

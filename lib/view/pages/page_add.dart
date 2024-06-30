@@ -12,6 +12,7 @@ import '../atoms/basic_button.dart';
 import '../../constant/messages.dart';
 import '../../models/regular_model.dart';
 import '../../models/magazine_model.dart';
+import '../../models/customer_model.dart';
 
 class PageAdd extends HookWidget {
   PageAdd({super.key});
@@ -44,7 +45,8 @@ class PageAdd extends HookWidget {
         // 入力していた情報をリストに追加
 
         Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
-        Regular addRegular = Regular(magazine:addMagazine, quantity: int.parse( quantityController.text));
+        Customer addCustomer = Customer(customerName: storeController.text);
+        Regular addRegular = Regular(magazine:addMagazine, quantity: int.parse( quantityController.text),customer: addCustomer);
         regularList.value = List.from(regularList.value)..add(addRegular);
         controllerClear();
       }

@@ -1,168 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../../apis/controller/regular_manager.dart';
-import '../parts/parts.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+// model
+import '../../models/load_regular_model.dart';
+// view
+import '../template/basic_template.dart';
+import '../molecles/search_bar.dart' as regular_list;
+import '../organisms/magazine_regular_list.dart';
+// constant
+import '../../constant/sample_data.dart';
 
-class PageRegular extends StatefulWidget {
-  @override
-  _PageRegular createState() => _PageRegular();
-}
+class PageRegular extends HookWidget {
+  PageRegular({super.key});
 
-class _PageRegular extends State<PageRegular> {
   // コントローラー
   final _storeNameController = TextEditingController();
   final _magazineController = TextEditingController();
   final _magazineNameController = TextEditingController();
 
   // どちらで検索しているかを判別する変数
-  // 0で店舗名検索、1で雑誌コード検索、2で雑誌名検索
-  int searchType = 0;
+
+  final String title = '定期一覧';
+  final String storeNameSearch = '店舗名で検索';
+  final String magazineCodeSearch = '雑誌コードで検索';
+  final String magazineNameSearch = '誌名で検索';
 
   @override
   Widget build(BuildContext context) {
-    //画面サイズ
-    var screenSizeWidth = MediaQuery.of(context).size.width;
-    var screenSizeHeight = MediaQuery.of(context).size.height;
+    final regularList = useState<LoadRegular>(SampleData.loadRegular2);
+    // final searchType = useState<int>(0); // 0で店舗名検索、1で雑誌コード検索、2で雑誌名検索
 
-    // 基本的な数字
-    double widthData = 0.6;
-    double heightData = 0.1;
-
-    // 表示用のリスト
-    List regularList = [];
-
-    // 検索ボタンを押したときの処理
-    void serchButtonFunction(int changeType) {
-      // 検索タイプの切り替え
-      setState(() {
-        if (changeType == 0) {
-          searchType = 0;   
-        } else if (changeType == 1) {
-          searchType = 1;  
-        } else {
-          searchType = 2;  
-        }
-        debugPrint(searchType.toString());
-      });
+    Future<void> serchButtonFunction() async {
+      // TODO：検索処理
+      // タイプ切り替え
     }
 
-    // 雑誌名優先表示カード
-    Widget magazinesCard(int index) {
-      bool isBool = index == 0 || regularList[index]["magazine_code"] != regularList[index - 1]["magazine_code"];
-      Widget isWidget = Row(
-        children: [
-          Text(regularList[index]["magazine_code"].toString()),
-          SizedBox(width: screenSizeWidth * 0.02),
-          Text(regularList[index]["magazine_name"]),
-        ],
-      );
-      Widget repeatWidget = Row(children: [Text(regularList[index]["store_name"]), SizedBox(width: screenSizeWidth * 0.02), Text(regularList[index]["quantity"].toString() + "冊")]);
-
-      String code = regularList[index]["magazine_code"].toString();
-      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context,code);
-    }
-
-    // 店舗名優先表示カード
-    Widget storeListCard(int index) {
-      String? regularType = regularList[index]["regular_type"];
-      regularType = regularType == "0"
-          ? "配達"
-          : regularType == "1"
-              ? "店取り"
-              : regularType == "2"
-                  ? "店取り伝票"
-                  : "配達";
-      String? tellType = regularList[index]["tell_type"];
-      tellType = tellType == "0"
-          ? "tell不要"
-          : tellType == "1"
-              ? "tell要"
-              : tellType == "2"
-                  ? "着信のみ"
-                  : "";
-      String? address = regularList[index]["address"];
-      if (address == null) {
-        address = "";
-      }
-
-      bool isBool = index == 0 || regularList[index]["store_name"] != regularList[index - 1]["store_name"];
-      Widget isWidget = Row(children: [
-        Text(regularList[index]["store_name"].toString()),
-        SizedBox(width: screenSizeWidth * 0.02),
-        Text(address),
-        SizedBox(width: screenSizeWidth * 0.02),
-        // Text(regularType),
-        // SizedBox(width: screenSizeWidth * 0.02),
-        Text(tellType)
-      ]);
-      Widget repeatWidget = Row(children: [
-        Text(regularList[index]["magazine_code"].toString()),
-        SizedBox(width: screenSizeWidth * 0.02),
-        Text(regularList[index]["magazine_name"]),
-        SizedBox(width: screenSizeWidth * 0.02),
-        Text(regularList[index]["quantity"].toString() + "冊")
-      ]);
-
-      // store_idを渡すことで編集画面遷移時の検索に利用できる
-      String code = regularList[index]["store_id"].toString();
-
-      return Parts.dispListCard(isBool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight,context,code);
-    }
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('定期一覧'),
-        ),
-        // DBの読み込みを待ってから表示
-        body: Center(
-            child: Container(
-                child: Column(children: [
-          Parts.searchBar(Icons.storefront, "店舗名で検索", _storeNameController, 0, serchButtonFunction),
-          Parts.searchBar(Icons.local_offer, "雑誌コードで検索", _magazineController, 1, serchButtonFunction),
-          Parts.searchBar(Icons.import_contacts, "誌名で検索", _magazineNameController, 2, serchButtonFunction),
-          FutureBuilder(
-            future: RegulerManager.getRegularList(
-                searchType == 0
-                    ? _storeNameController.text
-                    : searchType == 1
-                        ? _magazineController.text
-                        : _magazineNameController.text,
-                searchType),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  // futureから帰ってきたデータを挿入
-                  // Widgetを表示
-                  debugPrint(searchType.toString());
-                  debugPrint("なにがはいってるのかというと[${searchType == 0 ? _storeNameController.text : _magazineController.text}]");
-                  regularList = snapshot.data;
-                  print(regularList);
-                  return Container(
-                      width: screenSizeWidth * widthData,
-                      height: screenSizeHeight * heightData * 5,
-                      alignment: Alignment.topCenter,
-                      child: ListView.builder(
-                        itemCount: regularList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return searchType == 0 ? storeListCard(index) : magazinesCard(index);
-                        },
-                      ));
-                }
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
+    return BasicTemplate(
+        title: title,
+        child: Column(children: [
+          // 検索バー
+          regular_list.SearchBarView(
+            icon: Icons.storefront,
+            hintText: storeNameSearch,
+            controller: _storeNameController,
+            search: serchButtonFunction,
           ),
-        ]))));
-  }
-
-  @override
-  void dispose() {
-    // Stateがdisposeされる際に、TextEditingControllerも破棄する
-    _storeNameController.dispose();
-    super.dispose();
+          regular_list.SearchBarView(
+            icon: Icons.local_offer,
+            hintText: magazineCodeSearch,
+            controller: _magazineController,
+            search: serchButtonFunction,
+          ),
+          regular_list.SearchBarView(
+            icon: Icons.import_contacts,
+            hintText: magazineNameSearch,
+            controller: _magazineNameController,
+            search: serchButtonFunction,
+          ),
+          // searchType.value == 0 ? Expanded(child: RegularList(regularList: regularList.value)) : Expanded(child: MagazineRegularList(regularList: regularList.value))
+          Expanded(child: MagazineRegularList(regularList: regularList.value))
+        ]));
   }
 }
 
