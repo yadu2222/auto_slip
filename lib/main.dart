@@ -1,17 +1,9 @@
-// import 'package:flutter/material.dart';
-// import 'view/app.dart';
-
-// void main() {
-
-//   runApp(const MyApp());`
-// }
-
 import 'package:flutter/material.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import './view/pages/page_home.dart';
+// import 'package:pdf/pdf.dart';
+// import 'package:pdf/widgets.dart' as pw;
+// import 'package:printing/printing.dart';
+// import 'package:flutter/services.dart' show rootBundle;
+// import './view/pages/page_home.dart';
 
 import 'router/router.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +40,6 @@ class MyAppState extends State<MyApp> {
       // ルーターが初期化されていない場合、ローディングインジケーターを表示
       return const CircularProgressIndicator();
     }
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false, //デバッグの表示を消す
       // theme: ThemeData(

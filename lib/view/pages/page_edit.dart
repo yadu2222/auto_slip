@@ -11,9 +11,9 @@ import '../../models/load_regular_model.dart';
 // sample
 // import '../../constant/sample_data.dart';
 
-class EditPage extends HookWidget {
+class PageEdit extends HookWidget {
   // TODO:遷移前から編集対象のidをもらってくる？
-  EditPage({super.key});
+  PageEdit({super.key});
 
   final TextEditingController userNameController = TextEditingController(); // 編集者の名前
   final TextEditingController storeNameController = TextEditingController(); // 店舗名

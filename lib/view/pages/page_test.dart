@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_flip/view/parts/molecules.dart';
-import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
+// import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
-
-import '../../common/excel_helper.dart';
-
-import '../../models/database_helper.dart';
 
 import 'dart:convert';
 import 'dart:io';
@@ -75,7 +70,7 @@ class _Test extends State<Test> {
 
     // 表示するリスト
 
-    TextEditingController controller = TextEditingController();
+    // TextEditingController controller = TextEditingController();
     List test = [];
 
     void function(int n) async {
