@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../molecles/add_magazine_button.dart';
 
 // view
 import '../template/basic_template.dart';
@@ -22,30 +23,35 @@ class PageAdd extends HookWidget {
   final TextEditingController magezineCodeController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
-  // 追加する雑誌リスト
-  final magazineList = useState<List<Magazine>>([]);
-
-  // コントローラのクリア処理
-  void controllerClear() {
-    magazineController.clear();
-    magezineCodeController.clear();
-    quantityController.clear();
-  }
-
-  // 配列追加処理
-  // TODO:かきかえる
-  void add(int index) {
-    // 空出ないことを確認
-    if (magazineController.text != "" && magezineCodeController.text != "") {
-      // 入力していた情報をリストに追加
-      Magazine addMag = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text, quantity: quantityController.text);
-      magazineList.value.add(addMag);
-      controllerClear();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    // 追加する雑誌リスト
+    // final magazineList = useState<List<Magazine>>([]);
+    final magazineList = useState<List<Magazine>>([]);
+
+    // コントローラのクリア処理
+    void controllerClear() {
+      magazineController.clear();
+      magezineCodeController.clear();
+      quantityController.clear();
+    }
+
+    // 配列追加処理
+    void addMagazine() {
+      // 空出ないことを確認
+      if (magazineController.text != "" && magezineCodeController.text != "" && quantityController.text != "") {
+        // 入力していた情報をリストに追加
+        Magazine addMag = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text, quantity: quantityController.text);
+        magazineList.value = List.from(magazineList.value)..add(addMag);
+        controllerClear();
+      }
+    }
+
+    // 配列削除処理
+    void removeMagazine(int index) {
+      magazineList.value = List.from(magazineList.value)..removeAt(index); // 削除
+    }
+
     // 定期情報追加処理
     void addRegular() async {
       // 条件確認
@@ -61,7 +67,6 @@ class PageAdd extends HookWidget {
       // どちらも空じゃなければ
       if (isStore && isMagazine) {
         // TODO:定期追加処理
-        // await RegulerManager.addRegular(storeName, magazineList);
         debugPrint("追加処理");
         // 完了ダイアログ
         DialogUtil.show(
@@ -83,12 +88,14 @@ class PageAdd extends HookWidget {
             magezineCodeController: magezineCodeController,
             quantityController: quantityController,
           ),
+          // 追加ボタン
+          AddMagazineButton(add: addMagazine),
           // 入力した定期の表示
           Expanded(
               child: AddRegularList(
             magazineList: magazineList.value,
-            add: () => add(magazineList.value.length),
-            remove: (p0) => magazineList.value.removeAt(p0),
+            remove: removeMagazine,
+            // remove: addRegular,
           )),
           // 確定ボタン
           BasicButton(text: "確定", isColor: false, onPressed: addRegular)
