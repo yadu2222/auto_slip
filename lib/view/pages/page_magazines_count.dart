@@ -6,7 +6,7 @@ import '../../models/load_regular_model.dart';
 import '../../common/file_con.dart'; // ファイル操作
 // view
 import '../template/basic_template.dart';
-import '../organisms/regular_magazine_list.dart';
+import '../organisms/count_magazine_list.dart';
 // constant
 import '../../constant/sample_data.dart';
 
@@ -33,7 +33,7 @@ class PageMagazineCount extends HookWidget {
             },
             child: Text(buttonMsg),
           ),
-          Expanded(child: RegularList(regularList: regularList.value))
+          Expanded(child: CountMagazineList(regularList: regularList.value))
         ],
       ),
     );

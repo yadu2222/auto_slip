@@ -10,33 +10,34 @@ import '../../models/magazine_model.dart';
 import '../../models/regular_model.dart';
 import '../../models/load_regular_model.dart';
 
-// 雑誌優先表示リスト
-class RegularMagazineList extends StatelessWidget {
-  const RegularMagazineList({
+class RegularCustomerList extends StatelessWidget {
+  const RegularCustomerList({
     super.key,
     required this.regularList,
   });
 
   final LoadRegular regularList; // 表示する定期のリスト
 
+
+  // 顧客優先表示リスト
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: regularList.loadRegularList.length,
         itemBuilder: (context, index) {
           final Map<String, dynamic> item = regularList.loadRegularList[index]; // 雑誌に対しての定期情報をひとかたまりで取得
-          final Magazine magazine = item['magazine'] as Magazine; // 雑誌情報
-          final List<Regular> regulars = item['regulars']! as List<Regular>; // 定期情報のリスト
+          final List<Magazine> magazines = item['magazines'] as List<Magazine>; // 雑誌情報
+          final Regular regular = item['regular']! as Regular; // 定期情報のリスト
           
           return Column(
             children: [
-              // 雑誌情報
-              MagazineCard(magazine: magazine, isRed: false),
+              // 顧客情報
+              RegularCard(regular: regular,isQuantity: false),
               // TODO:ここに区切り線
-              // 定期情報のリスト
-              ListBuilder<Regular>(
-                itemDatas: regulars,
-                listItem: (regular) => RegularCard(regular: regular),
+              // 雑誌のリスト
+              ListBuilder<Magazine>(
+                itemDatas: magazines,
+                listItem: (magazine) => MagazineCard(magazine: magazine,isRed: false,),
               ),
             ],
           );

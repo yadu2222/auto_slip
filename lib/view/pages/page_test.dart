@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart'; // アプリがファイル�
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
 import '../../common/excel_helper.dart';
-import 'package:flutter_auto_flip/view/parts/parts.dart';
+
 import '../../models/database_helper.dart';
 
 import 'dart:convert';
@@ -17,10 +17,7 @@ class Test extends StatefulWidget {
 }
 
 class _Test extends State<Test> {
-
-
-
-Future<void> _uploadCsv(File csvFile) async {
+  Future<void> _uploadCsv(File csvFile) async {
     // CSVファイルを読み込む
     List<int> csvBytes = await csvFile.readAsBytes();
 
@@ -32,14 +29,13 @@ Future<void> _uploadCsv(File csvFile) async {
     // CSVデータをBase64エンコードしてbodyに設定
     String body = base64.encode(csvBytes);
 
-
     // // HTTP POSTリクエストの送信
     // http.Response response = await http.post(url, headers: headers, body: body);
 
     try {
       http.Response response = await http.post(url, headers: headers, body: body);
       // レスポンスの処理
-   
+
       if (response.statusCode == 200) {
         print("Success");
       } else {
@@ -48,10 +44,7 @@ Future<void> _uploadCsv(File csvFile) async {
     } catch (e) {
       print("Error: $e");
     }
-
-    
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +66,6 @@ Future<void> _uploadCsv(File csvFile) async {
               _uploadCsv(File(path));
             } else {
               // ファイルが選択されなかった場合の処理
-              
             }
           },
           child: Text(text),
@@ -93,17 +85,16 @@ Future<void> _uploadCsv(File csvFile) async {
       });
     }
 
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('データを読み込もう'),
         ),
         body: Center(
-          child: Container(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [loadBottun("連絡先を読み込む", 0), loadBottun("雑誌情報を読み込む", 1), loadBottun("定期情報を読み込む", 2), Parts.searchBar(Icons.search, '検索してみよう', controller, 0, function)]),
+            child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // children: [loadBottun("連絡先を読み込む", 0), loadBottun("雑誌情報を読み込む", 1), loadBottun("定期情報を読み込む", 2), Parts.searchBar(Icons.search, '検索してみよう', controller, 0, function)]),
           ),
-        ));
+        )));
   }
 }

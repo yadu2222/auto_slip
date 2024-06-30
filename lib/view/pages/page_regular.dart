@@ -5,7 +5,7 @@ import '../../models/load_regular_model.dart';
 // view
 import '../template/basic_template.dart';
 import '../molecles/search_bar.dart' as regular_list;
-import '../organisms/magazine_regular_list.dart';
+import '../organisms/regular_customer_list.dart';
 // constant
 import '../../constant/sample_data.dart';
 
@@ -57,7 +57,7 @@ class PageRegular extends HookWidget {
             search: serchButtonFunction,
           ),
           // searchType.value == 0 ? Expanded(child: RegularList(regularList: regularList.value)) : Expanded(child: MagazineRegularList(regularList: regularList.value))
-          Expanded(child: MagazineRegularList(regularList: regularList.value))
+          Expanded(child: RegularCustomerList(regularList: regularList.value))
         ]));
   }
 }

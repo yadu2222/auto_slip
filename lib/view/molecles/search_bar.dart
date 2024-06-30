@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SearchBarView extends StatelessWidget {
-  const SearchBarView({super.key, required this.controller, required this.hintText, required this.icon, required this.search});
+  const SearchBarView({super.key, required this.controller, required this.hintText, required this.icon, this.search,this.isSearch = true});
 
   final TextEditingController controller;
   final String hintText;
   final IconData icon;
-  final void Function() search;
-
+  final bool isSearch;
+  final void Function()? search;
 
   // TODO:サイズエラー解消
   @override
@@ -34,16 +34,18 @@ class SearchBarView extends StatelessWidget {
               ),
             ),
           ),
+
+          isSearch ?
           SizedBox(
             width: 50, // IconButton の幅を固定
             child: IconButton(
               icon: const Icon(Icons.send),
               onPressed: () async {
                 FocusScope.of(context).unfocus(); // キーボードを閉じる
-                search();
+                search != null ? search!() : null;
               },
             ),
-          ),
+          ) : const SizedBox.shrink(),
         ],
       ),
     );
