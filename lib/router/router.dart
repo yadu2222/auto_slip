@@ -103,7 +103,7 @@ Future<GoRouter> createRouter() async {
             path: 'count',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: PageRegular(),
+              child: PageMagazineCount(),
             ),
           ),
 

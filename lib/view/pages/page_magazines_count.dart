@@ -1,144 +1,112 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_auto_flip/apis/controller/regular_manager.dart';
-import "../parts/parts.dart";
-import "../../common/excel_helper.dart";
-
-import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
-import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
-
+import 'package:flutter_hooks/flutter_hooks.dart';
+// model
+import '../../models/load_regular_model.dart';
+// common
+import '../../common/file_con.dart'; // ファイル操作
+// view
+import '../template/basic_template.dart';
+import '../organisms/regular_list.dart';
 // constant
-import '../../constant/messages.dart';
-import '../../models/magazine_model.dart';
+import '../../constant/sample_data.dart';
 
-class PageMagazinesCount extends StatefulWidget {
-  @override
-  _PageMagazinesCountState createState() => _PageMagazinesCountState();
-}
+class PageMagazineCount extends HookWidget {
+  const PageMagazineCount({super.key});
 
-class _PageMagazinesCountState extends State<PageMagazinesCount> {
-  // 入力された内容を保持するコントローラ
-  final outputController = TextEditingController();
-
-  // 表示するリスト
-  List regulerData = [];
-  // 冊数のチェックに使う
-  int magazineCount = 0;
+  final String title = '定期の数をチェックしよう';
+  final String buttonMsg = '読み込むファイルを選択';
 
   @override
   Widget build(BuildContext context) {
-    var screenSizeWidth = MediaQuery.of(context).size.width;
-    var screenSizeHeight = MediaQuery.of(context).size.height;
+    final regularList = useState<LoadRegular>(SampleData.loadRegular);
 
-    // 雑誌コード、雑誌名に対して　店舗名と冊数　配達なのか店取りなのかを表示したい
-    Widget regulerCard(int index) {
-      bool isbool = index == 0 || regulerData[index]["magazine_code"] != regulerData[index - 1]["magazine_code"];
-
-      String regularType = regulerData[index]["regular_type"] == "0"
-          ? "配達"
-          : regulerData[index]["regular_type"] == "1"
-              ? "店取り"
-              : regulerData[index]["regular_type"] == "2"
-                  ? "店取り伝票"
-                  : "図書館";
-
-      Widget isWidget = Row(
+    return BasicTemplate(
+      title: title,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(regulerData[index]["magazine_code"].toString()),
-          SizedBox(width: screenSizeWidth * 0.02),
-          Text(regulerData[index]["magazine_name"]),
-          SizedBox(width: screenSizeWidth * 0.02),
-          Text("入荷数：" + regulerData[index]["quantity_in_stock"].toString()),
-        ],
-      );
-      Widget repeatWidget = Row(
-        children: [
-          Text(regulerData[index]["store_name"]),
-          SizedBox(width: screenSizeWidth * 0.02),
-          Text(regularType),
-          SizedBox(width: screenSizeWidth * 0.02),
-          Text(regulerData[index]["quantity"].toString()),
-        ],
-      );
-
-      String code = regulerData[index]["regular_id"].toString();
-      return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight, context,code);
-    }
-
-    Widget regulerList() {
-      return Container(
-          width: screenSizeWidth * 0.6,
-          height: screenSizeHeight * 0.8,
-          alignment: Alignment.topCenter,
-          child: ListView.builder(
-            itemCount: regulerData.length,
-            itemBuilder: (BuildContext context, int index) {
-              return regulerCard(index);
+          // 入荷データのファイル読み込み
+          // 印刷までしたい
+          ElevatedButton(
+            onPressed: () async {
+              FileController.fileGet();
             },
-          ));
-    }
-
-    Widget regulerTable() {
-      return DataTable(columns: const [
-        DataColumn(label: Text('雑誌コード')),
-        DataColumn(label: Text('雑誌名')),
-        DataColumn(label: Text('冊数')),
-        DataColumn(label: Text('店舗名')),
-      ], rows: [
-        for (int i = 0; i < regulerData.length; i++)
-          DataRow(cells: [
-            DataCell(Text(regulerData[i]["magazine_code"].toString())),
-            DataCell(Text(regulerData[i]["magazine_name"])),
-            DataCell(Text(regulerData[i]["quantity"].toString())),
-            DataCell(Text(regulerData[i]["store_name"])),
-          ]),
-      ]);
-    }
-
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('定期の数をチェックしよう'),
-        ),
-        body: Center(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: screenSizeWidth * 0.4,
-                  height: screenSizeHeight * 0.05,
-                  // 入荷データのファイル読み込み
-                  // 印刷までしたい
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      FilePickerResult? result = await FilePicker.platform.pickFiles();
-                      if (result != null) {
-                        String path = result.files.single.path!;
-                        // 選択したファイルのパスを取得して処理を行う
-
-
-                        // TODO:ここでファイルをサーバーに投げる処理を呼び出す
-                        // List resultData = await RegulerManager.getImportData(path);
-
-                        setState(() {
-                          // regulerData = resultData;
-                        });
-                        // regulerData = await RegulerManager.getImportData(path);
-                      } else {
-                        // ファイルが選択されなかった場合の処理
-                      }
-                    },
-                    child: const Text('読み込むファイルを選択'),
-                  ),
-                ),
-                regulerList()
-              ],
-            ),
+            child: Text(buttonMsg),
           ),
-        ));
+          Expanded(child: RegularList(regularList: regularList.value))
+        ],
+      ),
+    );
   }
 }
+
+
+    // Widget regulerList() {
+    //   return Container(
+    //       width: screenSizeWidth * 0.6,
+    //       height: screenSizeHeight * 0.8,
+    //       alignment: Alignment.topCenter,
+    //       child: ListView.builder(
+    //         itemCount: regulerData.length,
+    //         itemBuilder: (BuildContext context, int index) {
+    //           return regulerCard(index);
+    //         },
+    //       ));
+    // }
+
+
+    // Widget regulerTable() {
+    //   return DataTable(columns: const [
+    //     DataColumn(label: Text('雑誌コード')),
+    //     DataColumn(label: Text('雑誌名')),
+    //     DataColumn(label: Text('冊数')),
+    //     DataColumn(label: Text('店舗名')),
+    //   ], rows: [
+    //     for (int i = 0; i < regulerData.length; i++)
+    //       DataRow(cells: [
+    //         DataCell(Text(regulerData[i]["magazine_code"].toString())),
+    //         DataCell(Text(regulerData[i]["magazine_name"])),
+    //         DataCell(Text(regulerData[i]["quantity"].toString())),
+    //         DataCell(Text(regulerData[i]["store_name"])),
+    //       ]),
+    //   ]);
+    // }
+
+
+// // 雑誌コード、雑誌名に対して　店舗名と冊数　配達なのか店取りなのかを表示したい
+// Widget regulerCard(int index) {
+//   bool isbool = index == 0 || regulerData[index]["magazine_code"] != regulerData[index - 1]["magazine_code"];
+
+//   String regularType = regulerData[index]["regular_type"] == "0"
+//       ? "配達"
+//       : regulerData[index]["regular_type"] == "1"
+//           ? "店取り"
+//           : regulerData[index]["regular_type"] == "2"
+//               ? "店取り伝票"
+//               : "図書館";
+
+//   Widget isWidget = Row(
+//     children: [
+//       Text(regulerData[index]["magazine_code"].toString()),
+//       SizedBox(width: screenSizeWidth * 0.02),
+//       Text(regulerData[index]["magazine_name"]),
+//       SizedBox(width: screenSizeWidth * 0.02),
+//       Text("入荷数：" + regulerData[index]["quantity_in_stock"].toString()),
+//     ],
+//   );
+//   Widget repeatWidget = Row(
+//     children: [
+//       Text(regulerData[index]["store_name"]),
+//       SizedBox(width: screenSizeWidth * 0.02),
+//       Text(regularType),
+//       SizedBox(width: screenSizeWidth * 0.02),
+//       Text(regulerData[index]["quantity"].toString()),
+//     ],
+//   );
+
+//   String code = regulerData[index]["regular_id"].toString();
+//   return Parts.dispListCard(isbool, isWidget, repeatWidget, screenSizeWidth, screenSizeHeight, context, code);
+// }
 
 // Future<List> readCSV(String csvFilePath) async {
 //   List<String> targetColumns = ["書店コード", "地区名", "書店名", "送品日付", "陳列", "雑誌コード", "号数", "日付", "年", "出版社名", "雑誌名", "冊数", "本体価格", "特号", "予約数", "伝票番号", "商品コード", "発行形態", "判型", "束数", "端数", "ISBNコード"];
