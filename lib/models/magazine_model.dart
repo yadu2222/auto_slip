@@ -1,7 +1,6 @@
 class Magazine {
+  String? magazineUUID;
   String magazineName;
   String magazineCode;
-  String quantity;
-
-  Magazine({required this.magazineName, required this.magazineCode, required this.quantity});
+  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode});
 }

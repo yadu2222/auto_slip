@@ -10,6 +10,7 @@ import '../organisms/add_regular_list.dart';
 import '../atoms/basic_button.dart';
 // constant
 import '../../constant/messages.dart';
+import '../../models/regular_model.dart';
 import '../../models/magazine_model.dart';
 
 class PageAdd extends HookWidget {
@@ -27,7 +28,7 @@ class PageAdd extends HookWidget {
   Widget build(BuildContext context) {
     // 追加する雑誌リスト
     // final magazineList = useState<List<Magazine>>([]);
-    final magazineList = useState<List<Magazine>>([]);
+    final regularList = useState<List<Regular>>([]);
 
     // コントローラのクリア処理
     void controllerClear() {
@@ -41,22 +42,24 @@ class PageAdd extends HookWidget {
       // 空出ないことを確認
       if (magazineController.text != "" && magezineCodeController.text != "" && quantityController.text != "") {
         // 入力していた情報をリストに追加
-        Magazine addMag = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text, quantity: quantityController.text);
-        magazineList.value = List.from(magazineList.value)..add(addMag);
+
+        Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
+        Regular addRegular = Regular(magazine:addMagazine, quantity: int.parse( quantityController.text));
+        regularList.value = List.from(regularList.value)..add(addRegular);
         controllerClear();
       }
     }
 
     // 配列削除処理
     void removeMagazine(int index) {
-      magazineList.value = List.from(magazineList.value)..removeAt(index); // 削除
+      regularList.value = List.from(regularList.value)..removeAt(index); // 削除
     }
 
     // 定期情報追加処理
     void addRegular() async {
       // 条件確認
       bool isStore = storeController.text != "";
-      bool isMagazine = magazineList.value.isNotEmpty;
+      bool isMagazine = regularList.value.isNotEmpty;
       String errorText = isStore && isMagazine
           ? ""
           : isStore
@@ -93,7 +96,7 @@ class PageAdd extends HookWidget {
           // 入力した定期の表示
           Expanded(
               child: AddRegularList(
-            magazineList: magazineList.value,
+            regularList: regularList.value,
             remove: removeMagazine,
             // remove: addRegular,
           )),

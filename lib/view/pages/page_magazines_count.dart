@@ -8,6 +8,10 @@ import "../../common/excel_helper.dart";
 import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
+// constant
+import '../../constant/messages.dart';
+import '../../models/magazine_model.dart';
+
 class PageMagazinesCount extends StatefulWidget {
   @override
   _PageMagazinesCountState createState() => _PageMagazinesCountState();
