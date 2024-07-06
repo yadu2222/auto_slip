@@ -7,27 +7,31 @@ class EditBarView extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.icon,
+    this.maxLength = 20,
     this.search,
   });
 
   final TextEditingController controller;
   final String hintText;
+  final int maxLength;
   final IconData icon;
   final void Function()? search;
 
   // TODO:サイズエラー解消
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       // width: double.infinity * 0.6, // 横幅を親要素に合わせる
       width: 400,
       height: 45,
+      margin: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0), // IconButton との間隔を設定
               child: TextField(
+                // maxLength: maxLength,
                 controller: controller,
                 decoration: InputDecoration(
                   hintText: hintText,

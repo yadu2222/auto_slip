@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../models/load_regular_model.dart';
 // view
 import '../components/templates/basic_template.dart';
-import '../components/molecles/search_bar.dart' as regular_list;
+import '../components/molecles/edit_bar.dart' as regular_list;
 import '../components/organisms/regular_list.dart';
 // constant
 import '../../constant/sample_data.dart';

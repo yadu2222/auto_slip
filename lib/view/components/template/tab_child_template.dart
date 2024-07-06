@@ -4,7 +4,7 @@ import '../molecles/edit_bar.dart' as edit;
 import '../atoms/basic_button.dart';
 
 class TabChildTemplate extends StatelessWidget {
-  const TabChildTemplate({super.key, required this.editType, required this.icon, required this.hintText, required this.child, required this.controller, required this.nameController});
+  const TabChildTemplate({super.key, required this.editType, required this.icon, required this.hintText, required this.child, required this.controller,required this.nameController});
 
   final int editType;
   final Widget child;
@@ -19,11 +19,11 @@ class TabChildTemplate extends StatelessWidget {
       child: Column(
         children: [
           edit.EditBarView(
-            // 名前の入力
-            controller: nameController,
-            hintText: 'あなたの名前はなんですか',
-            icon: Icons.edit,
-          ),
+              // 名前の入力
+              controller: nameController,
+              hintText: 'あなたの名前はなんですか',
+              icon: Icons.edit,
+              ),
           // 検索バー
           edit.EditBarView(
             icon: icon,
@@ -33,6 +33,7 @@ class TabChildTemplate extends StatelessWidget {
           ),
           child,
           BasicButton(text: "確定", isColor: true, onPressed: () {})
+
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../atoms/edit_form.dart';
+import '../molecles/edit_bar.dart';
 
 // TODO: サイズ
 class RegularForm extends StatelessWidget {
@@ -16,27 +16,25 @@ class RegularForm extends StatelessWidget {
     return Container(
         alignment: Alignment.center,
         child: Column(children: [
-          EditForm(controller: storeController, hintText: '店舗名', maxLength: 20, width: 0.9),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 等間隔に配置
-            children: [
-              EditForm(
-                controller: magezineCodeController,
-                hintText: '雑誌コード',
-                maxLength: 10,
-              ),
-              EditForm(
-                controller: magazineNameController,
-                hintText: '雑誌名',
-                maxLength: 20,
-              ),
-              EditForm(
-                controller: quantityController,
-                hintText: '冊数',
-                maxLength: 3,
-              ),
-            ],
-          )
+          EditBarView(controller: storeController, hintText: '店舗名', maxLength: 20, icon: Icons.storefront),
+          EditBarView(
+            icon: Icons.edit,
+            controller: magezineCodeController,
+            hintText: '雑誌コード',
+            maxLength: 10,
+          ),
+          EditBarView(
+            icon: Icons.menu_book_rounded,
+            controller: magazineNameController,
+            hintText: '雑誌名',
+            maxLength: 20,
+          ),
+          EditBarView(
+            icon: Icons.book_rounded,
+            controller: quantityController,
+            hintText: '冊数',
+            maxLength: 3,
+          ),
         ]));
   }
 }
