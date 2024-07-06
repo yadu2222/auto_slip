@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
+import '../../apis/controller/test_controller.dart';
+
 class Test extends StatefulWidget {
   @override
   _Test createState() => _Test();
@@ -47,14 +49,15 @@ class _Test extends State<Test> {
         // 入荷データのファイル読み込み
         // 印刷までしたい
         onPressed: () async {
-          FilePickerResult? result = await FilePicker.platform.pickFiles();
-          if (result != null) {
-            String path = result.files.single.path!;
-            // ExcelHandler.excel(path, type);
-            _uploadCsv(File(path));
-          } else {
-            // ファイルが選択されなかった場合の処理
-          }
+          // FilePickerResult? result = await FilePicker.platform.pickFiles();
+          // if (result != null) {
+          //   String path = result.files.single.path!;
+          //   // ExcelHandler.excel(path, type);
+          //   _uploadCsv(File(path));
+          // } else {
+          //   // ファイルが選択されなかった場合の処理
+          // }
+          TestReq(context: context).connectTestHandler();
         },
 
         child: Text(text),
