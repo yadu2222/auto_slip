@@ -12,7 +12,7 @@ import '../../../models/load_regular_model.dart';
 
 
 
-// 雑誌優先表示リスト
+// 雑誌をカウントして表示
 class CountMagazineList extends StatelessWidget {
   const CountMagazineList({
     super.key,
@@ -30,7 +30,7 @@ class CountMagazineList extends StatelessWidget {
           final Magazine magazine = item['magazine'] as Magazine; // 雑誌情報
           final List<Regular> regulars = item['regulars']! as List<Regular>; // 定期情報のリスト
           int regularStock = regulars.length;
-          // 冊数比較用の計算
+          // 冊数比較用の計算 足りなければ入荷冊数を赤く表示
           for (int i = 0; i < regulars.length; i++) {
             regularStock += regulars[i].quantity;
           }

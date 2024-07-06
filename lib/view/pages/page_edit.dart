@@ -3,8 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 // view
 import '../components/templates/tab_template.dart';
 import '../components/templates/tab_child_template.dart';
-import '../components/organisms/regular_customer_list.dart';
-import '../components/organisms/regular_magazine_list.dart';
+import '../components/organisms/regular_list.dart';
 
 // mode;
 import '../../models/load_regular_model.dart';
@@ -47,8 +46,8 @@ class PageEdit extends HookWidget {
     // var screenSizeHeight = MediaQuery.of(context).size.height;
     final regularList = useState<LoadRegular?>(null);
 
-    Widget customerList = regularList.value == null ? const Text("検索結果はありません") : RegularCustomerList(regularList: regularList.value!);
-    Widget magazineList = regularList.value == null ? const Text("検索結果はありません") : RegularMagazineList(regularList: regularList.value!);
+    Widget customerList = regularList.value == null ? const Text("検索結果はありません") : RegularList.headerCustomer(regularList: regularList.value!);
+    Widget magazineList = regularList.value == null ? const Text("検索結果はありません") : RegularList.headerMagazine(regularList: regularList.value!);
 
     // 表示される部分
     List<Widget> children = [
