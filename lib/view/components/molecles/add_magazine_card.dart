@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/regular_model.dart';
+import '../../../models/regular_model.dart';
 
 class AddMagazineCard extends StatelessWidget {
   const AddMagazineCard({super.key, this.width = 0.6, this.height = 0.1, required this.index, required this.remove, required this.regular});

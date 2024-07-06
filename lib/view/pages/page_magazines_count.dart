@@ -5,8 +5,8 @@ import '../../models/load_regular_model.dart';
 // common
 import '../../common/file_con.dart'; // ファイル操作
 // view
-import '../template/basic_template.dart';
-import '../organisms/count_magazine_list.dart';
+import '../components/templates/basic_template.dart';
+import '../components/organisms/count_magazine_list.dart';
 // constant
 import '../../constant/sample_data.dart';
 

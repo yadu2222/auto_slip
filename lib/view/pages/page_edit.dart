@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 // view
-import '../template/tab_template.dart';
-import '../template/tab_child_template.dart';
-import '../organisms/regular_customer_list.dart';
-import '../organisms/regular_magazine_list.dart';
+import '../components/templates/tab_template.dart';
+import '../components/templates/tab_child_template.dart';
+import '../components/organisms/regular_customer_list.dart';
+import '../components/organisms/regular_magazine_list.dart';
 
 // mode;
 import '../../models/load_regular_model.dart';

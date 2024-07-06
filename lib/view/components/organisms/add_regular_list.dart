@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../molecles/add_magazine_card.dart';
-import '../../models/regular_model.dart';
+import '../../../models/regular_model.dart';
 import '../atoms/list_builder.dart';
 
 class AddRegularList extends StatelessWidget {

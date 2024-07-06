@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../molecles/add_magazine_button.dart';
+import '../components/molecles/add_magazine_button.dart';
 
 // view
-import '../template/basic_template.dart';
-import '../molecles/regular_form.dart';
-import '../molecles/dialog.dart';
-import '../organisms/add_regular_list.dart';
-import '../atoms/basic_button.dart';
+import '../components/templates/basic_template.dart';
+import '../components/molecles/regular_form.dart';
+import '../components/molecles/dialog.dart';
+import '../components/organisms/add_regular_list.dart';
+import '../components/atoms/basic_button.dart';
 // constant
 import '../../constant/messages.dart';
 import '../../models/regular_model.dart';
@@ -40,7 +40,7 @@ class PageAdd extends HookWidget {
 
     // 配列追加処理
     void addMagazine() {
-      // 空出ないことを確認
+      // 空でないことを確認
       if (magazineController.text != "" && magezineCodeController.text != "" && quantityController.text != "") {
         // 入力していた情報をリストに追加
 
@@ -71,7 +71,7 @@ class PageAdd extends HookWidget {
                   : Messages.inputNumRegularMagazineAndStoreNameError;
       // どちらも空じゃなければ
       if (isStore && isMagazine) {
-        // TODO:定期追加処理
+        // TODO:api定期追加処理
         debugPrint("追加処理");
         // 完了ダイアログ
         DialogUtil.show(

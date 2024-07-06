@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constant/colors.dart';
-import '../../constant/fonts.dart';
+import '../../../constant/colors.dart';
+import '../../../constant/fonts.dart';
 
 // TODO:活性と不活性をさ〜〜〜管理したいよな〜〜〜
 class BasicButton extends StatelessWidget {

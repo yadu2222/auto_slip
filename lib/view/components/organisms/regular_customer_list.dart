@@ -6,9 +6,9 @@ import '../molecles/regular_card.dart';
 import '../atoms/magazine_card.dart';
 
 // model
-import '../../models/magazine_model.dart';
-import '../../models/regular_model.dart';
-import '../../models/load_regular_model.dart';
+import '../../../models/magazine_model.dart';
+import '../../../models/regular_model.dart';
+import '../../../models/load_regular_model.dart';
 
 class RegularCustomerList extends StatelessWidget {
   const RegularCustomerList({

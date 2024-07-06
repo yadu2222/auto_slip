@@ -8,4 +8,10 @@ class Customer {
   String? address;
 
   Customer({this.customerUUID = "", this.customerName = "", this.regularType = 0, this.regularTypeString = "", this.tellType = 0, this.tellTypeString = "", this.address});
+
+  // エラー時のCustomer
+  static Customer errCustomer = Customer(customerUUID: "", customerName: "エラー", regularType: 0, regularTypeString: "", tellType: 0, tellTypeString: "", address: "");
+
+  // 変換
+  
 }

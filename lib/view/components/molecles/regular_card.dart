@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/regular_model.dart';
+import '../../../models/regular_model.dart';
 import '../atoms/item_card.dart';
 
 class RegularCard extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:flutter_auto_flip/view/atoms/menu_tile.dart';
+import 'package:flutter_auto_flip/view/components/atoms/menu_tile.dart';
 import 'package:flutter/material.dart';
 
 class SideMenu extends StatelessWidget {

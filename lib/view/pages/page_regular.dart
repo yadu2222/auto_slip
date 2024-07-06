@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 // model
 import '../../models/load_regular_model.dart';
 // view
-import '../template/basic_template.dart';
-import '../molecles/search_bar.dart' as regular_list;
-import '../organisms/regular_customer_list.dart';
+import '../components/templates/basic_template.dart';
+import '../components/molecles/search_bar.dart' as regular_list;
+import '../components/organisms/regular_customer_list.dart';
 // constant
 import '../../constant/sample_data.dart';
 

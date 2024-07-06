@@ -4,7 +4,7 @@ import 'dart:async'; // 非同期処理用ライブラリ
 
 import 'package:path_provider/path_provider.dart'; //アプリがファイルを保存可能な場所を取得するライブラリ
 
-import 'package:flutter_auto_flip/view/organisms/main_menu.dart';
+import 'package:flutter_auto_flip/view/components/organisms/main_menu.dart';
 
 
 class PageHome extends StatefulWidget {

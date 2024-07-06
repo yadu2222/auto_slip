@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/magazine_model.dart';
-import '../atoms/item_card.dart';
+import '../../../models/magazine_model.dart';
+import 'item_card.dart';
 
 class MagazineCard extends StatelessWidget {
   const MagazineCard({super.key, required this.magazine, required this.isRed});
