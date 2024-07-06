@@ -23,7 +23,7 @@ Future<GoRouter> createRouter() async {
       GoRoute(
         path: '/home',
         routes: [
-          // かずとり
+          // 登録
           GoRoute(
             path: 'add',
             pageBuilder: (context, state) => NoTransitionPage(

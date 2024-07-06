@@ -3,6 +3,7 @@
 
 
 // 雑誌と定期情報のリストを保持するクラス
+// 型がごみすぎるだろいいかげんにしろ
 class LoadRegular {
   List<Map<String, dynamic>> loadRegularList;
 

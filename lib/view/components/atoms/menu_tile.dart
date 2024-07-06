@@ -7,6 +7,8 @@ class MenuTile extends StatelessWidget {
   final String title;
   final String movePass;
 
+
+  // 設定したパスに遷移するタイル
   @override
   Widget build(BuildContext context) {
     return ListTile(

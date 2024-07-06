@@ -38,19 +38,19 @@ class PageRegular extends HookWidget {
         title: title,
         child: Column(children: [
           // 検索バー
-          regular_list.SearchBarView(
+          regular_list.EditBarView(
             icon: Icons.storefront,
             hintText: storeNameSearch,
             controller: _storeNameController,
             search: serchButtonFunction,
           ),
-          regular_list.SearchBarView(
+          regular_list.EditBarView(
             icon: Icons.local_offer,
             hintText: magazineCodeSearch,
             controller: _magazineController,
             search: serchButtonFunction,
           ),
-          regular_list.SearchBarView(
+          regular_list.EditBarView(
             icon: Icons.import_contacts,
             hintText: magazineNameSearch,
             controller: _magazineNameController,

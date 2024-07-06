@@ -13,7 +13,6 @@ class EditForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenSizeWidth = MediaQuery.of(context).size.width;
     // var screenSizeHeight = MediaQuery.of(context).size.height;
-
     return SizedBox(
         width: screenSizeWidth * width,
         child: TextField(

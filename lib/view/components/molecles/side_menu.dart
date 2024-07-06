@@ -9,11 +9,11 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        height: double.infinity,    // 画面いっぱいに表示
         width: 200,
-        child: Expanded(
           child: ListView(
             children: [...menuTileList],
           ),
-        ));
+        );
   }
 }

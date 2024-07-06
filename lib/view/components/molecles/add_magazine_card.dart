@@ -12,37 +12,31 @@ class AddMagazineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //画面サイズ
-    var screenSizeWidth = MediaQuery.of(context).size.width;
-    var screenSizeHeight = MediaQuery.of(context).size.height;
     return Card(
-        // color: Constant.glay.withAlpha(0),
-        //           elevation: 0,
-        elevation: 0,
-        child: SizedBox(
-          width: screenSizeWidth * width,
-          height: screenSizeHeight * height,
-          child: Row(
-            children: [
-              // 削除ボタン
-              IconButton(
-                  onPressed: () {
-                    // setState(() {
-                    //   addMagezens.removeAt(index);
-                    // });
-                    remove(index);
-                  },
-                  icon: const Icon(
-                    Icons.horizontal_rule,
-                    color: Colors.black,
-                    size: 20,
-                  )),
-              // 情報の表示
-              Container(width: screenSizeWidth * 0.225, height: screenSizeHeight * 0.1, alignment: Alignment.center, child: Text(regular.magazine.magazineCode)),
-              Container(width: screenSizeWidth * 0.225, height: screenSizeHeight * 0.1, alignment: Alignment.center, child: Text(regular.magazine.magazineName)),
-              Container(width: screenSizeWidth * 0.15, height: screenSizeHeight * 0.1, alignment: Alignment.center, child: Text(regular.quantity.toString()))
-            ],
-          ),
-        ));
+      child: Row(
+        children: [
+          // 削除ボタン
+          IconButton(
+              onPressed: () {
+                // setState(() {
+                //   addMagezens.removeAt(index);
+                // });
+                remove(index);
+              },
+              icon: const Icon(
+                Icons.horizontal_rule,
+                color: Colors.black,
+                size: 20,
+              )),
+          // 情報の表示
+
+          Container(alignment: Alignment.center, child: Text(regular.magazine.magazineCode)),
+          const SizedBox(width: 10), // 余白
+          Container(alignment: Alignment.center, child: Text(regular.magazine.magazineName)),
+          const SizedBox(width: 10), // 余白
+          Container(alignment: Alignment.center, child: Text(regular.quantity.toString()))
+        ],
+      ),
+    );
   }
 }
