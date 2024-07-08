@@ -16,6 +16,7 @@ class EditForm extends StatelessWidget {
     return SizedBox(
         width: screenSizeWidth * width,
         child: TextField(
+          
           enabled: true,
           maxLength: maxLength, // 入力文字数制限
           maxLines: 1,

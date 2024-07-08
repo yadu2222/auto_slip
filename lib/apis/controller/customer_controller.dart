@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/customer_model.dart';
 import '../service/customer_service.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
 import '../../view/components/atoms/toast.dart';
 import '../../../constant/messages.dart';
@@ -12,14 +12,16 @@ class CustomerReq {
   CustomerReq({required this.context});
 
   // お客様情報の取得ハンドラー
-  Future<void> getCustomerHandler(Map<String, dynamic> registerUser) async {
+  Future<List<Customer>> getCustomerHandler(Map<String, dynamic> registerUser) async {
     try {
-      await CustomerService.getCustomer(registerUser); // ログイン処理を待つ
+      List<Customer> result = await CustomerService.getCustomer(registerUser); // 取得処理を待つ
       // ログイン完了後の処理
-      GoRouter.of(context).go('/home');
-      ToastUtil.show(message: Messages.getCustomerSuccess); // 登録成功メッセージ
+      // GoRouter.of(context).go('/home');
+      ToastUtil.show(message: Messages.getCustomerSuccess); // 取得成功メッセージ
+      return result;
     } catch (error) {
-      ToastUtil.show(message: Messages.getCustomerError); // 登録失敗メッセージ
+      ToastUtil.show(message: Messages.getCustomerError); // 取得失敗メッセージ
+      return [];
     }
   }
 }

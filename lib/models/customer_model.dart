@@ -13,5 +13,26 @@ class Customer {
   static Customer errCustomer = Customer(customerUUID: "", customerName: "エラー", regularType: 0, regularTypeString: "", tellType: 0, tellTypeString: "", address: "");
 
   // 変換
-  
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
+      customerUUID: json['customerUUID'],
+      customerName: json['customerName'],
+      regularType: json['regularType'],
+      regularTypeString: json['regularTypeString'],
+      tellType: json['tellType'],
+      tellTypeString: json['tellTypeString'],
+      address: json['address'],
+    );
+  }
+
+  static List<Customer> resToCustomer(Map res){
+    List<Customer> customerList = [];
+    if (res['customerList'] != null) {
+      res['customerList'].forEach((v) {
+        customerList.add(Customer.fromJson(v));
+      });
+    }
+    return customerList;
+  }
+
 }

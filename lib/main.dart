@@ -48,9 +48,8 @@ class MyAppState extends State<MyApp> {
       //   // useMaterial3: true,
       //   // appBarTheme: const AppBarTheme(backgroundColor: AppColors.main, iconTheme: IconThemeData(color: AppColors.iconLight)),
       // ),
-      // ルーティングの設定
-      routerConfig: _router!,
-    );
+      routerConfig: _router!, // ルーティングの設定
+    );  
   }
 }
 

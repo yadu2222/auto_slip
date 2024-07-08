@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
-import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
+// import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
 import 'dart:convert';
 import 'dart:io';
