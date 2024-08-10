@@ -42,6 +42,7 @@ dependencies:
   hooks_riverpod: ^2.4.10
   fluttertoast: ^8.0.8
   http: ^1.2.1  # ここに最新バージョンを指定します
+  mime: ^1.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

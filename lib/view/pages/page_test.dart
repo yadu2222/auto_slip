@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 // import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
-// import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
+import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../../apis/controller/test_controller.dart';
+import '../../apis/controller/magazine_controller.dart';
 
 class Test extends StatefulWidget {
   @override
@@ -44,20 +45,22 @@ class _Test extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
+    
     Widget loadBottun(String text, int type) {
       return ElevatedButton(
         // 入荷データのファイル読み込み
         // 印刷までしたい
         onPressed: () async {
-          // FilePickerResult? result = await FilePicker.platform.pickFiles();
-          // if (result != null) {
-          //   String path = result.files.single.path!;
-          //   // ExcelHandler.excel(path, type);
-          //   _uploadCsv(File(path));
-          // } else {
-          //   // ファイルが選択されなかった場合の処理
-          // }
-          TestReq(context: context).connectTestHandler();
+          FilePickerResult? result = await FilePicker.platform.pickFiles();
+          if (result != null) {
+            String path = result.files.single.path!;
+            // ExcelHandler.excel(path, type);
+            _uploadCsv(File(path));
+          } else {
+            // ファイルが選択されなかった場合の処理
+          }
+          
+          // TestReq(context: context).connectTestHandler();
         },
 
         child: Text(text),

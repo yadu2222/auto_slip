@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 // model
 import '../../models/load_regular_model.dart';
 // view
@@ -36,6 +37,13 @@ class PageRegular extends HookWidget {
 
     return BasicTemplate(
         title: title,
+        floatingActionButton: IconButton(
+          onPressed: () {
+            // 編集画面に遷移
+            context.go('/home/add');
+          },
+          icon: const Icon(Icons.add, size: 30),
+        ),
         child: Column(children: [
           // 検索バー
           regular_list.EditBarView(

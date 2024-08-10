@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/view/pages/page_magazine.dart';
 import 'package:go_router/go_router.dart';
 
 // 遷移先
@@ -17,11 +18,11 @@ Future<GoRouter> createRouter() async {
 
   return GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/home',
+    initialLocation: '/',
     routes: [
       // ホーム
       GoRoute(
-        path: '/home',
+        path: '/',
         routes: [
           // 登録
           GoRoute(
@@ -56,6 +57,14 @@ Future<GoRouter> createRouter() async {
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
               child: PageRegular(),
+            ),
+          ),
+          // ていきいちらん
+          GoRoute(
+            path: 'magazine',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: PageMagazine(),
             ),
           ),
 

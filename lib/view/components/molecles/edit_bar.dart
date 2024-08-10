@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_auto_flip/constant/colors.dart';
 
 class EditBarView extends StatelessWidget {
@@ -9,6 +10,8 @@ class EditBarView extends StatelessWidget {
     required this.icon,
     this.maxLength = 20,
     this.search,
+    this.inputType = TextInputType.text,
+    this.inputFormatter = const [],
   });
 
   final TextEditingController controller;
@@ -16,6 +19,8 @@ class EditBarView extends StatelessWidget {
   final int maxLength;
   final IconData icon;
   final void Function()? search;
+  final TextInputType inputType; // 数値以外許さないか
+  final List<TextInputFormatter> inputFormatter;
 
   // TODO:サイズエラー解消
   @override
@@ -31,6 +36,8 @@ class EditBarView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0), // IconButton との間隔を設定
               child: TextField(
+                keyboardType: inputType,
+                inputFormatters: [...inputFormatter],
                 // maxLength: maxLength,
                 controller: controller,
                 decoration: InputDecoration(

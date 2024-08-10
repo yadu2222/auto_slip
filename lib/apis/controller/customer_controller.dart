@@ -17,10 +17,10 @@ class CustomerReq {
       List<Customer> result = await CustomerService.getCustomer(registerUser); // 取得処理を待つ
       // ログイン完了後の処理
       // GoRouter.of(context).go('/home');
-      ToastUtil.show(message: Messages.getCustomerSuccess); // 取得成功メッセージ
+      debugPrint( Messages.getCustomerSuccess); // 取得成功メッセージ
       return result;
     } catch (error) {
-      ToastUtil.show(message: Messages.getCustomerError); // 取得失敗メッセージ
+      debugPrint(Messages.getCustomerError); // 取得失敗メッセージ
       return [];
     }
   }

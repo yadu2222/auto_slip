@@ -1,15 +1,13 @@
-class Urls{
-
- // base URL
+class Urls {
+  // base URL
   static const String protocol = 'http://';
-  static const String host = '127.0.0.1';
+  static const String host = '192.168.50.168';
   static const String port = '8080';
   static const String baseUrl = '$protocol$host:$port';
   static const String version = '/v1'; // version
 
   // test
   static const String test = '$version/test/cfmreq'; // GET接続確認
-
 
   // ここにURLを追加していく
   // customer
@@ -18,14 +16,11 @@ class Urls{
   static const String login = '$version/users/login'; // POSTログイン
   static const String getUser = '$version/auth/users/user'; // GETuser情報取得
 
-
-
   // employee
 
-  // book
-
-
-
-
-
+  // magazine
+  static const String registerforCSVMagazine = '$version/csv/magazines'; // POST csvから雑誌登録
+  static const String getMagazines = '$version/magazines/magazines'; // GET雑誌情報取得
+  static const String getMagazineByCode = '$version/magazines/magazine'; // GET雑誌情報取得
+  static const String getMagazineByName = '$version/magazines/magazines'; // POST雑誌登録
 }

@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart'; //アプリがファイルを
 
 import 'package:flutter_auto_flip/view/components/organisms/main_menu.dart';
 
-
 class PageHome extends StatefulWidget {
   @override
   _PageHomeState createState() => _PageHomeState();
@@ -43,13 +42,12 @@ class _PageHomeState extends State<PageHome> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('伝票をつくろう！！！！！'),
+         
         ),
         body: Center(
           child: Row(children: [
