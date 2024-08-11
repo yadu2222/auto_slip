@@ -22,60 +22,6 @@ class SampleData {
     regularType: 1,
   );
 
-  static List<LoadRegular> loadRegulars = [
-    LoadRegular(
-      magazine: magazine1,
-      regulars: [
-        {
-          "regular": Regular(
-            regularUUID: 'fajdsalkfjsd',
-            quantity: 1,
-          ),
-          "customer": customer1,
-        },
-        {
-          "regular": Regular(
-            regularUUID: 'fajdsalkfjsd',
-            quantity: 1,
-          ),
-          "customer": customer1,
-        },
-        {
-          "regular": Regular(
-            regularUUID: 'fajdsalkfjsd',
-            quantity: 1,
-          ),
-          "customer": customer1,
-        },
-      ],
-    ),
-    LoadRegular(
-      magazine: magazine1,
-      regulars: [
-        {
-          "regular": Regular(
-            regularUUID: 'fajdsalkfjsd',
-            quantity: 1,
-          ),
-          "customer": customer1,
-        },
-        {
-          "regular": Regular(
-            regularUUID: 'fajdsalkfjsd',
-            quantity: 1,
-          ),
-          "customer": customer1,
-        },
-        {
-          "regular": Regular(
-            regularUUID: 'fajdsalkfjsd',
-            quantity: 1,
-          ),
-          "customer": customer1,
-        },
-      ],
-    ),
-  ];
 
   // LoadRegular インスタンスの作成
 }

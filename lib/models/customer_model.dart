@@ -1,3 +1,5 @@
+import 'package:flutter_auto_flip/models/regular_model.dart';
+
 class Customer {
   String customerUUID;
   String customerName;
@@ -6,7 +8,8 @@ class Customer {
   int tellType; // 0は指定なし？
   String? address;
 
-  Customer({this.customerUUID = "", this.customerName = "", this.regularType = 0, this.tellType = 0, this.address});
+
+  Customer({this.customerUUID = "", this.customerName = "", this.regularType = 0, this.tellType = 0, this.address, });
 
   // エラー時のCustomer
   static Customer errCustomer = Customer(customerUUID: "", customerName: "エラー", regularType: 0, tellType: 0, address: "");

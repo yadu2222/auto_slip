@@ -3,7 +3,8 @@ class Magazine {
   String magazineName;
   String magazineCode;
   int quantityStock;
-  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode, this.quantityStock = 0});
+  String? number;
+  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode, this.quantityStock = 0,this.number});
 
   static List<Magazine> resToMagazines(List res) {
     List<Magazine> magazines = [];

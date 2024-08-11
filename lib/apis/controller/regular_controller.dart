@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
 import 'package:flutter_auto_flip/models/load_regular_model.dart';
 import 'package:go_router/go_router.dart';
 import '../../../constant/messages.dart';
@@ -30,10 +31,9 @@ class RegularReq {
   }
 
   // csvで数取り
-  Future<List<LoadRegular>> getRegularHandler(File file) async {
+  Future<List<Counting>> getRegularHandler(File file) async {
     try {
-      List<LoadRegular> result = await RegularService.countingRegular(file); // 取得処理を待つ
-
+      List<Counting> result = await RegularService.countingRegular(file); // 取得処理を待つ
       return result;
     } catch (error) {
       debugPrint(error.toString());

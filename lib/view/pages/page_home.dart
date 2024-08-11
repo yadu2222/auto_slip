@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
+import 'package:flutter_auto_flip/models/customer_model.dart';
+import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
+import 'package:flutter_auto_flip/view/components/organisms/counting_list.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
 // view
@@ -14,6 +19,8 @@ class PageHome extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final RegularReq regularReq = RegularReq(context: context);
+    final countList = useState<List<Counting>>([]);
+    final isCustomer = useState<bool>(true);
 
     Future<File?> loadFile() async {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -33,7 +40,14 @@ class PageHome extends HookWidget {
         // TODO: ファイルが選択されなかった場合の処理
         return;
       }
-      regularReq.getRegularHandler(file);
+      await regularReq.getRegularHandler(file).then((value) => countList.value = value);
+    }
+
+    void onTapCutomer(Customer customer) {}
+    void onTapCounting(Counting counting) {}
+
+    void show() {
+      isCustomer.value = !isCustomer.value;
     }
 
     return Scaffold(
@@ -41,24 +55,37 @@ class PageHome extends HookWidget {
           title: const Text('数をとろう'),
         ),
         body: Center(
+            child: Container(
+          padding: const EdgeInsets.all(20),
           child: Row(children: [
             const MainMenu(),
             Expanded(
-                child: Column(
-              children: [
-                const SizedBox(
-                  height: 100,
-                ),
-                const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> CS外商用ダウンロード'),
-                BasicButton(
-                  width: 400,
-                  text: 'ダウンロードしたファイルを選択してね',
-                  isColor: false,
-                  onPressed: counting,
-                )
-              ],
-            )),
+              child: Column(
+                children: [
+                  const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> CS外商用ダウンロード'),
+                  BasicButton(
+                    width: 400,
+                    text: 'ダウンロードしたファイルを選択してね',
+                    isColor: false,
+                    onPressed: counting,
+                  ),
+                  countList.value.isEmpty
+                      ? const SizedBox.shrink()
+                      : Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                          InkWell(
+                            onTap: show,
+                            child: Row(children: [
+                              const Icon(Icons.expand_more),
+                              Text(isCustomer.value ? '顧客情報を隠す' : '顧客情報を表示'),
+                            ]),
+                          ),
+                          const CountIcons(), // 各アイコンの説明
+                        ]),
+                  CountingList(loadData: countList.value, onTapCutomer: onTapCutomer, onTapCounting: onTapCounting, isCustomer: isCustomer.value)
+                ],
+              ),
+            )
           ]),
-        ));
+        )));
   }
 }

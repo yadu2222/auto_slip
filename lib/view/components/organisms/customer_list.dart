@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
 // view
 import 'package:flutter_auto_flip/view/components/molecles/customer_card.dart';
@@ -12,7 +13,7 @@ class CustomerList extends StatelessWidget {
     required this.onTap,
   });
 
-  final List<Map<String, dynamic>> regularData; // 表示する定期のリスト
+  final List<CountingCustomer> regularData; // 表示する定期のリスト
   final void Function(Customer) onTap; // タップ時の処理
 
   @override
