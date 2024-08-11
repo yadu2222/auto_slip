@@ -8,17 +8,21 @@ class EditBarView extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.icon,
-    this.maxLength = 20,
     this.search,
+    this.searchIcon = Icons.send,
     this.inputType = TextInputType.text,
     this.inputFormatter = const [],
+    this.onChanged,
   });
 
   final TextEditingController controller;
   final String hintText;
-  final int maxLength;
+
   final IconData icon;
+  final IconData searchIcon;
   final void Function()? search;
+  final void Function(String)? onChanged;
+
   final TextInputType inputType; // 数値以外許さないか
   final List<TextInputFormatter> inputFormatter;
 
@@ -52,7 +56,7 @@ class EditBarView extends StatelessWidget {
                       ? SizedBox(
                           width: 50, // IconButton の幅を固定
                           child: IconButton(
-                            icon: const Icon(Icons.send),
+                            icon: Icon(searchIcon),
                             onPressed: () async {
                               FocusScope.of(context).unfocus(); // キーボードを閉じる
                               search!();
@@ -65,6 +69,9 @@ class EditBarView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ),
+                onChanged: (value) => {
+                  if (onChanged != null) {onChanged!(value)}
+                },
               ),
             ),
           ),

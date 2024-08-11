@@ -4,18 +4,24 @@ import 'package:flutter/material.dart';
 // import 'package:printing/printing.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 // import './view/pages/page_home.dart';
+// import 'package:window_size/window_size.dart';
 
 import 'router/router.dart';
 import 'package:go_router/go_router.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+Future<void> main() async {
+
+  // ウィンドウの最小サイズを制限
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  await windowManager.setMinimumSize(const Size(1000, 600));
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
   @override
-  
   MyAppState createState() => MyAppState();
 }
 
@@ -49,7 +55,7 @@ class MyAppState extends State<MyApp> {
       //   // appBarTheme: const AppBarTheme(backgroundColor: AppColors.main, iconTheme: IconThemeData(color: AppColors.iconLight)),
       // ),
       routerConfig: _router!, // ルーティングの設定
-    );  
+    );
   }
 }
 

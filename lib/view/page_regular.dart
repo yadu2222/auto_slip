@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 // model
-import '../../models/load_regular_model.dart';
+import '../models/load_regular_model.dart';
 // view
-import '../components/templates/basic_template.dart';
-import '../components/molecles/edit_bar.dart' as regular_list;
-import '../components/organisms/regular_list.dart';
+import 'components/templates/basic_template.dart';
+import 'components/molecles/edit_bar.dart' as regular_list;
+import 'components/organisms/regular_list.dart';
 // constant
-import '../../constant/sample_data.dart';
+import '../constant/sample_data.dart';
 
 // class PageRegular extends HookWidget {
 //   PageRegular({super.key});

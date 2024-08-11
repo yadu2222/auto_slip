@@ -22,6 +22,8 @@ class ItemCard extends StatelessWidget {
     return Container(
       padding: padding,
       margin: margin,
+      height: height,
+      width: MediaQuery.of(context).size.width * width,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -34,8 +36,6 @@ class ItemCard extends StatelessWidget {
           ),
         ],
       ),
-      height: height,
-      width: MediaQuery.of(context).size.width * width,
       child: widget,
     );
   }

@@ -44,7 +44,7 @@ class MagazineReq {
   Future<List<Magazine>> searchMagazineCodeHandler(String magazineCode) async {
     try {
       final magazines = await MagazineService.searchMagazineCode(magazineCode); // 取得処理を待つ
-      return magazines != null ? [magazines] : [];
+      return magazines;
     } catch (error) {
       debugPrint(error.toString());
       debugPrint("取得に失敗しました"); // 取得失敗メッセージ

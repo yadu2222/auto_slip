@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 // 遷移先
 import '../view/pages/page_home.dart';
 import '../view/pages/page_add.dart';
-import '../view/pages/page_regular.dart';
+import '../view/page_regular.dart';
 // import '../view/pages/page_salary.dart';
 import '../view/page_test.dart';
 import '../view/pages/page_edit.dart';

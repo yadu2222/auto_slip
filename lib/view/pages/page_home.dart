@@ -51,41 +51,41 @@ class PageHome extends HookWidget {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('数をとろう'),
-        ),
         body: Center(
             child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Row(children: [
-            const MainMenu(),
-            Expanded(
-              child: Column(
-                children: [
-                  const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> CS外商用ダウンロード'),
-                  BasicButton(
-                    width: 400,
-                    text: 'ダウンロードしたファイルを選択してね',
-                    isColor: false,
-                    onPressed: counting,
-                  ),
-                  countList.value.isEmpty
-                      ? const SizedBox.shrink()
-                      : Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                          InkWell(
-                            onTap: show,
-                            child: Row(children: [
-                              const Icon(Icons.expand_more),
-                              Text(isCustomer.value ? '顧客情報を隠す' : '顧客情報を表示'),
-                            ]),
-                          ),
-                          const CountIcons(), // 各アイコンの説明
-                        ]),
-                  CountingList(loadData: countList.value, onTapCutomer: onTapCutomer, onTapCounting: onTapCounting, isCustomer: isCustomer.value)
-                ],
+      padding: const EdgeInsets.all(20),
+      child: Row(children: [
+        const MainMenu(),
+        Expanded(
+          child: Column(
+            children: [
+              AppBar(title: const Text('数をとろう')),
+              const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> CS外商用ダウンロード'),
+              BasicButton(
+                width: 400,
+                text: 'ダウンロードしたファイルを選択してね',
+                isColor: false,
+                onPressed: counting,
               ),
-            )
-          ]),
-        )));
+              // 数取リストの有無で表示を制御
+              countList.value.isEmpty
+                  ? const SizedBox.shrink()
+                  : Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      InkWell(
+                        onTap: show,
+                        child: Row(children: [
+                          const Icon(Icons.expand_more),
+                          Text(isCustomer.value ? '顧客情報を隠す' : '顧客情報を表示'),
+                        ]),
+                      ),
+                      const CountIcons(), // 各アイコンの説明
+                    ]),
+              // 数取リストの有無で表示を制御
+              countList.value.isEmpty ? const SizedBox.shrink() : CountingList(loadData: countList.value, onTapCutomer: onTapCutomer, onTapCounting: onTapCounting, isCustomer: isCustomer.value)
+            ],
+          ),
+        )
+      ]),
+    )));
   }
 }

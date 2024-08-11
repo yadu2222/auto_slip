@@ -50,7 +50,7 @@ class MagazineService {
   }
 
   // 雑誌コードで検索
-  static Future<Magazine?> searchMagazineCode(String magazineCode) async {
+  static Future<List<Magazine>> searchMagazineCode(String magazineCode) async {
     // リクエストを生成
     final reqData = Request(
       url: Urls.getMagazineByCode,
@@ -68,7 +68,7 @@ class MagazineService {
     }
     debugPrint(resData.toString());
     // 返す
-    return Magazine.resToMagazine(resData["srvResData"]);
+    return Magazine.resToMagazines(resData["srvResData"]);
   }
 
   // 雑誌名で検索

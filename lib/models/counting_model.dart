@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/models/magazine_model.dart';
 import 'package:flutter_auto_flip/models/regular_model.dart';
@@ -7,6 +6,18 @@ class CountingCustomer {
   final Customer customer;
   final Regular regular;
   const CountingCustomer({required this.customer, required this.regular});
+}
+
+class CountingRegular {
+  final Regular regular;
+  final Magazine magazine;
+  const CountingRegular({required this.regular, required this.magazine});
+}
+
+class RegisterRegular {
+  final Customer? customer;
+  List<CountingRegular> regulars;
+  RegisterRegular({required this.customer, required this.regulars});
 }
 
 class CountType {

@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../components/molecles/add_magazine_button.dart';
 
@@ -14,7 +18,6 @@ import '../../models/regular_model.dart';
 import '../../models/magazine_model.dart';
 import '../../models/customer_model.dart';
 
-
 // TODO: 定期追加ページ
 class PageAdd extends HookWidget {
   PageAdd({super.key});
@@ -24,14 +27,27 @@ class PageAdd extends HookWidget {
   // 入力された内容を保持するコントローラ
   final TextEditingController storeController = TextEditingController();
   final TextEditingController magazineController = TextEditingController();
-  final   TextEditingController magezineCodeController = TextEditingController();
+  final TextEditingController magezineCodeController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // 追加する雑誌リスト
-    // final magazineList = useState<List<Magazine>>([]);
-    final regularList = useState<List<Regular>>([]);
+    MagazineReq magazineReq = MagazineReq(context: context);
+
+    // 定期先の検索結果と選択された定期先
+    final customers = useState<List<Customer>>([]);
+    final customer = useState<Customer?>(null);
+    // 検索結果と選択された雑誌
+    final magazines = useState<List<Magazine>>([]);
+    final magazine = useState<Magazine?>(null);
+    // 追加中の雑誌リスト
+    final registerList = useState<List<CountingRegular>>([]);
+    final newMagazine = useState<bool>(false);
+
+    // newMagazineの変更
+    void changeNewMagazine() {
+      newMagazine.value = !newMagazine.value;
+    }
 
     // コントローラのクリア処理
     void controllerClear() {
@@ -45,25 +61,32 @@ class PageAdd extends HookWidget {
       // 空でないことを確認
       if (magazineController.text != "" && magezineCodeController.text != "" && quantityController.text != "") {
         // 入力していた情報をリストに追加
+        // Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
 
-        Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
-        Customer addCustomer = Customer(customerName: storeController.text);
-        // Regular addRegular = Regular(magazine:addMagazine, quantity: int.parse( quantityController.text),customer: addCustomer);
-        // regularList.value = List.from(regularList.value)..add(addRegular);
+        Regular addRegular = Regular(quantity: int.parse(quantityController.text));
+        registerList.value = [...registerList.value, (CountingRegular(regular: addRegular, magazine: magazine.value!))];
         controllerClear();
       }
     }
 
     // 配列削除処理
     void removeMagazine(int index) {
-      regularList.value = List.from(regularList.value)..removeAt(index); // 削除
+      registerList.value = List.from(registerList.value)..removeAt(index); // 削除
+    }
+
+    // 雑誌コード検索処理
+    // onchangeに反応して検索処理を行う
+    Future<void> searchMagazineCode(String code) async {
+      await magazineReq.searchMagazineCodeHandler(code).then((value) {
+        magazines.value = value;
+      });
     }
 
     // 定期情報追加処理
     void addRegular() async {
       // 条件確認
       bool isStore = storeController.text != "";
-      bool isMagazine = regularList.value.isNotEmpty;
+      bool isMagazine = registerList.value.isNotEmpty;
       String errorText = isStore && isMagazine
           ? ""
           : isStore
@@ -90,22 +113,28 @@ class PageAdd extends HookWidget {
         child: Column(children: [
           // 定期情報の入力
           RegularForm(
-            storeController: storeController,
-            magazineNameController: magazineController,
-            magezineCodeController: magezineCodeController,
-            quantityController: quantityController,
-          ),
+              storeController: storeController,
+              magazineNameController: magazineController,
+              magezineCodeController: magezineCodeController,
+              quantityController: quantityController,
+              newMagazine: newMagazine.value,
+              customerData: customers.value,
+              magazineData: magazines.value,
+              serachMagazine: searchMagazineCode,
+              changeNewMagazine: changeNewMagazine),
+          const SizedBox(height: 10),
           // 追加ボタン
           AddMagazineButton(add: addMagazine),
           // 入力した定期の表示
-          Expanded(
-              child: AddRegularList(
-            regularList: regularList.value,
-            remove: removeMagazine,
-            // remove: addRegular,
-          )),
+          registerList.value.isEmpty
+              ? const SizedBox.shrink()
+              : AddRegularList(
+                  regularList: registerList.value,
+                  remove: removeMagazine,
+                  // remove: addRegular,
+                ),
           // 確定ボタン
-          BasicButton(text: "確定", isColor: false, onPressed: addRegular)
+          registerList.value.isEmpty ? const SizedBox.shrink() : BasicButton(text: "確定", isColor: false, onPressed: addRegular)
         ]));
   }
 }

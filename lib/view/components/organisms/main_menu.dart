@@ -22,10 +22,6 @@ class MainMenu extends StatelessWidget {
           movePass: '/magazine',
         ),
         MenuTile(
-          title: "数取り",
-          movePass: '/count',
-        ),
-        MenuTile(
           title: "てすと",
           movePass: '/test',
         ),

@@ -19,15 +19,13 @@ class CustomerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
-
     return ItemCard(
         width: 0.15,
         widget: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(regularData.customer.customerName),
-            Text(regularData.customer.address ?? ''),
+            // Text(regularData.customer.address ?? ''),
             Text(regularData.regular.quantity.toString()),
           ],
         ));

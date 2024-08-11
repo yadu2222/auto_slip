@@ -7,7 +7,6 @@ class AddMagazineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return ElevatedButton(
         onPressed: add,
         style: ElevatedButton.styleFrom(
@@ -17,6 +16,10 @@ class AddMagazineButton extends StatelessWidget {
           // backgroundColor: AppColors.iconLight,
           // Splash color
         ),
-        child: const Icon(Icons.add, weight: 20, size: 55,));
+        child: const Icon(
+          Icons.add,
+          weight: 20,
+          size: 40,
+        ));
   }
 }
