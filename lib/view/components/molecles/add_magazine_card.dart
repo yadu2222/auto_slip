@@ -30,9 +30,10 @@ class AddMagazineCard extends StatelessWidget {
               )),
           // 情報の表示
 
-          Container(alignment: Alignment.center, child: Text(regular.magazine.magazineCode)),
-          const SizedBox(width: 10), // 余白
-          Container(alignment: Alignment.center, child: Text(regular.magazine.magazineName)),
+          // TODO
+          // Container(alignment: Alignment.center, child: Text(regular.magazine.magazineCode)),
+          // const SizedBox(width: 10), // 余白
+          // Container(alignment: Alignment.center, child: Text(regular.magazine.magazineName)),
           const SizedBox(width: 10), // 余白
           Container(alignment: Alignment.center, child: Text(regular.quantity.toString()))
         ],

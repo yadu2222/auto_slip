@@ -7,6 +7,7 @@ class AppColors {
   static const Color gakiiro = Color(0xFFFFF8F1);
 
   // アイコンカラー
+  static const Color iconGlay = Color.fromARGB(255, 178, 178, 178);
   static const Color iconLight = Color(0xFFFFFFFF);
   static const Color iconDark = Color(0xFF353535);
 

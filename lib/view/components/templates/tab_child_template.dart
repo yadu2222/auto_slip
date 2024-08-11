@@ -18,6 +18,7 @@ class TabChildTemplate extends StatelessWidget {
     return Center(
       child: Column(
         children: [
+          const SizedBox(height: 30),
           edit.EditBarView(
             // 名前の入力
             controller: nameController,

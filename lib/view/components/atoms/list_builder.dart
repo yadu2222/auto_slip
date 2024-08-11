@@ -9,6 +9,7 @@ class ListBuilder<Model> extends StatelessWidget {
     required this.listItem,
     this.onTap,
     this.onRefresh,
+    this.horizontal = false,
   });
 
   final double? height; // 高さ
@@ -16,6 +17,7 @@ class ListBuilder<Model> extends StatelessWidget {
   final Widget Function(Model item) listItem; // カード ウィジェット関数
   final void Function(int index)? onTap; // タップ時の処理 indexに合わせて処理を行いたければここに記述 そうでなければlistItem時点で記述しても良い
   final void Function()? onRefresh; // スクロールで再取得
+  final bool horizontal; // 横スクロール
 
   // スクロールで再取得
 
@@ -23,7 +25,7 @@ class ListBuilder<Model> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: RefreshIndicator(
-         onRefresh: () async {
+            onRefresh: () async {
               if (onRefresh != null) {
                 onRefresh!();
               }
@@ -39,6 +41,7 @@ class ListBuilder<Model> extends StatelessWidget {
                         removeTop: true,
                         removeBottom: true,
                         child: ListView.builder(
+                          scrollDirection: horizontal ? Axis.horizontal : Axis.vertical,
                           itemCount: itemDatas.length,
                           itemBuilder: (BuildContext context, int index) {
                             return listItem(itemDatas[index]);

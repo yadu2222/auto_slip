@@ -1,102 +1,64 @@
 import 'package:flutter/material.dart';
-import 'dart:io'; // ファイル入出力用ライブラリ
-import 'dart:async'; // 非同期処理用ライブラリ
-
-import 'package:path_provider/path_provider.dart'; //アプリがファイルを保存可能な場所を取得するライブラリ
-
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
+// view
+import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:flutter_auto_flip/view/components/organisms/main_menu.dart';
+import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
-class PageHome extends StatefulWidget {
-  @override
-  _PageHomeState createState() => _PageHomeState();
-}
+import 'dart:io';
 
-class _PageHomeState extends State<PageHome> {
-  // 入力された内容を保持するコントローラ
-  final outputController = TextEditingController();
-
-  // 表示用の変数
-  String inputText = "0回出力しました";
-  int inputNum = 0;
-
-  // 出力するを押されたときの動作
-  void output(String str) async {
-    setState(() {
-      ++inputNum;
-      inputText = '$inputNum回出力しました';
-    });
-
-    // thenの記述で非同期処理であるgetFilePath()の処理を待っている
-    getFilePath().then((File file) {
-      file.writeAsString(str);
-    });
-  }
-
-  void loadFile() {
-    setState(() {
-      load().then((String value) {
-        setState(() {
-          inputText = value;
-        });
-      });
-    });
-  }
+class PageHome extends HookWidget {
+  const PageHome({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final RegularReq regularReq = RegularReq(context: context);
+
+    Future<File?> loadFile() async {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        return File(result.files.single.path!);
+      } else {
+        return null;
+      }
+    }
+
+    // TODO:バリデーション
+    // csvのみ受付？
+    Future<void> counting() async {
+      // ファイルを読み込み
+      File? file = await loadFile();
+      if (file == null) {
+        // TODO: ファイルが選択されなかった場合の処理
+        return;
+      }
+      regularReq.getRegularHandler(file);
+    }
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text('伝票をつくろう！！！！！'),
-         
+          title: const Text('数をとろう'),
         ),
         body: Center(
           child: Row(children: [
             const MainMenu(),
-            Column(
+            Expanded(
+                child: Column(
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    width: 300,
-                    height: 100,
-                    child: TextField(
-                      enabled: true,
-                      maxLength: 10,
-                      maxLines: 1,
-                      controller: outputController,
-                      decoration: const InputDecoration(
-                        labelText: '出力する文字を入力してください',
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 100,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    output(outputController.text);
-                  },
-                  child: const Text("ファイルを出力する"),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    loadFile();
-                  },
-                  child: const Text("ファイルを読み込む"),
-                ),
-                Text(inputText)
+                const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> CS外商用ダウンロード'),
+                BasicButton(
+                  width: 400,
+                  text: 'ダウンロードしたファイルを選択してね',
+                  isColor: false,
+                  onPressed: counting,
+                )
               ],
-            ),
+            )),
           ]),
         ));
   }
-}
-
-Future<File> getFilePath() async {
-  final directory = await getTemporaryDirectory();
-  return File('${directory.path}/data.txt');
-}
-
-// テキストファイルの読み込み
-Future<String> load() async {
-  final file = await getFilePath();
-  return file.readAsString();
 }

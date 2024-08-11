@@ -1,11 +1,60 @@
 // import '../models/regular_model.dart';
 // import '../models/magazine_model.dart';
 
-
 // 雑誌と定期情報のリストを保持するクラス
 // 型がごみすぎるだろいいかげんにしろ
-class LoadRegular {
-  List<Map<String, dynamic>> loadRegularList;
+import 'package:flutter_auto_flip/models/customer_model.dart';
+import 'package:flutter_auto_flip/models/magazine_model.dart';
+import 'package:flutter_auto_flip/models/regular_model.dart';
 
-  LoadRegular({required this.loadRegularList});
+// どっちにせよ型が不安全
+class LoadRegular {
+  // どちらかを主キーとする
+  Customer? customer;
+  Magazine? magazine;
+
+  // 定期情報のリスト
+  List<Map<String, dynamic>> regulars;
+
+  LoadRegular({
+    this.customer,
+    this.magazine,
+    required this.regulars,
+  });
+
+
+  // 雑誌を主キーとして変換
+  static List<LoadRegular> resToMagazineLoadRegular(List res) {
+    List<LoadRegular> result = [];
+    for (var data in res) {
+      // もらったデータをmapに変換
+      Map<String, dynamic> load = data as Map<String, dynamic>;
+      // mapのリストをループし、格納
+      List<Map<String, dynamic>> regulars = [];
+      if(load['regulars'] == null) {
+        continue;
+      }
+      for (var regular in load['regulars']) {
+        regulars.add({
+          'regular': Regular(
+            regularUUID: regular['regularUUID'] ?? '',
+            quantity: regular['quantity'] ?? 0,
+          ),
+          'customer': Customer(
+            customerUUID: regular['customer']['customerUUID'] ?? '',
+            customerName: regular['customer']['customerName'] ?? '',
+            // regularType: regular['customer']['methodType'],
+            
+          ),
+        });
+      }
+      result.add(LoadRegular(
+          magazine: Magazine(
+            magazineCode: load['magazine']['magazineCode'],
+            magazineName: load['magazine']['magazineName'],
+          ),
+          regulars: regulars));
+    }
+    return result;
+  }
 }

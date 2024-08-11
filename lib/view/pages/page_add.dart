@@ -14,6 +14,8 @@ import '../../models/regular_model.dart';
 import '../../models/magazine_model.dart';
 import '../../models/customer_model.dart';
 
+
+// TODO: 定期追加ページ
 class PageAdd extends HookWidget {
   PageAdd({super.key});
 
@@ -22,7 +24,7 @@ class PageAdd extends HookWidget {
   // 入力された内容を保持するコントローラ
   final TextEditingController storeController = TextEditingController();
   final TextEditingController magazineController = TextEditingController();
-  final TextEditingController magezineCodeController = TextEditingController();
+  final   TextEditingController magezineCodeController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
   @override
@@ -46,8 +48,8 @@ class PageAdd extends HookWidget {
 
         Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
         Customer addCustomer = Customer(customerName: storeController.text);
-        Regular addRegular = Regular(magazine:addMagazine, quantity: int.parse( quantityController.text),customer: addCustomer);
-        regularList.value = List.from(regularList.value)..add(addRegular);
+        // Regular addRegular = Regular(magazine:addMagazine, quantity: int.parse( quantityController.text),customer: addCustomer);
+        // regularList.value = List.from(regularList.value)..add(addRegular);
         controllerClear();
       }
     }

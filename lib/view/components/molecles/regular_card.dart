@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/models/customer_model.dart';
 import '../../../models/regular_model.dart';
 import '../atoms/item_card.dart';
 
-class RegularCard extends StatelessWidget {
-  const RegularCard({super.key, required this.regular,this.isQuantity = true});
+class CustomerCard extends StatelessWidget {
+  const CustomerCard({super.key, required this.customer, this.isQuantity = true});
 
-  final Regular regular; // 表示する定期情報
+  final Customer customer; // 表示する定期情報
   final bool isQuantity;
 
   @override
@@ -14,10 +15,8 @@ class RegularCard extends StatelessWidget {
         widget: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(regular.customer.customerName),
-        Text(regular.customer.regularTypeString),
-       // TODO:電話番号？
-        isQuantity ? Text(regular.quantity.toString()) : const SizedBox.shrink(),
+        Text(customer.customerName),
+        
       ],
     ));
   }

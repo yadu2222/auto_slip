@@ -11,18 +11,20 @@ class MagazineList extends StatelessWidget {
     super.key,
     required this.magazines,
     required this.onRefresh,
+    required this.onTap,
     
   });
 
   final List<Magazine> magazines; // 表示する定期のリスト
   final void Function() onRefresh; // スクロールで再取得
+  final void Function(Magazine) onTap; // タップ時の処理
 
   @override
   Widget build(BuildContext context) {
     return ListBuilder<Magazine>(
       onRefresh: onRefresh,
       itemDatas: magazines,
-      listItem: (item) => MagazineCard(magazine: item),
+      listItem: (item) => MagazineCard(magazine: item, onTap: onTap),
     );
   }
 }

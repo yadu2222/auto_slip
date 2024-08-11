@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
-import 'package:flutter_auto_flip/models/magazine_model.dart';
-import 'package:flutter_auto_flip/view/components/organisms/magazine_list.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 // model
-import '../../models/load_regular_model.dart';
+import 'package:flutter_auto_flip/models/magazine_model.dart';
+// api
+import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
 // view
 import '../components/templates/basic_template.dart';
-import '../components/molecles/edit_bar.dart' as regular_list;
-import '../components/organisms/regular_list.dart';
-// constant
-import '../../constant/sample_data.dart';
+import '../components/molecles/edit_bar.dart' as edit;
+import 'package:flutter_auto_flip/view/components/organisms/magazine_list.dart';
 
 class PageMagazine extends HookWidget {
   PageMagazine({super.key});
@@ -32,13 +29,6 @@ class PageMagazine extends HookWidget {
     MagazineReq magazineReq = MagazineReq(context: context);
     final magazines = useState<List<Magazine>>([]);
 
-    Future<void> serchMagazineName() async {
-      // TODO：検索処理
-      magazineReq.searchMagazineNameHandler(_magazineNameController.text).then((value) {
-        magazines.value = value;
-      });
-    }
-
     // 一覧取得
     Future<void> getMagazine() async {
       await magazineReq.getMagazineHandler().then((value) {
@@ -46,6 +36,18 @@ class PageMagazine extends HookWidget {
       });
     }
 
+    // 雑誌名検索
+    Future<void> serchMagazineName() async {
+      if (_magazineNameController.text == "") {
+        await getMagazine();
+        return;
+      }
+      magazineReq.searchMagazineNameHandler(_magazineNameController.text).then((value) {
+        magazines.value = value;
+      });
+    }
+
+    // 雑誌コード検索
     Future<void> serchMagazineCode() async {
       if (_magazineController.text == "") {
         await getMagazine();
@@ -54,6 +56,10 @@ class PageMagazine extends HookWidget {
       magazineReq.searchMagazineCodeHandler(_magazineController.text).then((value) {
         magazines.value = value;
       });
+    }
+
+    void onTap(Magazine magazine) {
+      context.push('/edit', extra: {'startIndex': 1, 'serachWord': magazine.magazineCode});
     }
 
     useEffect(() {
@@ -73,7 +79,7 @@ class PageMagazine extends HookWidget {
         child: Column(children: [
           // 検索バー
           // 雑誌コード
-          regular_list.EditBarView(
+          edit.EditBarView(
             icon: Icons.local_offer,
             hintText: magazineCodeSearch,
             controller: _magazineController,
@@ -82,17 +88,13 @@ class PageMagazine extends HookWidget {
             inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
           ),
           // 雑誌名
-          regular_list.EditBarView(
+          edit.EditBarView(
             icon: Icons.import_contacts,
             hintText: magazineNameSearch,
             controller: _magazineNameController,
             search: serchMagazineName,
           ),
-          // searchType.value == 0 ? Expanded(child: RegularList(regularList: regularList.value)) : Expanded(child: MagazineRegularList(regularList: regularList.value))
-          MagazineList(
-            magazines: magazines.value,
-            onRefresh: getMagazine,
-          )
+          MagazineList(magazines: magazines.value, onRefresh: getMagazine, onTap: onTap)
         ]));
   }
 }

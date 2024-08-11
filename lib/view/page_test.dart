@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-import '../../apis/controller/test_controller.dart';
-import '../../apis/controller/magazine_controller.dart';
+// import '../../apis/controller/test_controller.dart';
+// import '../../apis/controller/magazine_controller.dart';
 
 class Test extends StatefulWidget {
   @override

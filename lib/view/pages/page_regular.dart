@@ -10,65 +10,65 @@ import '../components/organisms/regular_list.dart';
 // constant
 import '../../constant/sample_data.dart';
 
-class PageRegular extends HookWidget {
-  PageRegular({super.key});
+// class PageRegular extends HookWidget {
+//   PageRegular({super.key});
 
-  // コントローラー
-  final _storeNameController = TextEditingController();
-  final _magazineController = TextEditingController();
-  final _magazineNameController = TextEditingController();
+//   // コントローラー
+//   final _storeNameController = TextEditingController();
+//   final _magazineController = TextEditingController();
+//   final _magazineNameController = TextEditingController();
 
-  // どちらで検索しているかを判別する変数
+//   // どちらで検索しているかを判別する変数
 
-  final String title = '定期一覧';
-  final String storeNameSearch = '店舗名で検索';
-  final String magazineCodeSearch = '雑誌コードで検索';
-  final String magazineNameSearch = '誌名で検索';
+//   final String title = '定期一覧';
+//   final String storeNameSearch = '店舗名で検索';
+//   final String magazineCodeSearch = '雑誌コードで検索';
+//   final String magazineNameSearch = '誌名で検索';
 
-  @override
-  Widget build(BuildContext context) {
-    final regularList = useState<LoadRegular>(SampleData.loadRegular2);
-    // final searchType = useState<int>(0); // 0で店舗名検索、1で雑誌コード検索、2で雑誌名検索
+//   @override
+//   Widget build(BuildContext context) {
+//     final regularList = useState<LoadRegular>(SampleData.loadRegular2);
+//     // final searchType = useState<int>(0); // 0で店舗名検索、1で雑誌コード検索、2で雑誌名検索
 
-    Future<void> serchButtonFunction() async {
-      // TODO：検索処理
-      // タイプ切り替え
-    }
+//     Future<void> serchButtonFunction() async {
+//       // TODO：検索処理
+//       // タイプ切り替え
+//     }
 
-    return BasicTemplate(
-        title: title,
-        floatingActionButton: IconButton(
-          onPressed: () {
-            // 編集画面に遷移
-            context.go('/home/add');
-          },
-          icon: const Icon(Icons.add, size: 30),
-        ),
-        child: Column(children: [
-          // 検索バー
-          regular_list.EditBarView(
-            icon: Icons.storefront,
-            hintText: storeNameSearch,
-            controller: _storeNameController,
-            search: serchButtonFunction,
-          ),
-          regular_list.EditBarView(
-            icon: Icons.local_offer,
-            hintText: magazineCodeSearch,
-            controller: _magazineController,
-            search: serchButtonFunction,
-          ),
-          regular_list.EditBarView(
-            icon: Icons.import_contacts,
-            hintText: magazineNameSearch,
-            controller: _magazineNameController,
-            search: serchButtonFunction,
-          ),
-          // searchType.value == 0 ? Expanded(child: RegularList(regularList: regularList.value)) : Expanded(child: MagazineRegularList(regularList: regularList.value))
-          Expanded(child: RegularList.headerCustomer(regularList: regularList.value))
-        ]));
-  }
-}
+//     return BasicTemplate(
+//         title: title,
+//         floatingActionButton: IconButton(
+//           onPressed: () {
+//             // 編集画面に遷移
+//             context.go('/home/add');
+//           },
+//           icon: const Icon(Icons.add, size: 30),
+//         ),
+//         child: Column(children: [
+//           // 検索バー
+//           regular_list.EditBarView(
+//             icon: Icons.storefront,
+//             hintText: storeNameSearch,
+//             controller: _storeNameController,
+//             search: serchButtonFunction,
+//           ),
+//           regular_list.EditBarView(
+//             icon: Icons.local_offer,
+//             hintText: magazineCodeSearch,
+//             controller: _magazineController,
+//             search: serchButtonFunction,
+//           ),
+//           regular_list.EditBarView(
+//             icon: Icons.import_contacts,
+//             hintText: magazineNameSearch,
+//             controller: _magazineNameController,
+//             search: serchButtonFunction,
+//           ),
+//           // searchType.value == 0 ? Expanded(child: RegularList(regularList: regularList.value)) : Expanded(child: MagazineRegularList(regularList: regularList.value))
+//           Expanded(child: RegularList.headerCustomer(regularList: regularList.value))
+//         ]));
+//   }
+// }
 
 // 店舗名優先表示カード
     // Widget storeListCard(int index) {

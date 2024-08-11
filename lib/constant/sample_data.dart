@@ -1,7 +1,7 @@
-import '../models/load_regular_model.dart';
 import '../models/magazine_model.dart';
 import '../models/regular_model.dart';
 import '../models/customer_model.dart';
+import '../models/load_regular_model.dart';
 
 class SampleData {
   static Magazine magazine1 = Magazine(
@@ -20,48 +20,62 @@ class SampleData {
     customerUUID: "uuid1",
     customerName: "customer1",
     regularType: 1,
-    regularTypeString: "type1",
   );
 
-  static Regular regular1 = Regular(
-    magazine: magazine1,
-    quantity: 1,
-    customer: customer1,
-    regularUUID: "uuid1",
-  );
-
-  static Regular regular2 = Regular(
-    magazine: magazine2,
-    quantity: 2,
-    customer: customer1,
-    regularUUID: "uuid2",
-  );
+  static List<LoadRegular> loadRegulars = [
+    LoadRegular(
+      magazine: magazine1,
+      regulars: [
+        {
+          "regular": Regular(
+            regularUUID: 'fajdsalkfjsd',
+            quantity: 1,
+          ),
+          "customer": customer1,
+        },
+        {
+          "regular": Regular(
+            regularUUID: 'fajdsalkfjsd',
+            quantity: 1,
+          ),
+          "customer": customer1,
+        },
+        {
+          "regular": Regular(
+            regularUUID: 'fajdsalkfjsd',
+            quantity: 1,
+          ),
+          "customer": customer1,
+        },
+      ],
+    ),
+    LoadRegular(
+      magazine: magazine1,
+      regulars: [
+        {
+          "regular": Regular(
+            regularUUID: 'fajdsalkfjsd',
+            quantity: 1,
+          ),
+          "customer": customer1,
+        },
+        {
+          "regular": Regular(
+            regularUUID: 'fajdsalkfjsd',
+            quantity: 1,
+          ),
+          "customer": customer1,
+        },
+        {
+          "regular": Regular(
+            regularUUID: 'fajdsalkfjsd',
+            quantity: 1,
+          ),
+          "customer": customer1,
+        },
+      ],
+    ),
+  ];
 
   // LoadRegular インスタンスの作成
-
-  static final LoadRegular loadRegular = LoadRegular(
-    loadRegularList: [
-      {
-        'magazine': magazine1,
-        'regulars': [regular1],
-      },
-      {
-        'magazine': magazine2,
-        'regulars': [regular1, regular2],
-      },
-    ],
-  );
-
-   static final LoadRegular loadRegular2 = LoadRegular(
-    loadRegularList: [
-      {
-        'magazines': [magazine1],
-        'regular': regular1,
-      },
-       {
-        'magazines': [magazine1],
-        'regular': regular1,
-      },
-    ],
-  );
 }

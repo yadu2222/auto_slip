@@ -7,15 +7,12 @@ import '../view/pages/page_home.dart';
 import '../view/pages/page_add.dart';
 import '../view/pages/page_regular.dart';
 // import '../view/pages/page_salary.dart';
-import '../view/pages/page_magazines_count.dart';
-import '../view/pages/page_test.dart';
+import '../view/page_test.dart';
 import '../view/pages/page_edit.dart';
-
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 // ルーターの作成
 Future<GoRouter> createRouter() async {
-
   return GoRouter(
     debugLogDiagnostics: true,
     initialLocation: '/',
@@ -32,34 +29,44 @@ Future<GoRouter> createRouter() async {
               child: PageAdd(),
             ),
           ),
-          // かずとり
-          GoRoute(
-            path: 'count',
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: const PageMagazineCount(),
-            ),
-          ),
+          // // かずとり
+          // GoRoute(
+          //   path: 'count',
+          //   pageBuilder: (context, state) => NoTransitionPage(
+          //     key: state.pageKey,
+          //     child: const PageMagazineCount(),
+          //   ),
+          // ),
 
-          // ていきいちらん
+          // // ていきいちらん
+          // GoRoute(
+          //   path: 'show',
+          //   pageBuilder: (context, state) => NoTransitionPage(
+          //     key: state.pageKey,
+          //     child: PageRegular(),
+          //   ),
+          // ),
+          // 編集
           GoRoute(
-            path: 'show',
-            routes: [
-              // 編集
-               GoRoute(
-                path: 'edit',
-                pageBuilder: (context, state) => NoTransitionPage(
-                  key: state.pageKey,
-                  child: PageEdit(),
-                ),
-              ),
-              ],
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: PageRegular(),
-            ),
-          ),
-          // ていきいちらん
+              path: 'edit',
+              pageBuilder: (context, state) {
+                if (state.extra == null) {
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    child: PageEdit(startIndex: 0, serachWord: ''),
+                  );
+                } else {
+                  final Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    child: PageEdit(
+                      startIndex: extraData['startIndex'] as int,
+                      serachWord: extraData['serachWord'] as String,
+                    ),
+                  );
+                }
+              }),
+          // 雑誌
           GoRoute(
             path: 'magazine',
             pageBuilder: (context, state) => NoTransitionPage(

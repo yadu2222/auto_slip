@@ -14,8 +14,8 @@ class MainMenu extends StatelessWidget {
           movePass: '/add',
         ),
         MenuTile(
-          title: "定期",
-          movePass: '/show',
+          title: "編集",
+          movePass: '/edit',
         ),
         MenuTile(
           title: "雑誌",

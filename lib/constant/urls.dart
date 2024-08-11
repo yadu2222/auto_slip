@@ -1,7 +1,7 @@
 class Urls {
   // base URL
   static const String protocol = 'http://';
-  static const String host = '192.168.50.168';
+  static const String host = 'localhost';
   static const String port = '8080';
   static const String baseUrl = '$protocol$host:$port';
   static const String version = '/v1'; // version
@@ -23,4 +23,8 @@ class Urls {
   static const String getMagazines = '$version/magazines/magazines'; // GET雑誌情報取得
   static const String getMagazineByCode = '$version/magazines/magazine'; // GET雑誌情報取得
   static const String getMagazineByName = '$version/magazines/magazines'; // POST雑誌登録
+
+  // regular
+  static const String getMagazineRegular = '$version/regulars/regulars/magazines'; // GET定期購読雑誌情報取得  
+  static const String countingRegular = '$version/csv/counting'; // GET定期購読数取得  
 }

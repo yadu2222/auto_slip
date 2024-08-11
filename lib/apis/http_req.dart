@@ -47,7 +47,7 @@ class HttpReq {
         // ファイルを追加
         if (reqData.files != null) {
           for (File file in reqData.files!) {
-            String mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
+            String mimeType = lookupMimeType(file.path) ?? 'text/csv';
             request.files.add(
               await http.MultipartFile.fromPath(
                 'file',

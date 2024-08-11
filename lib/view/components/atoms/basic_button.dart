@@ -2,31 +2,30 @@ import 'package:flutter/material.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/fonts.dart';
 
-// TODO:活性と不活性をさ〜〜〜管理したいよな〜〜〜
+
 class BasicButton extends StatelessWidget {
   const BasicButton({
     super.key,
     required this.text,
     this.icon,
-    this.width = 0.475,
     required this.isColor, // trueでみどり falseで赤
     this.onPressed,
     this.height = 35.0,
     this.circular = 10,
+    this.width = 150,
   });
 
   final String text;
   final IconData? icon;
   final bool isColor;
-  final double width;
   final double height;
+  final double width;
   final double circular;
   final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
-        width: screenWidth * width,
+        width: width,
         height: height,
         margin: const EdgeInsets.only(top: 5, bottom: 15),
         child: ElevatedButton(
