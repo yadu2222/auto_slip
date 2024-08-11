@@ -17,7 +17,9 @@ class RegularForm extends StatelessWidget {
       required this.customerData,
       required this.magazineData,
       required this.changeNewMagazine,
-      required this.serachMagazine});
+      required this.serachMagazineCode,
+      required this.serachMagazineName,
+      required this.selectMagazine});
 
   final TextEditingController storeController;
   final TextEditingController magazineNameController;
@@ -25,7 +27,9 @@ class RegularForm extends StatelessWidget {
   final TextEditingController quantityController;
   final bool newMagazine;
   final void Function() changeNewMagazine;
-  final void Function(String) serachMagazine;
+  final void Function(String) serachMagazineCode;
+    final void Function(String) serachMagazineName;
+  final void Function(Magazine) selectMagazine;
 
   final List<Customer> customerData;
   final List<Magazine> magazineData;
@@ -62,7 +66,15 @@ class RegularForm extends StatelessWidget {
             hintText: '雑誌コード',
             inputType: TextInputType.number,
             inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
-            onChanged: serachMagazine,
+            onChanged: serachMagazineCode,
+          ),
+          EditBarView(
+            search: changeNewMagazine,
+            searchIcon: Icons.close,
+            icon: Icons.menu_book_rounded,
+            controller: magazineNameController,
+            hintText: '雑誌名',
+            onChanged: serachMagazineName,
           ),
           magazineData.isEmpty
               ? const SizedBox.shrink()
@@ -71,29 +83,12 @@ class RegularForm extends StatelessWidget {
                   width: 400,
                   child: ListBuilder<Magazine>(
                       itemDatas: magazineData,
-                      listItem: (item) => InkWell(onTap: () {}, child: Container(padding: const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 12), child: Text(item.magazineName))))),
+                      listItem: (item) => InkWell(
+                          onTap: () {
+                            selectMagazine(item);
+                          },
+                          child: Container(padding: const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 12), child: Text(item.magazineName))))),
 
-          newMagazine
-              ? EditBarView(
-                  search: changeNewMagazine,
-                  searchIcon: Icons.close,
-                  icon: Icons.menu_book_rounded,
-                  controller: magazineNameController,
-                  hintText: '雑誌名',
-                )
-              : InkWell(
-                  onTap: () {
-                    changeNewMagazine();
-                  },
-                  child: const Row(mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.min, children: [
-                    Icon(
-                      Icons.help_outline_rounded,
-                      size: 20,
-                    ),
-                    SizedBox(width: 5),
-                    Text('なにもでてこない？未登録の雑誌ですか？'),
-                  ]),
-                ),
           const SizedBox(height: 20),
           EditBarView(
             icon: Icons.book_rounded,

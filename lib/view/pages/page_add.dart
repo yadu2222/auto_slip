@@ -64,8 +64,14 @@ class PageAdd extends HookWidget {
         // Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
 
         Regular addRegular = Regular(quantity: int.parse(quantityController.text));
-        registerList.value = [...registerList.value, (CountingRegular(regular: addRegular, magazine: magazine.value!))];
+        registerList.value = [...registerList.value, (CountingRegular(regular: addRegular, magazine: Magazine(magazineName: magazineController.text, magazineCode: magezineCodeController.text)))];
         controllerClear();
+      } else {
+        DialogUtil.show(
+          title: "エラー",
+          message: Messages.inputError,
+          context: context,
+        );
       }
     }
 
@@ -80,6 +86,22 @@ class PageAdd extends HookWidget {
       await magazineReq.searchMagazineCodeHandler(code).then((value) {
         magazines.value = value;
       });
+    }
+
+    // 雑誌名検索処理
+    // onchangeに反応して検索処理を行う
+    Future<void> searchMagazineName(String name) async {
+      await magazineReq.searchMagazineNameHandler(name).then((value) {
+        magazines.value = value;
+      });
+    }
+
+    // 選択処理
+    void selectMagazine(Magazine selectMagazine) {
+      magazine.value = selectMagazine;
+      magazineController.text = selectMagazine.magazineName;
+      magezineCodeController.text = selectMagazine.magazineCode;
+      magazines.value = [];
     }
 
     // 定期情報追加処理
@@ -113,15 +135,18 @@ class PageAdd extends HookWidget {
         child: Column(children: [
           // 定期情報の入力
           RegularForm(
-              storeController: storeController,
-              magazineNameController: magazineController,
-              magezineCodeController: magezineCodeController,
-              quantityController: quantityController,
-              newMagazine: newMagazine.value,
-              customerData: customers.value,
-              magazineData: magazines.value,
-              serachMagazine: searchMagazineCode,
-              changeNewMagazine: changeNewMagazine),
+            storeController: storeController,
+            magazineNameController: magazineController,
+            magezineCodeController: magezineCodeController,
+            quantityController: quantityController,
+            newMagazine: newMagazine.value,
+            customerData: customers.value,
+            magazineData: magazines.value,
+            serachMagazineCode: searchMagazineCode,
+            changeNewMagazine: changeNewMagazine,
+            selectMagazine: selectMagazine,
+            serachMagazineName: searchMagazineName,
+          ),
           const SizedBox(height: 10),
           // 追加ボタン
           AddMagazineButton(add: addMagazine),

@@ -8,8 +8,7 @@ class Messages {
   static const String inputNumRegularMagazineError = "定期雑誌を最低一つ以上入力してください";
   static const String inputStoreNameError = "店舗名を入力してください";
   static const String inputNumRegularMagazineAndStoreNameError = "店舗名と定期雑誌を入力してください";
-
-
+  static const String inputError = "入力が不足しています";
 
   // 取得成功
   static const String getCustomerSuccess = "お客様情報の取得が完了しました";

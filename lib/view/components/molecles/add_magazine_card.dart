@@ -34,7 +34,7 @@ class AddMagazineCard extends StatelessWidget {
               const SizedBox(width: 10), // 余白
               Text(regular.magazine.magazineName),
               const SizedBox(width: 10), // 余白
-              Text(regular.regular.quantity.toString())
+              Text('${regular.regular.quantity.toString()}冊'),
             ],
           ),
         ));
