@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/item_card.dart';
 
 class AddMagazineCard extends StatelessWidget {
   const AddMagazineCard({super.key, required this.index, required this.remove, required this.regular});
@@ -12,8 +13,8 @@ class AddMagazineCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: 200,
-        child: Card(
-          child: Row(
+        child: ItemCard(
+          widget: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               // 削除ボタン

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:path_provider/path_provider.dart'; // アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
+import 'package:flutter_auto_flip/view/components/templates/basic_template.dart';
 
 import 'dart:convert';
 import 'dart:io';
@@ -45,7 +46,6 @@ class _Test extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
-    
     Widget loadBottun(String text, int type) {
       return ElevatedButton(
         // 入荷データのファイル読み込み
@@ -59,7 +59,7 @@ class _Test extends State<Test> {
           } else {
             // ファイルが選択されなかった場合の処理
           }
-          
+
           // TestReq(context: context).connectTestHandler();
         },
 
@@ -67,14 +67,6 @@ class _Test extends State<Test> {
       );
     }
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('データを読み込むテストをしよう'),
-        ),
-        body: Center(
-          child: Container(
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [loadBottun("連絡先を読み込む", 0), loadBottun("雑誌情報を読み込む", 1), loadBottun("定期情報を読み込む", 2)]),
-          ),
-        ));
+    return BasicTemplate(title: 'データを読み込むテストをしよう', children: [loadBottun("連絡先を読み込む", 0), loadBottun("雑誌情報を読み込む", 1), loadBottun("定期情報を読み込む", 2)]);
   }
 }

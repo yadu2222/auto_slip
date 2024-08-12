@@ -28,11 +28,10 @@ class CountingList extends StatelessWidget {
     return ListBuilder<Counting>(
       itemDatas: loadData,
       listItem: (item) => Column(children: [
-        // アイコンの説明
         CountingCard(countData: item, onTap: onTapCounting), // 雑誌情報を表示するカード
 
         // 顧客情報を表示
-        isCustomer ? SizedBox(height: 100, child: CustomerList(regularData: item.countingCustomers, onTap: onTapCutomer)) : const SizedBox.shrink()
+        isCustomer ? SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.countingCustomers, onTap: onTapCutomer)) : const SizedBox.shrink()
       ]),
     );
   }

@@ -11,7 +11,7 @@ class Urls {
 
   // ここにURLを追加していく
   // customer
-  static const String getCustomer = '$version/customers'; // GETお客様情報取得
+  static const String getCustomer = '$version/customers/customers'; // GETお客様情報取得
   static const String registerUser = '$version/users/register'; // POSTユーザー登録
   static const String login = '$version/users/login'; // POSTログイン
   static const String getUser = '$version/auth/users/user'; // GETuser情報取得

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../view/pages/page_home.dart';
+import 'pages/page_counting.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       ),
 
       // ホーム画面呼び出し
-      home: PageHome(),
+      home: PageCounting(),
     );
   }
 }

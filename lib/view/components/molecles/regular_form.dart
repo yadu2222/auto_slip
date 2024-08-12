@@ -28,7 +28,7 @@ class RegularForm extends StatelessWidget {
   final bool newMagazine;
   final void Function() changeNewMagazine;
   final void Function(String) serachMagazineCode;
-    final void Function(String) serachMagazineName;
+  final void Function(String) serachMagazineName;
   final void Function(Magazine) selectMagazine;
 
   final List<Customer> customerData;
@@ -89,7 +89,7 @@ class RegularForm extends StatelessWidget {
                           },
                           child: Container(padding: const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 12), child: Text(item.magazineName))))),
 
-          const SizedBox(height: 20),
+          // 22const SizedBox(height: 20),
           EditBarView(
             icon: Icons.book_rounded,
             controller: quantityController,

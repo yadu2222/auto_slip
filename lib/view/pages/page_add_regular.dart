@@ -130,36 +130,34 @@ class PageAdd extends HookWidget {
       }
     }
 
-    return BasicTemplate(
-        title: title,
-        child: Column(children: [
-          // 定期情報の入力
-          RegularForm(
-            storeController: storeController,
-            magazineNameController: magazineController,
-            magezineCodeController: magezineCodeController,
-            quantityController: quantityController,
-            newMagazine: newMagazine.value,
-            customerData: customers.value,
-            magazineData: magazines.value,
-            serachMagazineCode: searchMagazineCode,
-            changeNewMagazine: changeNewMagazine,
-            selectMagazine: selectMagazine,
-            serachMagazineName: searchMagazineName,
-          ),
-          const SizedBox(height: 10),
-          // 追加ボタン
-          AddMagazineButton(add: addMagazine),
-          // 入力した定期の表示
-          registerList.value.isEmpty
-              ? const SizedBox.shrink()
-              : AddRegularList(
-                  regularList: registerList.value,
-                  remove: removeMagazine,
-                  // remove: addRegular,
-                ),
-          // 確定ボタン
-          registerList.value.isEmpty ? const SizedBox.shrink() : BasicButton(text: "確定", isColor: false, onPressed: addRegular)
-        ]));
+    return BasicTemplate(title: title, children: [
+      // 定期情報の入力
+      RegularForm(
+        storeController: storeController,
+        magazineNameController: magazineController,
+        magezineCodeController: magezineCodeController,
+        quantityController: quantityController,
+        newMagazine: newMagazine.value,
+        customerData: customers.value,
+        magazineData: magazines.value,
+        serachMagazineCode: searchMagazineCode,
+        changeNewMagazine: changeNewMagazine,
+        selectMagazine: selectMagazine,
+        serachMagazineName: searchMagazineName,
+      ),
+      const SizedBox(height: 10),
+      // 追加ボタン
+      AddMagazineButton(add: addMagazine),
+      // 入力した定期の表示
+      registerList.value.isEmpty
+          ? const SizedBox.shrink()
+          : AddRegularList(
+              regularList: registerList.value,
+              remove: removeMagazine,
+              // remove: addRegular,
+            ),
+      // 確定ボタン
+      registerList.value.isEmpty ? const SizedBox.shrink() : BasicButton(text: "確定", isColor: false, onPressed: addRegular)
+    ]);
   }
 }

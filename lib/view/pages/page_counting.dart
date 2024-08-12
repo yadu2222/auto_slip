@@ -13,8 +13,8 @@ import 'package:file_picker/file_picker.dart'; // アプリがファイルを読
 
 import 'dart:io';
 
-class PageHome extends HookWidget {
-  const PageHome({super.key});
+class PageCounting extends HookWidget {
+  const PageCounting({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class PageHome extends HookWidget {
           child: Column(
             children: [
               AppBar(title: const Text('数をとろう')),
-              const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> CS外商用ダウンロード'),
+              const Text('NOCS >> 雑誌新刊送品一覧 >> 送品＆案内一覧 >> 雑誌コード順に並び替え >> CS外商用ダウンロード'),
               BasicButton(
                 width: 400,
                 text: 'ダウンロードしたファイルを選択してね',

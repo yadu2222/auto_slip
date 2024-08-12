@@ -32,7 +32,7 @@ class RegularList extends StatelessWidget {
                 // TODO: ここでタップ時の処理を記述
                 onTap: (Magazine magazine) {},
               ),
-              SizedBox(height: 150, child: CustomerList(regularData: item.regulars, onTap: onTap))
+              SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.regulars, onTap: onTap))
             ]));
   }
 }

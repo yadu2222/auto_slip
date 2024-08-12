@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 // view
 import '../components/templates/tab_template.dart';

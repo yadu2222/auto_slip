@@ -39,7 +39,7 @@ class LoadRegular {
             customer: Customer(
               customerUUID: regular['customer']['customerUUID'] ?? '',
               customerName: regular['customer']['customerName'] ?? '',
-              // regularType: regular['customer']['methodType'],
+              regularType: regular['customer']['methodType'],
             ),
             regular: Regular(
               regularUUID: regular['regularUUID'] ?? '',

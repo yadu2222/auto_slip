@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
 import 'package:flutter_auto_flip/models/load_regular_model.dart';
-import 'package:go_router/go_router.dart';
-import '../../../constant/messages.dart';
+
 
 // view
 // import '../../view/components/atoms/toast.dart';

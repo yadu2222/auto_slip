@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auto_flip/constant/colors.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/count_icon.dart';
 import '../atoms/item_card.dart';
 
 // 雑誌情報を表示するカード
@@ -50,7 +51,7 @@ class CountingCard extends StatelessWidget {
         Row(children: [
           // 入荷冊数
           Icon(
-            Icons.menu_book_rounded,
+            CountIconType.book.getIcon(),
             color: countData.countingFlag ? AppColors.iconGlay : AppColors.buttonCheck,
           ),
           const SizedBox(width: 5),
@@ -60,11 +61,11 @@ class CountingCard extends StatelessWidget {
           ),
           const SizedBox(width: 20),
 
-          countIcon(Icons.local_library_sharp, countData.count.library), // 図書館
-          countIcon(Icons.delivery_dining, countData.count.delivery), // 郵送
-          countIcon(Icons.storefront_outlined, countData.count.store), // 店取
-          countIcon(Icons.edit, countData.count.slip), // 店取伝票
-          countIcon(Icons.local_shipping, countData.count.hauler, isSpace: false), // 運送屋さん
+          countIcon(CountIconType.library.getIcon(), countData.count.library), // 図書館
+          countIcon(CountIconType.delivery.getIcon(), countData.count.delivery), // 郵送
+          countIcon(CountIconType.store.getIcon(), countData.count.store), // 店取
+          countIcon(CountIconType.slip.getIcon(), countData.count.slip), // 店取伝票
+          countIcon(CountIconType.marucho.getIcon(), countData.count.hauler, isSpace: false), // 運送屋さん
         ])
       ],
     ));

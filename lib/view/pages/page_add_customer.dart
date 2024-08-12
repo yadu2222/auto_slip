@@ -9,10 +9,10 @@ import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
 // view
 import '../components/templates/basic_template.dart';
 import '../components/molecles/edit_bar.dart' as edit;
-import 'package:flutter_auto_flip/view/components/organisms/magazine_list.dart';
 
-class PageMagazine extends HookWidget {
-  PageMagazine({super.key});
+// 新しい顧客を追加するページ
+class PageAddCustomer extends HookWidget {
+  PageAddCustomer({super.key});
 
   // コントローラー
   final _magazineController = TextEditingController();
@@ -29,45 +29,6 @@ class PageMagazine extends HookWidget {
     MagazineReq magazineReq = MagazineReq(context: context);
     final magazines = useState<List<Magazine>>([]);
 
-    // 一覧取得
-    Future<void> getMagazine() async {
-      await magazineReq.getMagazineHandler().then((value) {
-        magazines.value = value;
-      });
-    }
-
-    // 雑誌名検索
-    Future<void> serchMagazineName() async {
-      if (_magazineNameController.text == "") {
-        await getMagazine();
-        return;
-      }
-      magazineReq.searchMagazineNameHandler(_magazineNameController.text).then((value) {
-        magazines.value = value;
-      });
-    }
-
-    // 雑誌コード検索
-    Future<void> serchMagazineCode() async {
-      if (_magazineController.text == "") {
-        await getMagazine();
-        return;
-      }
-      magazineReq.searchMagazineCodeHandler(_magazineController.text).then((value) {
-        magazines.value = value;
-      });
-    }
-
-    void onTap(Magazine magazine) {
-      // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
-      // ダイアログ表示
-    }
-
-    useEffect(() {
-      getMagazine();
-      return null;
-    }, []);
-
     return BasicTemplate(
         title: title,
         floatingActionButton: IconButton(
@@ -77,14 +38,13 @@ class PageMagazine extends HookWidget {
           },
           icon: const Icon(Icons.add, size: 30),
         ),
-        children: [
+        children:  [
           // 検索バー
           // 雑誌コード
           edit.EditBarView(
             icon: Icons.local_offer,
             hintText: magazineCodeSearch,
             controller: _magazineController,
-            search: serchMagazineCode,
             inputType: TextInputType.number,
             inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
           ),
@@ -93,9 +53,7 @@ class PageMagazine extends HookWidget {
             icon: Icons.import_contacts,
             hintText: magazineNameSearch,
             controller: _magazineNameController,
-            search: serchMagazineName,
           ),
-          MagazineList(magazines: magazines.value, onRefresh: getMagazine, onTap: onTap)
         ]);
   }
 }

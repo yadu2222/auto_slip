@@ -1,5 +1,3 @@
-import 'package:flutter_auto_flip/models/regular_model.dart';
-
 class Customer {
   String customerUUID;
   String customerName;
@@ -7,9 +5,16 @@ class Customer {
 
   int tellType; // 0は指定なし？
   String? address;
+  String? note;
 
-
-  Customer({this.customerUUID = "", this.customerName = "", this.regularType = 0, this.tellType = 0, this.address, });
+  Customer({
+    this.customerUUID = "",
+    this.customerName = "",
+    this.regularType = 0,
+    this.tellType = 0,
+    this.address,
+    this.note,
+  });
 
   // エラー時のCustomer
   static Customer errCustomer = Customer(customerUUID: "", customerName: "エラー", regularType: 0, tellType: 0, address: "");
@@ -25,12 +30,21 @@ class Customer {
     );
   }
 
-  static List<Customer> resToCustomer(Map res) {
+  static List<Customer> resToCustomer(List res) {
     List<Customer> customerList = [];
-    if (res['customerList'] != null) {
-      res['customerList'].forEach((v) {
-        customerList.add(Customer.fromJson(v));
-      });
+
+    try {
+      for (Map loadData in res) {
+        customerList.add(Customer(
+            customerUUID: loadData['customerUUID'] ?? '',
+            customerName: loadData['customerName'] ?? '',
+            regularType: loadData['methodType'] ?? 0,
+            tellType: loadData['tellType'] ?? 0,
+            address: loadData['tellAddress'] ?? '',
+            note: loadData['note'] ?? ''));
+      }
+    } catch (e) {
+      print(e);
     }
     return customerList;
   }

@@ -10,16 +10,24 @@ class MainMenu extends StatelessWidget {
     return const SideMenu(
       menuTileList: [
         MenuTile(
+          title: "数取り",
+          movePass: '/',
+        ),
+        MenuTile(
           title: "定期の追加",
           movePass: '/add',
         ),
         MenuTile(
-          title: "編集",
-          movePass: '/edit',
+          title: "定期",
+          movePass: '/regular',
         ),
         MenuTile(
           title: "雑誌",
           movePass: '/magazine',
+        ),
+        MenuTile(
+          title: "顧客",
+          movePass: '/customer',
         ),
         MenuTile(
           title: "てすと",

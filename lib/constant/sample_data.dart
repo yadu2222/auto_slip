@@ -1,7 +1,7 @@
 import '../models/magazine_model.dart';
-import '../models/regular_model.dart';
+
 import '../models/customer_model.dart';
-import '../models/load_regular_model.dart';
+
 
 class SampleData {
   static Magazine magazine1 = Magazine(

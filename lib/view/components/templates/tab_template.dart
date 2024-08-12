@@ -14,15 +14,17 @@ class TabTemplate extends StatelessWidget {
       initialIndex: defaultIndex, // 初期選択タブ
       length: tabList.length, // タブの数
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          // タブを表示
-          bottom: TabBar(
-            tabs: [...tabList],
-          ),
-        ),
         body: TabBarView(
-          children: [...children],
+          children: [
+            AppBar(
+              title: Text(title),
+              // タブを表示
+              bottom: TabBar(
+                tabs: [...tabList],
+              ),
+            ),
+            ...children
+          ],
         ),
       ),
     );
