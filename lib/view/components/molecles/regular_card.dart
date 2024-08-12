@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
-import '../../../models/regular_model.dart';
 import '../atoms/item_card.dart';
 
 class CustomerCard extends StatelessWidget {

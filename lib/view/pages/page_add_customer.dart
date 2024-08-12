@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-// model
-import 'package:flutter_auto_flip/models/magazine_model.dart';
-// api
-import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
+
 // view
 import '../components/templates/basic_template.dart';
 import '../components/molecles/edit_bar.dart' as edit;
@@ -26,8 +23,7 @@ class PageAddCustomer extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    MagazineReq magazineReq = MagazineReq(context: context);
-    final magazines = useState<List<Magazine>>([]);
+
 
     return BasicTemplate(
         title: title,

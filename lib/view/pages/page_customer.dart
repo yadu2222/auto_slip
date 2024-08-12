@@ -1,8 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
+import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
+import 'package:flutter_auto_flip/view/components/molecles/tell_icons.dart';
 import 'package:flutter_auto_flip/view/components/organisms/customer_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -74,6 +74,13 @@ class PageCustomer extends HookWidget {
             search: serchMagazineCode,
           ),
           // タイプでソート
+
+          // アイコンの説明
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [CountIcons(book: false), TellIcons()],
+          ),
+          const SizedBox(height: 10),
 
           CustomerList.vertical(customerData: customers.value, onTap: onTap)
         ]);

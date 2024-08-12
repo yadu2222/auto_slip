@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
 import 'package:flutter_auto_flip/view/components/templates/basic_template.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -55,6 +56,13 @@ class PageRegularMagazine extends HookWidget {
 
     return BasicTemplate(
       title: '定期',
+      floatingActionButton: IconButton(
+        onPressed: () {
+          // 追加画面に遷移
+          context.go('/regular/add');
+        },
+        icon: const Icon(Icons.add, size: 30),
+      ),
       children: [
         const SizedBox(height: 30),
         edit.EditBarView(

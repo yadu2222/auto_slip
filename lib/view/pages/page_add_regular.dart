@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
@@ -36,7 +36,7 @@ class PageAdd extends HookWidget {
 
     // 定期先の検索結果と選択された定期先
     final customers = useState<List<Customer>>([]);
-    final customer = useState<Customer?>(null);
+  
     // 検索結果と選択された雑誌
     final magazines = useState<List<Magazine>>([]);
     final magazine = useState<Magazine?>(null);

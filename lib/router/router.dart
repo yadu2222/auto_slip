@@ -26,17 +26,20 @@ Future<GoRouter> createRouter() async {
         ),
         // てすと
       ),
-      // 登録
-      GoRoute(
-        path: '/add',
-        pageBuilder: (context, state) => NoTransitionPage(
-          key: state.pageKey,
-          child: PageAdd(),
-        ),
-      ),
+      
       // 編集
       GoRoute(
           path: '/regular',
+          routes: [
+            // 登録
+            GoRoute(
+              path: 'add',
+              pageBuilder: (context, state) => NoTransitionPage(
+                key: state.pageKey,
+                child: PageAdd(),
+              ),
+            ),
+          ],
           pageBuilder: (context, state) {
             if (state.extra == null) {
               return NoTransitionPage(

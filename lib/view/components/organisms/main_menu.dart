@@ -9,18 +9,11 @@ class MainMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SideMenu(
       menuTileList: [
-        MenuTile(
-          title: "数取り",
-          movePass: '/',
-        ),
-        MenuTile(
-          title: "定期の追加",
-          movePass: '/add',
-        ),
-        MenuTile(
-          title: "定期",
-          movePass: '/regular',
-        ),
+        // MenuTile(
+        //   title: "定期の追加",
+        //   movePass: '/add',
+        // ),
+
         MenuTile(
           title: "雑誌",
           movePass: '/magazine',
@@ -28,6 +21,14 @@ class MainMenu extends StatelessWidget {
         MenuTile(
           title: "顧客",
           movePass: '/customer',
+        ),
+        MenuTile(
+          title: "定期",
+          movePass: '/regular',
+        ),
+        MenuTile(
+          title: "数取り",
+          movePass: '/',
         ),
         MenuTile(
           title: "てすと",

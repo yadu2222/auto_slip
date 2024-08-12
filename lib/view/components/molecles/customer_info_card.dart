@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/tell_icon.dart';
 import '../atoms/item_card.dart';
 import 'package:flutter_auto_flip/view/components/atoms/count_icon.dart';
 
@@ -30,14 +31,36 @@ class CustomerInfoCard extends StatelessWidget {
     }
   }
 
+  IconData? get tellType {
+    switch (customer.tellType) {
+      case 1:
+        return TellIconType.unnecessary.getIcon(); // 不要
+      case 2:
+        return TellIconType.essential.getIcon(); // 要
+      case 3:
+        return TellIconType.call.getIcon(); // 着信のみ
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ItemCard(
         widget: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(countIconType),
-        const SizedBox(width: 10),
-        Text(customer.customerName),
+        Row(children: [
+          Icon(countIconType),
+          const SizedBox(width: 10),
+          Text(customer.customerName),
+        ]),
+        Row(children: [
+          Text(customer.address ?? ""),
+          const SizedBox(width: 10),
+          // Text(customer.customerAddress),
+          Icon(tellType),
+        ]),
       ],
     ));
   }
