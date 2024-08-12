@@ -18,26 +18,23 @@ class MagazineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ItemCard(
-        widget: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(children: [
-          Text(magazine.magazineCode),
-          const SizedBox(width: 10),
-          Text(magazine.magazineName),
-        ]),
-        IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              onTap(magazine);
-            },
-            icon: const Icon(
+    return InkWell(
+        onTap: () => onTap(magazine),
+        child: ItemCard(
+            widget: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(children: [
+              Text(magazine.magazineCode),
+              const SizedBox(width: 10),
+              Text(magazine.magazineName),
+            ]),
+            const Icon(
               Icons.edit,
               size: 20,
               color: AppColors.iconGlay,
-            ))
-      ],
-    ));
+            )
+          ],
+        )));
   }
 }

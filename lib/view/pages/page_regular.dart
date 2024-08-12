@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
 import 'package:flutter_auto_flip/view/components/templates/basic_template.dart';
@@ -65,23 +66,35 @@ class PageRegularMagazine extends HookWidget {
       ),
       children: [
         const SizedBox(height: 30),
+        // edit.EditBarView(
+        //   // 名前の入力
+        //   controller: userNameController,
+        //   hintText: 'あなたの名前はなんですか',
+        //   icon: Icons.edit,
+        // ),
         edit.EditBarView(
-          // 名前の入力
-          controller: userNameController,
-          hintText: 'あなたの名前はなんですか',
-          icon: Icons.edit,
-        ),
-        // 検索バー
-        edit.EditBarView(
-          icon: Icons.book_outlined,
+          icon: Icons.local_offer,
           hintText: '雑誌コード',
+          controller: magazineCodeController,
+          search: () {},
+          inputType: TextInputType.number,
+          inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
+        ),
+        edit.EditBarView(
+          icon: Icons.import_contacts,
+          hintText: '雑誌名',
+          controller: magazineCodeController,
+          search: () {},
+        ),
+        edit.EditBarView(
+          icon: Icons.person,
+          hintText: '顧客名',
           controller: magazineCodeController,
           search: () {},
         ),
         const CountIcons(),
+        const SizedBox(height: 10),
         magazineList.value,
-
-        
       ],
     );
   }

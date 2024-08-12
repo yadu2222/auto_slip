@@ -15,4 +15,17 @@ class CustomerService {
     final resData = await HttpReq.httpReq(reqData);
     return Customer.resToCustomer(resData['srvResData']);   // 変換して返す
   }
+
+  // 名前で検索して取得
+  static Future<List<Customer>> searchCustomerName(String customerName) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.getCustomer,
+      reqType: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      parData: customerName,
+    );
+    final resData = await HttpReq.httpReq(reqData);
+    return Customer.resToCustomer(resData['srvResData']);   // 変換して返す
+  }
 }

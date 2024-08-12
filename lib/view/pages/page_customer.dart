@@ -34,15 +34,15 @@ class PageCustomer extends HookWidget {
       });
     }
 
-    // 雑誌コード検索
-    Future<void> serchMagazineCode() async {
+    // 名前検索
+    Future<void> serchName() async {
       if (_customerNameController.text == "") {
         await getCustomer();
         return;
       }
-      // customerReq.searchMagazineCodeHandler(_customerNameController.text).then((value) {
-      //   customers.value = value;
-      // });
+      customerReq.searchCustomerNameHandler(_customerNameController.text).then((value) {
+        customers.value = value;
+      });
     }
 
     void onTap(Customer customer) {
@@ -71,7 +71,7 @@ class PageCustomer extends HookWidget {
             icon: Icons.person,
             hintText: magazineCodeSearch,
             controller: _customerNameController,
-            search: serchMagazineCode,
+            search: serchName,
           ),
           // タイプでソート
 

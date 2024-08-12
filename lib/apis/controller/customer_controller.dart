@@ -23,5 +23,16 @@ class CustomerReq {
     }
   }
 
+  // 名前で検索
+  Future<List<Customer>> searchCustomerNameHandler(String customerName) async {
+    try {
+      List<Customer> result = await CustomerService.searchCustomerName(customerName); // 取得処理を待つ
+      return result;
+    } catch (error) {
+      debugPrint("取得に失敗しました"); // 取得失敗メッセージ
+      return [];
+    }
+  }
+
   
 }
