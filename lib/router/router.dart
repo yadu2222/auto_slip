@@ -40,22 +40,11 @@ Future<GoRouter> createRouter() async {
               ),
             ),
           ],
-          pageBuilder: (context, state) {
-            if (state.extra == null) {
-              return NoTransitionPage(
-                key: state.pageKey,
-                child: PageRegularMagazine(serachWord: ''),
-              );
-            } else {
-              final Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
-              return NoTransitionPage(
-                key: state.pageKey,
-                child: PageRegularMagazine(
-                  serachWord: extraData['serachWord'] as String,
-                ),
-              );
-            }
-          }),
+          pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: PageRegularMagazine(),
+        ),
+      ),
       // 雑誌
       GoRoute(
         path: '/magazine',

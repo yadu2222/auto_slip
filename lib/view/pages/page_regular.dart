@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auto_flip/view/components/organisms/regular_customer_list.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
 import 'package:flutter_auto_flip/view/components/templates/basic_template.dart';
@@ -11,33 +12,77 @@ import '../../models/load_regular_model.dart';
 import '../components/organisms/regular_list.dart';
 
 class PageRegularMagazine extends HookWidget {
-  final String serachWord;
+  final TextEditingController userNameController = TextEditingController(); // 編集者の名前
+  final TextEditingController storeNameController = TextEditingController(); // 店舗名
+  final TextEditingController magazineCodeController = TextEditingController(); // 雑誌コード
+  final TextEditingController magazinerNameController = TextEditingController(); // 顧客名
 
-  final TextEditingController userNameController; // 編集者の名前
-  final TextEditingController storeNameController; // 店舗名
-  final TextEditingController magazineCodeController; // 雑誌コード
-
-  PageRegularMagazine({super.key, required this.serachWord})
-      : userNameController = TextEditingController(),
-        storeNameController = TextEditingController(),
-        magazineCodeController = TextEditingController() {
-    // 初期化処理
-
-    magazineCodeController.text = serachWord;
-  }
+  PageRegularMagazine({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // //画面サイズ
-    // var screenSizeWidth = MediaQuery.of(context).size.width;
-    // var screenSizeHeight = MediaQuery.of(context).size.height;
     RegularReq regularReq = RegularReq(context: context);
     final regularList = useState<List<LoadRegular>>([]);
-    final magazineList = useState<Widget>(const Text("からっぽです"));
+    final view = useState<Widget>(const SizedBox());
 
+    // 定期一覧取得
     Future<void> getRegular() async {
       await regularReq.getMagazineRegularHandler().then((value) {
         regularList.value = value;
+        view.value = RegularList(
+          regularList: regularList.value,
+          onTap: (customer) => print(customer),
+        );
+      });
+    }
+
+    // 顧客名で定期情報を取得
+    Future<void> getRegularByCustomerName() async {
+      if (storeNameController.text == "") {
+        getRegular();
+        return;
+      }
+
+      await regularReq.getMagazineRegularByCustomerNameHandler(storeNameController.text).then((value) {
+        regularList.value = value;
+        view.value = RegularCustomerList(
+          regularList: regularList.value,
+          onTap: (customer) => print(customer),
+        );
+      });
+    }
+
+    // 雑誌名で定期情報を取得
+    Future<void> getRegularByMagazineName() async {
+      if (magazinerNameController.text == "") {
+        getRegular();
+        return;
+      }
+
+      await regularReq.getMagazineRegularByMagazineNameHandler(magazinerNameController.text).then((value) {
+        regularList.value = value;
+        view.value = RegularList(
+          regularList: regularList.value,
+          onTap: (customer) => print(customer),
+        );
+      });
+    }
+
+    // 雑誌コードで定期情報を取得
+    Future<void> getRegularByMagazineCode() async {
+      if (magazineCodeController.text == "") {
+        getRegular();
+        return;
+      }
+
+      await regularReq.getMagazineRegularByMagazineCodeHandler(magazineCodeController.text).then((value) {
+        regularList.value = value;
+        view.value = RegularList(
+          regularList: regularList.value,
+          onTap: (customer) => print(customer),
+        );
       });
     }
 
@@ -45,15 +90,6 @@ class PageRegularMagazine extends HookWidget {
       getRegular();
       return null;
     }, []);
-
-    // regularListが更新されたときにmagazineListを更新
-    useEffect(() {
-      magazineList.value = RegularList(
-        regularList: regularList.value,
-        onTap: (customer) => print(customer),
-      );
-      return null;
-    }, [regularList.value]);
 
     return BasicTemplate(
       title: '定期',
@@ -76,25 +112,27 @@ class PageRegularMagazine extends HookWidget {
           icon: Icons.local_offer,
           hintText: '雑誌コード',
           controller: magazineCodeController,
-          search: () {},
+          search: getRegularByMagazineCode,
           inputType: TextInputType.number,
           inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
         ),
         edit.EditBarView(
           icon: Icons.import_contacts,
           hintText: '雑誌名',
-          controller: magazineCodeController,
-          search: () {},
+          controller: magazinerNameController,
+          search: getRegularByMagazineName,
         ),
         edit.EditBarView(
           icon: Icons.person,
           hintText: '顧客名',
-          controller: magazineCodeController,
-          search: () {},
+          controller: storeNameController,
+          search: getRegularByCustomerName,
         ),
-        const CountIcons(),
+        const CountIcons(
+          book: false,
+        ),
         const SizedBox(height: 10),
-        magazineList.value,
+        view.value,
       ],
     );
   }

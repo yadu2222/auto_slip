@@ -16,11 +16,47 @@ class RegularReq {
   final BuildContext context;
   RegularReq({required this.context});
 
-  // csvで雑誌情報登録
+  // 定期情報を取得
   Future<List<LoadRegular>> getMagazineRegularHandler() async {
     try {
       List<LoadRegular> result = await RegularService.getMagazineRegular(); // 取得処理を待つ
 
+      return result;
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+      return [];
+    }
+  }
+
+  // 顧客名で定期情報を取得
+  Future<List<LoadRegular>> getMagazineRegularByCustomerNameHandler(String customerName) async {
+    try {
+      List<LoadRegular> result = await RegularService.getMagazineRegularByCustomerName(customerName); // 取得処理を待つ
+      return result;
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+      return [];
+    }
+  }
+
+  // 雑誌名で定期情報を取得
+  Future<List<LoadRegular>> getMagazineRegularByMagazineNameHandler(String magazineName) async {
+    try {
+      List<LoadRegular> result = await RegularService.getMagazineRegularByMagazineName(magazineName); // 取得処理を待つ
+      return result;
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+      return [];
+    }
+  }
+
+  // 雑誌コードで定期情報を取得
+  Future<List<LoadRegular>> getMagazineRegularByMagazineCodeHandler(String magazineCode) async {
+    try {
+      List<LoadRegular> result = await RegularService.getMagazineRegularByMagazineCode(magazineCode); // 取得処理を待つ
       return result;
     } catch (error) {
       debugPrint(error.toString());

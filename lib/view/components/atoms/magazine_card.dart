@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
-import '../../../models/magazine_model.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
+
 import 'item_card.dart';
 
 class MagazineCard extends StatelessWidget {
-  const MagazineCard({super.key, required this.magazine, required this.isRed});
+  const MagazineCard({
+    super.key,
+    required this.magazine,
+  });
 
-  final Magazine magazine; // 表示する雑誌情報
-  final bool isRed;
+  final CountingRegular magazine; // 表示する雑誌情報
 
   @override
   Widget build(BuildContext context) {
     return ItemCard(
         widget: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(magazine.magazineCode),
-        Text(magazine.magazineName),
-        Text(magazine.quantityStock.toString(), style: TextStyle(color: isRed ? Colors.red : Colors.black)),
+        Row(children: [
+          Text(magazine.magazine.magazineCode),
+          const SizedBox(width: 10),
+          Text(magazine.magazine.magazineName),
+        ]),
+        Text("${magazine.regular.quantity.toString()}冊"),
       ],
     ));
   }
