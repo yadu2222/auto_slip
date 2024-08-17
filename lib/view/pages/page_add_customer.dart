@@ -4,7 +4,6 @@ import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:flutter_auto_flip/view/components/molecles/dialog.dart';
 import 'package:flutter_auto_flip/view/components/molecles/dropdown_util.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -54,6 +53,10 @@ class PageAddCustomer extends HookWidget {
     }
 
     void register() {
+      if (storeNameController.text == '') {
+        DialogUtil.show(title: 'エラー', message: '顧客名は必須です', context: context);
+        return;
+      }
       // 登録処理
       // customerReq.
       Customer customer = Customer(
@@ -65,8 +68,12 @@ class PageAddCustomer extends HookWidget {
       );
       customerReq.addCustomerHandler(customer).then((value) {
         // 戻る
-        // DialogUtil.show(message: '登録に成功しました', context: context);
-        GoRouter.of(context).go('/customer');
+        DialogUtil.show(message: '登録に成功しました', context: context);
+        storeNameController.clear();
+        addressController.clear();
+        noteController.clear();
+        
+        // Navigator.of(context).pop();
       });
     }
 

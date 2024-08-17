@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
+import 'package:flutter_auto_flip/models/magazine_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auto_flip/view/components/molecles/dialog.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 // view
@@ -24,12 +26,27 @@ class PageAddMagazine extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    MagazineReq magazineReq = MagazineReq(context: context);
+    void register() {
+      if (_magazineController.text == '' || _magazineNameController.text == '') {
+        DialogUtil.show(title: 'エラー', message: '雑誌コードと雑誌名は必須です', context: context);
+      }else{
 
-
-    // 
-    void register(){
+        Magazine magazine = Magazine(
+          magazineCode: _magazineController.text,
+          magazineName: _magazineNameController.text,
+        );
+        // 登録処理
+        magazineReq.registerMagazineHandler(magazine).then((value) {
+          DialogUtil.show(title: '登録完了', message: '雑誌を登録しました', context: context);
+          _magazineController.clear();
+          _magazineNameController.clear();
+         
+        });
+      }
 
     }
+
     return BasicTemplate(title: title, children: [
       // 検索バー
       // 雑誌コード
@@ -40,13 +57,21 @@ class PageAddMagazine extends HookWidget {
         inputType: TextInputType.number,
         inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
       ),
+
       // 雑誌名
       edit.EditBarView(
         icon: Icons.import_contacts,
         hintText: magazineNameSearch,
         controller: _magazineNameController,
       ),
-      BasicButton(text: '登録', isColor: true,onPressed: register)
+
+      const SizedBox(height: 30),
+
+      BasicButton(
+        text: '登録',
+        isColor: true,
+        onPressed: register,
+      )
     ]);
   }
 }

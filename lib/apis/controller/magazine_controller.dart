@@ -61,4 +61,15 @@ class MagazineReq {
       return [];
     }
   }
+
+  // 雑誌を登録
+  Future<void> registerMagazineHandler(Magazine magazine) async {
+    try {
+      await MagazineService.registerMagazine(magazine); // 取得処理を待つ
+      debugPrint("せいこう"); // 取得成功メッセージ
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+    }
+  }
 }

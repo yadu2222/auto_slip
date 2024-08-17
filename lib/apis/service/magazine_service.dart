@@ -92,4 +92,29 @@ class MagazineService {
     // 返す
     return Magazine.resToMagazines(resData["srvResData"]);
   }
+
+  // 雑誌を登録
+  static Future<void> registerMagazine(Magazine magazine) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.registerMagazine,
+      reqType: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: {
+        'magazineName': magazine.magazineName,
+        'magazineCode': magazine.magazineCode,
+        
+      },
+    );
+    // リクエストメソッドにオブジェクトを投げる
+    Map resData = await HttpReq.httpReq(reqData);
+    // 宿題のデータがあれば
+    try {
+      if (resData["srvResData"] == null) {}
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    debugPrint(resData.toString());
+    // 返す
+  }
 }
