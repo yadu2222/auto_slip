@@ -9,32 +9,40 @@ class MagazineCard extends StatelessWidget {
     super.key,
     required this.magazine,
     this.isRed = false,
-    required this.onTap,
+    this.edit,
+    this.icon = Icons.edit,
   });
 
   final Magazine magazine; // 雑誌情報
   final bool isRed; // 赤文字表示
-  final void Function(Magazine) onTap; // タップ時の処理
+
+  final void Function(Magazine)? edit;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: () => onTap(magazine),
-        child: ItemCard(
-            widget: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(children: [
-              Text(magazine.magazineCode),
-              const SizedBox(width: 10),
-              Text(magazine.magazineName),
-            ]),
-            const Icon(
-              Icons.edit,
+    return ItemCard(
+        widget: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(children: [
+          Text(magazine.magazineCode),
+          const SizedBox(width: 10),
+          Text(magazine.magazineName),
+        ]),
+        InkWell(
+            onTap: () {
+              if (edit != null) {
+                edit!(magazine);
+              }
+            },
+            child: SizedBox(
+                child: Icon(
+              icon,
               size: 20,
               color: AppColors.iconGlay,
-            )
-          ],
-        )));
+            )))
+      ],
+    ));
   }
 }

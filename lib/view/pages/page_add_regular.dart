@@ -1,14 +1,14 @@
-
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/list_builder.dart';
+import 'package:flutter_auto_flip/view/components/molecles/edit_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../components/molecles/add_magazine_button.dart';
 
 // view
 import '../components/templates/basic_template.dart';
-import '../components/molecles/regular_form.dart';
 import '../components/molecles/dialog.dart';
 import '../components/organisms/add_regular_list.dart';
 import '../components/atoms/basic_button.dart';
@@ -36,7 +36,7 @@ class PageAdd extends HookWidget {
 
     // 定期先の検索結果と選択された定期先
     final customers = useState<List<Customer>>([]);
-  
+
     // 検索結果と選択された雑誌
     final magazines = useState<List<Magazine>>([]);
     final magazine = useState<Magazine?>(null);
@@ -131,19 +131,63 @@ class PageAdd extends HookWidget {
     }
 
     return BasicTemplate(title: title, children: [
-      // 定期情報の入力
-      RegularForm(
-        storeController: storeController,
-        magazineNameController: magazineController,
-        magezineCodeController: magezineCodeController,
-        quantityController: quantityController,
-        newMagazine: newMagazine.value,
-        customerData: customers.value,
-        magazineData: magazines.value,
-        serachMagazineCode: searchMagazineCode,
-        changeNewMagazine: changeNewMagazine,
-        selectMagazine: selectMagazine,
-        serachMagazineName: searchMagazineName,
+      EditBarView(
+        controller: storeController,
+        hintText: '定期先',
+        icon: Icons.storefront,
+        inputFormatter: [LengthLimitingTextInputFormatter(15)],
+      ),
+      // ここに検索候補を表示
+      customers.value.isEmpty ? const SizedBox.shrink() : ListBuilder<Customer>(itemDatas: customers.value, listItem: (item) => InkWell(onTap: () {}, child: Text(item.customerName))),
+
+      InkWell(
+        onTap: () {},
+        child: const Row(mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.min, children: [
+          Icon(
+            Icons.help_outline_rounded,
+            size: 20,
+          ),
+          SizedBox(width: 5),
+          Text('新しい定期先ですか？'),
+        ]),
+      ),
+      const SizedBox(height: 20),
+      EditBarView(
+        icon: Icons.edit,
+        controller: magezineCodeController,
+        hintText: '雑誌コード',
+        inputType: TextInputType.number,
+        inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
+        onChanged: searchMagazineCode,
+      ),
+      EditBarView(
+        search: changeNewMagazine,
+        searchIcon: Icons.close,
+        icon: Icons.menu_book_rounded,
+        controller: magazineController,
+        hintText: '雑誌名',
+        onChanged: searchMagazineName,
+      ),
+      magazines.value.isEmpty
+          ? const SizedBox.shrink()
+          : SizedBox(
+              height: 100,
+              width: 400,
+              child: ListBuilder<Magazine>(
+                  itemDatas: magazines.value,
+                  listItem: (item) => InkWell(
+                      onTap: () {
+                        selectMagazine(item);
+                      },
+                      child: Container(padding: const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 12), child: Text(item.magazineName))))),
+
+      // 22const SizedBox(height: 20),
+      EditBarView(
+        icon: Icons.book_rounded,
+        controller: quantityController,
+        hintText: '冊数',
+        inputType: TextInputType.number,
+        inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(3)],
       ),
       const SizedBox(height: 10),
       // 追加ボタン

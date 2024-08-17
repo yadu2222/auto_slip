@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
+import 'package:flutter_auto_flip/models/customer_model.dart';
+import 'package:flutter_auto_flip/models/magazine_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
+import 'package:flutter_auto_flip/view/components/atoms/list_builder.dart';
+import 'package:flutter_auto_flip/view/components/organisms/add_regular_dialog.dart';
 import 'package:flutter_auto_flip/view/components/organisms/regular_customer_list.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
@@ -16,6 +22,9 @@ class PageRegularMagazine extends HookWidget {
   final TextEditingController storeNameController = TextEditingController(); // 店舗名
   final TextEditingController magazineCodeController = TextEditingController(); // 雑誌コード
   final TextEditingController magazinerNameController = TextEditingController(); // 顧客名
+  // 新規登録
+  final TextEditingController newStoreNameController = TextEditingController(); // 新しい店舗名
+  final TextEditingController newCountController = TextEditingController(); // 新しい店舗名
 
   PageRegularMagazine({
     super.key,
@@ -24,8 +33,59 @@ class PageRegularMagazine extends HookWidget {
   @override
   Widget build(BuildContext context) {
     RegularReq regularReq = RegularReq(context: context);
+    CustomerReq customerReq = CustomerReq(context: context);
     final regularList = useState<List<LoadRegular>>([]);
     final view = useState<Widget>(const SizedBox());
+
+    // タップした雑誌で定期を追加
+    void addRegularByMagazine(Magazine magazine) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return HookBuilder(
+            builder: (BuildContext context) {
+              final customers = useState<List<Customer>>([]);
+              final selectCustomer = useState<Customer?>(null);
+
+              // 定期先検索処理
+              Future<void> searchStoreName(String name) async {
+                final result = await customerReq.searchCustomerNameHandler(name);
+                customers.value = result;
+              }
+
+              void close() {
+                // 初期化しダイアログをとじる
+                newCountController.clear();
+                newStoreNameController.clear();
+                customers.value = [];
+                Navigator.of(context).pop();
+              }
+
+              void choise(Customer customer) {
+                selectCustomer.value = customer;
+                customers.value = [];
+
+                newStoreNameController.text = customer.customerName;
+              }
+
+              void register() {}
+
+              return AddRegularDialog(
+                magazine: magazine,
+                close: close,
+                newStoreNameController: newStoreNameController,
+                newCountController: newCountController,
+                onChanged: searchStoreName,
+                customers: customers.value,
+                choise: choise,
+                register: register,
+              );
+            },
+          );
+        },
+      );
+    }
 
     // 定期一覧取得
     Future<void> getRegular() async {
@@ -34,6 +94,7 @@ class PageRegularMagazine extends HookWidget {
         view.value = RegularList(
           regularList: regularList.value,
           onTap: (customer) => print(customer),
+          magazineTap: addRegularByMagazine,
         );
       });
     }
@@ -66,6 +127,7 @@ class PageRegularMagazine extends HookWidget {
         view.value = RegularList(
           regularList: regularList.value,
           onTap: (customer) => print(customer),
+          magazineTap: (magazine) => print(magazine),
         );
       });
     }
@@ -82,6 +144,7 @@ class PageRegularMagazine extends HookWidget {
         view.value = RegularList(
           regularList: regularList.value,
           onTap: (customer) => print(customer),
+          magazineTap: (magazine) => print(magazine),
         );
       });
     }

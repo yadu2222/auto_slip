@@ -13,10 +13,12 @@ class EditBarView extends StatelessWidget {
     this.inputType = TextInputType.text,
     this.inputFormatter = const [],
     this.onChanged,
+    this.width = 400,
   });
 
   final TextEditingController controller;
   final String hintText;
+  final double width;
 
   final IconData icon;
   final IconData searchIcon;
@@ -31,7 +33,7 @@ class EditBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // width: double.infinity * 0.6, // 横幅を親要素に合わせる
-      width: 400,
+      width: width,
       height: 45,
       margin: const EdgeInsets.only(bottom: 10),
       child: Row(

@@ -14,12 +14,15 @@ class RegularList extends StatelessWidget {
     super.key,
     required this.regularList,
     required this.onTap,
+    required this.magazineTap,
     this.isCustomer = true,
   });
 
   final bool isCustomer; // どちらを優先して表示するか
   final List<LoadRegular> regularList; // 表示する定期のリスト
   final void Function(Customer) onTap;
+  final void Function(Magazine) magazineTap;
+
 
   // 顧客優先表示リスト
   @override
@@ -28,9 +31,9 @@ class RegularList extends StatelessWidget {
         itemDatas: regularList,
         listItem: (item) => Column(children: [
               MagazineCard(
+                icon: Icons.add,
                 magazine: item.magazine!,
-                // TODO: ここでタップ時の処理を記述
-                onTap: (Magazine magazine) {},
+                edit: (magazine) => magazineTap(item.magazine!),
               ),
               SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.regulars, onTap: onTap))
             ]));

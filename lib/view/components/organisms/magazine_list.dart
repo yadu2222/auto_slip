@@ -12,7 +12,6 @@ class MagazineList extends StatelessWidget {
     required this.magazines,
     required this.onRefresh,
     required this.onTap,
-    
   });
 
   final List<Magazine> magazines; // 表示する定期のリスト
@@ -24,7 +23,11 @@ class MagazineList extends StatelessWidget {
     return ListBuilder<Magazine>(
       onRefresh: onRefresh,
       itemDatas: magazines,
-      listItem: (item) => MagazineCard(magazine: item, onTap: onTap),
+      listItem: (item) => InkWell(
+          onTap: () => onTap(item),
+          child: MagazineCard(
+            magazine: item,
+          )),
     );
   }
 }
