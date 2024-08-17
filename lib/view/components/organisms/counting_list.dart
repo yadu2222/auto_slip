@@ -5,9 +5,6 @@ import 'package:flutter_auto_flip/view/components/organisms/customer_list.dart';
 // view
 import '../atoms/list_builder.dart';
 
-// model
-import '../../../models/customer_model.dart';
-
 // 雑誌をカウントして表示
 class CountingList extends StatelessWidget {
   const CountingList({
@@ -19,7 +16,7 @@ class CountingList extends StatelessWidget {
   });
 
   final List<Counting> loadData; // 表示する定期のリスト
-  final void Function(Customer) onTapCutomer; // タップ時の処理
+  final void Function(CountingCustomer) onTapCutomer; // タップ時の処理
   final void Function(Counting) onTapCounting; // タップ時の処理
   final bool isCustomer; // どちらを優先して表示するか
 
@@ -31,7 +28,7 @@ class CountingList extends StatelessWidget {
         CountingCard(countData: item, onTap: onTapCounting), // 雑誌情報を表示するカード
 
         // 顧客情報を表示
-        isCustomer ? SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.countingCustomers, onTap: onTapCutomer)) : const SizedBox.shrink()
+        isCustomer ? SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.countingCustomers, onTapCountCustomer: onTapCutomer)) : const SizedBox.shrink()
       ]),
     );
   }

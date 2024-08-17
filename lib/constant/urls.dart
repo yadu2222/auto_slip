@@ -12,7 +12,7 @@ class Urls {
   // ここにURLを追加していく
   // customer
   static const String getCustomer = '$version/customers/customers'; // GETお客様情報取得
-  static const String registerUser = '$version/users/register'; // POSTユーザー登録
+  static const String registerCustomer = '$version/customers/register'; // POSTユーザー登録
   static const String login = '$version/users/login'; // POSTログイン
   static const String getUser = '$version/auth/users/user'; // GETuser情報取得
 
@@ -30,4 +30,6 @@ class Urls {
   static const String getMagazineRegularByCustomerName = '$version/regulars/regulars/customer'; // POST顧客名で定期購読雑誌情報取得
   static const String getRegularByMagazineCode = '$version/regulars/regulars/magazine/code'; // POST雑誌コードで定期購読雑誌情報取得
   static const String getRegularByMagazineName = '$version/regulars/regulars/magazine/name'; // POST雑誌コードで定期購読雑誌情報取得
+  static const String registerRegular = '$version/regulars/register'; // POST定期購読登録
+  static const String deleteRegular = '$version/regulars/delete'; // POST定期購読更新
 }

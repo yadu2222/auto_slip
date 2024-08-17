@@ -25,12 +25,7 @@ class RegularService {
   // csvで数取り
   static Future<List<Counting>> countingRegular(File file) async {
     // リクエストを生成
-    final reqData = Request(
-      url: Urls.countingRegular,
-      reqType: 'MULTIPART',
-      headers: {'Content-Type': 'multipart/form-data'},
-      files: [file]
-    );
+    final reqData = Request(url: Urls.countingRegular, reqType: 'MULTIPART', headers: {'Content-Type': 'multipart/form-data'}, files: [file]);
     // リクエストメソッドにオブジェクトを投げる
     Map resData = await HttpReq.httpReq(reqData);
     // 返す
@@ -75,6 +70,40 @@ class RegularService {
       reqType: 'GET',
       headers: {'Content-Type': 'application/json'},
       parData: magazineCode,
+    );
+    // リクエストメソッドにオブジェクトを投げる
+    Map resData = await HttpReq.httpReq(reqData);
+    // 返す
+    return LoadRegular.resToMagazineLoadRegular(resData['srvResData']);
+  }
+
+  // 定期情報を登録
+  static Future<List<LoadRegular>> registerRegular(String magazineCode, String customerCode, String count) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.registerRegular,
+      reqType: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: {
+        'magazineCode': magazineCode,
+        'customerUUID': customerCode,
+        'quantity': int.parse(count),
+      },
+    );
+    // リクエストメソッドにオブジェクトを投げる
+    Map resData = await HttpReq.httpReq(reqData);
+    // 返す
+    return LoadRegular.resToMagazineLoadRegular(resData['srvResData']);
+  }
+
+  // 定期情報を削除
+  static Future<List<LoadRegular>> deleteRegular(String regularUUID) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.deleteRegular,
+      reqType: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      parData: regularUUID
     );
     // リクエストメソッドにオブジェクトを投げる
     Map resData = await HttpReq.httpReq(reqData);

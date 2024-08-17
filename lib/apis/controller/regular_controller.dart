@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
 import 'package:flutter_auto_flip/models/load_regular_model.dart';
 
-
 // view
 // import '../../view/components/atoms/toast.dart';
 // model
@@ -74,6 +73,30 @@ class RegularReq {
       debugPrint(error.toString());
       debugPrint("しっぱい"); // 取得失敗メッセージ
       return [];
+    }
+  }
+
+  // 定期情報を登録
+  Future<void> registerRegularHandler(String magazineCode, String customerUUID, String count) async {
+    try {
+      await RegularService.registerRegular(magazineCode, customerUUID, count); // 取得処理を待つ
+      return;
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+      return;
+    }
+  }
+
+  // 定期情報を削除
+  Future<void> deleteRegularHandler(String regularUUID) async {
+    try {
+      await RegularService.deleteRegular(regularUUID); // 取得処理を待つ
+      return;
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+      return;
     }
   }
 }

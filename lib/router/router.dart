@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import '../view/pages/page_counting.dart';
 import '../view/pages/page_add_regular.dart';
 import '../view/pages/page_regular.dart';
+import '../view/pages/page_add_customer.dart';
+import '../view/pages/page_add_magazine.dart';
 // import '../view/pages/page_salary.dart';
 import '../view/page_test.dart';
 
@@ -48,6 +50,17 @@ Future<GoRouter> createRouter() async {
       // 雑誌
       GoRoute(
         path: '/magazine',
+        routes: [
+           // 登録
+          GoRoute(
+            path: 'add',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: PageAddMagazine(),
+            ),
+          ),
+
+        ],
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: PageMagazine(),
@@ -56,6 +69,16 @@ Future<GoRouter> createRouter() async {
       // 顧客
       GoRoute(
         path: '/customer',
+         routes: [
+          // 登録
+          GoRoute(
+            path: 'add',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: PageAddCustomer(),
+            ),
+          ),
+        ],
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: PageCustomer(),

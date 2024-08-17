@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AleatDialogUtil extends StatelessWidget {
-  const AleatDialogUtil({
-    super.key,
-
-    required this.contents,
-    this.height = 400,
-    this.width = 400,
-  });
+  const AleatDialogUtil({super.key, required this.contents, this.height = 400, this.width = 400, this.padding = const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10)});
 
   final double height;
   final double width;
-
+  final EdgeInsets padding;
   final Widget contents;
 
   @override
@@ -27,7 +21,7 @@ class AleatDialogUtil extends StatelessWidget {
           ),
           height: height,
           width: width,
-          padding: const EdgeInsets.only(top: 10, left: 40, right: 40, bottom: 10),
+          padding: padding,
           child: contents),
     );
   }

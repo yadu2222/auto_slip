@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
 // import 'package:flutter_auto_flip/constant/colors.dart';
-import 'package:flutter_auto_flip/models/customer_model.dart';
+
 import 'package:flutter_auto_flip/view/components/atoms/count_icon.dart';
 import '../atoms/item_card.dart';
 
@@ -16,7 +16,7 @@ class CustomerCard extends StatelessWidget {
 
   final CountingCustomer regularData;
   final bool isRed; // 赤文字表示
-  final void Function(Customer) onTap; // タップ時の処理
+  final void Function(CountingCustomer) onTap; // タップ時の処理
 
   IconData get countIconType {
     switch (regularData.customer.regularType) {
@@ -41,21 +41,23 @@ class CustomerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ItemCard(
-        width: 0.15,
-        widget: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(regularData.customer.customerName),
-            // Text(regularData.customer.address ?? ''),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(countIconType),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(regularData.regular.quantity.toString())
-            ]),
-          ],
-        ));
+    return InkWell(
+        onTap: () => onTap(regularData),
+        child: ItemCard(
+            width: 0.15,
+            widget: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(regularData.customer.customerName),
+                // Text(regularData.customer.address ?? ''),
+                Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(countIconType),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(regularData.regular.quantity.toString())
+                ]),
+              ],
+            )));
   }
 }

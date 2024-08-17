@@ -13,7 +13,7 @@ class CustomerService {
       headers: {'Content-Type': 'application/json'},
     );
     final resData = await HttpReq.httpReq(reqData);
-    return Customer.resToCustomer(resData['srvResData']);   // 変換して返す
+    return Customer.resToCustomer(resData['srvResData']); // 変換して返す
   }
 
   // 名前で検索して取得
@@ -26,6 +26,18 @@ class CustomerService {
       parData: customerName,
     );
     final resData = await HttpReq.httpReq(reqData);
-    return Customer.resToCustomer(resData['srvResData']);   // 変換して返す
+    return Customer.resToCustomer(resData['srvResData']); // 変換して返す
+  }
+
+  // 顧客登録
+  static Future<void> addCustomer(Customer customer) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.registerCustomer,
+      reqType: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: {'customerName': customer.customerName, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
+    );
+    await HttpReq.httpReq(reqData);
   }
 }

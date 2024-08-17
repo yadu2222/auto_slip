@@ -61,9 +61,9 @@ class HttpReq {
         var streamedResponse = await request.send();
         response = await http.Response.fromStream(streamedResponse);
         break;
-      // case 'DELETE':
-      //   response = await http.delete(Uri.parse(url), headers: reqData.headers);
-      //   break;
+      case 'DELETE':
+        response = await http.delete(Uri.parse(url), headers: reqData.headers);
+        break;
     }
     // レスポンスの処理
     debugPrint(response.body.toString());

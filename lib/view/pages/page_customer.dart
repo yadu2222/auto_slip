@@ -60,7 +60,7 @@ class PageCustomer extends HookWidget {
         floatingActionButton: IconButton(
           onPressed: () {
             // 追加画面に遷移
-            context.go('/add');
+            context.go('/customer/add');
           },
           icon: const Icon(Icons.add, size: 30),
         ),

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
+import 'package:flutter_auto_flip/constant/messages.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/models/magazine_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
-import 'package:flutter_auto_flip/view/components/atoms/list_builder.dart';
+import 'package:flutter_auto_flip/view/components/molecles/dialog.dart';
 import 'package:flutter_auto_flip/view/components/organisms/add_regular_dialog.dart';
 import 'package:flutter_auto_flip/view/components/organisms/regular_customer_list.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
 import 'package:flutter_auto_flip/view/components/templates/basic_template.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../components/atoms/alert_dialog.dart';
+
 import '../components/molecles/edit_bar.dart' as edit;
 import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
 // mode;
@@ -22,6 +26,7 @@ class PageRegularMagazine extends HookWidget {
   final TextEditingController storeNameController = TextEditingController(); // 店舗名
   final TextEditingController magazineCodeController = TextEditingController(); // 雑誌コード
   final TextEditingController magazinerNameController = TextEditingController(); // 顧客名
+
   // 新規登録
   final TextEditingController newStoreNameController = TextEditingController(); // 新しい店舗名
   final TextEditingController newCountController = TextEditingController(); // 新しい店舗名
@@ -62,6 +67,7 @@ class PageRegularMagazine extends HookWidget {
                 Navigator.of(context).pop();
               }
 
+              // 顧客を選択
               void choise(Customer customer) {
                 selectCustomer.value = customer;
                 customers.value = [];
@@ -69,7 +75,26 @@ class PageRegularMagazine extends HookWidget {
                 newStoreNameController.text = customer.customerName;
               }
 
-              void register() {}
+              // 登録処理
+              void register() {
+                // 顧客を選択していなければ弾く
+                if (selectCustomer.value == null) {
+                  DialogUtil.show(message: '顧客を選択してください', context: context);
+                  return;
+                }
+                // 冊数の未入力を弾く
+                if (newCountController.text == "") {
+                  DialogUtil.show(message: '冊数が未入力です', context: context);
+                  return;
+                }
+                // 登録処理
+                regularReq.registerRegularHandler(magazine.magazineCode, selectCustomer.value!.customerUUID, newCountController.text).then((value) {
+                  // 登録できたよダイアログを出してあげる
+                  DialogUtil.show(message: Messages.registerSuccess, context: context);
+                });
+
+                close();
+              }
 
               return AddRegularDialog(
                 magazine: magazine,
@@ -87,14 +112,47 @@ class PageRegularMagazine extends HookWidget {
       );
     }
 
+    // 顧客タップ時の処理
+    // 定期の解除
+    void customerTap(CountingCustomer customer) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AleatDialogUtil(
+                padding: const EdgeInsets.only(top: 65, bottom: 50),
+                height: 200,
+                contents: Column(
+                  children: [
+                    // const Text('定期の解除'),
+                    Text('顧客名：${customer.customer.customerName}'),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    BasicButton(
+                      width: 200,
+                      text: '定期を解除します',
+                      isColor: false,
+                      onPressed: () {
+                        regularReq.deleteRegularHandler(customer.regular.regularUUID).then((value) {
+                          Navigator.of(context).pop();
+                          DialogUtil.show(message: '定期を解除しました', context: context);
+                        });
+                      },
+                    )
+                  ],
+                ));
+          });
+    }
+
     // 定期一覧取得
     Future<void> getRegular() async {
       await regularReq.getMagazineRegularHandler().then((value) {
         regularList.value = value;
         view.value = RegularList(
           regularList: regularList.value,
-          onTap: (customer) => print(customer),
+          customerTap: customerTap,
           magazineTap: addRegularByMagazine,
+          onRefresh: getRegular,
         );
       });
     }
@@ -126,8 +184,9 @@ class PageRegularMagazine extends HookWidget {
         regularList.value = value;
         view.value = RegularList(
           regularList: regularList.value,
-          onTap: (customer) => print(customer),
+          customerTap: customerTap,
           magazineTap: (magazine) => print(magazine),
+          onRefresh: getRegular,
         );
       });
     }
@@ -143,8 +202,9 @@ class PageRegularMagazine extends HookWidget {
         regularList.value = value;
         view.value = RegularList(
           regularList: regularList.value,
-          onTap: (customer) => print(customer),
+          customerTap: customerTap,
           magazineTap: (magazine) => print(magazine),
+          onRefresh: getRegular,
         );
       });
     }

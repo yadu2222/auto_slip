@@ -73,7 +73,7 @@ class PageMagazine extends HookWidget {
         floatingActionButton: IconButton(
           onPressed: () {
             // 追加画面に遷移
-            context.go('/home/add');
+            context.go('/magazine/add');
           },
           icon: const Icon(Icons.add, size: 30),
         ),

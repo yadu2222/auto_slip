@@ -43,7 +43,7 @@ class PageCounting extends HookWidget {
       await regularReq.getRegularHandler(file).then((value) => countList.value = value);
     }
 
-    void onTapCutomer(Customer customer) {}
+    void onTapCutomer(CountingCustomer customer) {}
     void onTapCounting(Counting counting) {}
 
     void show() {

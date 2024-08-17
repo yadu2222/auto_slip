@@ -79,6 +79,7 @@ class AddRegularDialog extends StatelessWidget {
 
           // ボタン
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               BasicButton(text: 'とじる', isColor: false, width: 150, onPressed: close),
               const SizedBox(width: 10),

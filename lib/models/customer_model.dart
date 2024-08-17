@@ -36,7 +36,7 @@ class Customer {
     try {
       for (Map loadData in res) {
         customerList.add(Customer(
-            customerUUID: loadData['customerUUID'] ?? '',
+            customerUUID: loadData['customerUUId'] ?? '',
             customerName: loadData['customerName'] ?? '',
             regularType: loadData['methodType'] ?? 0,
             tellType: loadData['tellType'] ?? 0,

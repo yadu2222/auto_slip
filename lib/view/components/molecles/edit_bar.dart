@@ -42,6 +42,7 @@ class EditBarView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0), // IconButton との間隔を設定
               child: TextField(
+                maxLines: 1,
                 keyboardType: inputType,
                 inputFormatters: [...inputFormatter],
                 // maxLength: maxLength,

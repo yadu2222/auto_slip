@@ -34,5 +34,15 @@ class CustomerReq {
     }
   }
 
+  // 顧客登録ハンドラー
+  Future<void> addCustomerHandler(Customer customer) async {
+    try {
+      await CustomerService.addCustomer(customer); // 登録処理を待つ
+      debugPrint("せいこう"); // 登録成功メッセージ
+    } catch (error) {
+      debugPrint("しっぱい"); // 登録失敗メッセージ
+    }
+  }
+
   
 }
