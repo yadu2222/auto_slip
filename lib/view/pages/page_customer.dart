@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
 import 'package:flutter_auto_flip/models/customer_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/alert_dialog.dart';
+import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
+import 'package:flutter_auto_flip/view/components/molecles/dropdown_util.dart';
 import 'package:flutter_auto_flip/view/components/molecles/tell_icons.dart';
 import 'package:flutter_auto_flip/view/components/organisms/customer_list.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 // model
@@ -21,6 +25,10 @@ class PageCustomer extends HookWidget {
   final _customerNameController = TextEditingController(); // コントローラー
   final String title = '顧客一覧';
   final String magazineCodeSearch = 'お名前で検索';
+
+  final newCustomerNameController = TextEditingController(); // コントローラー
+  final addressController = TextEditingController(); // コントローラー
+  final noteController = TextEditingController(); // コントローラー
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +53,138 @@ class PageCustomer extends HookWidget {
       });
     }
 
-    void onTap(Customer customer) {
+    void onTapCustomer(Customer customer) {
       // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
       // ダイアログ表示
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return HookBuilder(builder: (BuildContext context) {
+              final methodType = useState<int>(customer.regularType);
+              final tellType = useState<int>(customer.tellType);
+
+              // dropdownに渡すリスト
+              final List<Map<String, dynamic>> methodTypes = [
+                // userType
+                {'display': '店取', 'value': 2, 'icon': Icons.storefront},
+                {'display': '配達', 'value': 1, 'icon': Icons.delivery_dining},
+                {'display': '店取伝票', 'value': 3, 'icon': Icons.edit},
+              ];
+              final List<Map<String, dynamic>> tellTypes = [
+                // userType
+                {'display': '不要', 'value': 1, 'icon': Icons.phone_disabled_rounded},
+                {'display': '要', 'value': 2, 'icon': Icons.phone_enabled},
+                {'display': '着信のみ', 'value': 3, 'icon': Icons.phone_callback_rounded},
+              ];
+
+              useEffect(() {
+                newCustomerNameController.text = customer.customerName;
+                addressController.text = customer.address ?? '';
+                noteController.text = customer.note ?? '';
+
+                return null;
+              }, []);
+
+              void onChangeMehod(int? value) {
+                methodType.value = value!;
+              }
+
+              void onChangeTellType(int? value) {
+                tellType.value = value!;
+              }
+
+              void close() {
+                // 初期化しダイアログをとじる
+                Navigator.of(context).pop();
+              }
+
+              void update() {
+                // 更新処理
+                Customer updateCustomer = Customer(
+                  customerUUID: customer.customerUUID,
+                  customerName: newCustomerNameController.text,
+                  address: addressController.text,
+                  regularType: methodType.value,
+                  tellType: tellType.value,
+                  note: noteController.text,
+                );
+                customerReq.updateCustomerHandler(updateCustomer).then((value) {
+                  close();
+                  getCustomer();
+                });
+              }
+
+              return AleatDialogUtil(
+                  contents: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    const Text(
+                      '編集',
+                    ),
+
+                    edit.EditBarView(
+                      width: 300,
+                      icon: Icons.person,
+                      hintText: '名前',
+                      controller: newCustomerNameController,
+                    ),
+                    // 電話番号
+                    edit.EditBarView(
+                      width: 300,
+                      icon: Icons.phone,
+                      hintText: '電話番号',
+                      controller: addressController,
+                      inputFormatter: [
+                        LengthLimitingTextInputFormatter(13),
+                      ],
+                    ),
+
+                    // 配達タイプ
+                    DropDownUtil(
+                      width: 290,
+                      height: 45,
+                      items: methodTypes,
+                      onChanged: onChangeMehod,
+                      value: methodType.value,
+                    ),
+                    const SizedBox(height: 10),
+                    // 電話の処理
+                    DropDownUtil(
+                      width: 290,
+                      height: 45,
+                      items: tellTypes,
+                      onChanged: onChangeTellType,
+                      value: tellType.value,
+                    ),
+                    const SizedBox(height: 10),
+                    edit.EditBarView(
+                      width: 300,
+                      icon: Icons.edit,
+                      hintText: '備考',
+                      controller: noteController,
+                      inputFormatter: [
+                        LengthLimitingTextInputFormatter(13),
+                      ],
+                    ),
+
+                    const Spacer(),
+
+                    // 編集、やめるボタン
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        BasicButton(text: 'とじる', isColor: true, onPressed: close),
+                        const SizedBox(width: 10),
+                        BasicButton(text: '編集完了', isColor: false, onPressed: update),
+                      ],
+                    )
+                  ],
+                ),
+              ));
+            });
+          });
     }
 
     useEffect(() {
@@ -82,7 +219,7 @@ class PageCustomer extends HookWidget {
           ),
           const SizedBox(height: 10),
 
-          CustomerList.vertical(customerData: customers.value, onTap: onTap)
+          CustomerList.vertical(customerData: customers.value, onTap: onTapCustomer)
         ]);
   }
 }

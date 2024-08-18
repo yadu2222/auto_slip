@@ -40,4 +40,16 @@ class CustomerService {
     );
     await HttpReq.httpReq(reqData);
   }
+
+  // 顧客情報更新
+  static Future<void> updateCustomer(Customer customer) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.updateUser,
+      reqType: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: { 'customerUUId':customer.customerUUID,'customerName': customer.customerName, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
+    );
+    await HttpReq.httpReq(reqData);
+  }
 }

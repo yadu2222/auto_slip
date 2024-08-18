@@ -72,7 +72,7 @@ class PageAddCustomer extends HookWidget {
         storeNameController.clear();
         addressController.clear();
         noteController.clear();
-        
+
         // Navigator.of(context).pop();
       });
     }
@@ -104,6 +104,7 @@ class PageAddCustomer extends HookWidget {
         onChanged: onChangeMehod,
         value: methodType.value,
       ),
+      const SizedBox(height: 20),
       // 電話の処理
       DropDownUtil(
         items: tellTypes,

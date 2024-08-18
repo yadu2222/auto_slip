@@ -44,5 +44,15 @@ class CustomerReq {
     }
   }
 
+  // 顧客情報更新ハンドラー
+  Future<void> updateCustomerHandler(Customer customer) async {
+    try {
+      await CustomerService.updateCustomer(customer); // 更新処理を待つ
+      debugPrint("せいこう"); // 更新成功メッセージ
+    } catch (error) {
+      debugPrint("しっぱい"); // 更新失敗メッセージ
+    }
+  }
+
   
 }

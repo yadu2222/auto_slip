@@ -14,7 +14,7 @@ class Urls {
   static const String getCustomer = '$version/customers/customers'; // GETお客様情報取得
   static const String registerCustomer = '$version/customers/register'; // POSTユーザー登録
   static const String login = '$version/users/login'; // POSTログイン
-  static const String getUser = '$version/auth/users/user'; // GETuser情報取得
+  static const String updateUser = '$version/customers/update'; // POSTuser情報更新
 
   // employee
 

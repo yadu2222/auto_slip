@@ -31,7 +31,8 @@ class AddRegularDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AleatDialogUtil(
-      contents: Column(
+        contents: Center(
+      child: Column(
         children: [
           const SizedBox(height: 10),
           const Text(
@@ -93,6 +94,6 @@ class AddRegularDialog extends StatelessWidget {
           )
         ],
       ),
-    );
+    ));
   }
 }

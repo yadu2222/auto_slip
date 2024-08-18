@@ -5,10 +5,10 @@ import '../atoms/item_card.dart';
 import 'package:flutter_auto_flip/view/components/atoms/count_icon.dart';
 
 class CustomerInfoCard extends StatelessWidget {
-  const CustomerInfoCard({super.key, required this.customer, required this.onTap});
+  const CustomerInfoCard({super.key, required this.customer,});
 
   final Customer customer; // 表示する定期情報
-  final void Function(Customer) onTap;
+
 
   IconData get countIconType {
     switch (customer.regularType) {

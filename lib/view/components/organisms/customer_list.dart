@@ -19,7 +19,7 @@ class CustomerList extends StatelessWidget {
     this.onTap,
   });
   // 縦スクロール
-  const CustomerList.vertical({super.key, required this.customerData,  this.onTapCountCustomer, this.horizontal = false, this.regularData,this.onTap});
+  const CustomerList.vertical({super.key, required this.customerData, this.onTapCountCustomer, this.horizontal = false, this.regularData, this.onTap});
 
   final bool horizontal;
 
@@ -45,6 +45,12 @@ class CustomerList extends StatelessWidget {
                     return CustomerCard(regularData: regularData![index], onTap: onTapCountCustomer!);
                   },
                 )))
-        : ListBuilder<Customer>(itemDatas: customerData!, listItem: (item) => CustomerInfoCard(customer: item, onTap: onTap!));
+        : ListBuilder<Customer>(itemDatas: customerData!, listItem: (item) => InkWell(
+          onTap: (){
+            if(onTap != null){
+              onTap!(item);
+            }
+          },
+          child: CustomerInfoCard(customer: item)));
   }
 }
