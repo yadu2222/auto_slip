@@ -123,6 +123,7 @@ class PageCustomer extends HookWidget {
                     const Text(
                       '編集',
                     ),
+                    const SizedBox(height: 10),
 
                     edit.EditBarView(
                       width: 300,

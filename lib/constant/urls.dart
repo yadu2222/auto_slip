@@ -24,6 +24,7 @@ class Urls {
   static const String getMagazineByCode = '$version/magazines/magazine'; // GET雑誌情報取得
   static const String getMagazineByName = '$version/magazines/magazines'; // POST雑誌登録
   static const String registerMagazine = '$version/magazines/register'; // POST雑誌登録
+  static const String updateMagazine = '$version/magazines/update'; // POST雑誌更新
 
   // regular
   static const String getMagazineRegular = '$version/regulars/regulars'; // GET定期購読雑誌情報取得
@@ -32,5 +33,10 @@ class Urls {
   static const String getRegularByMagazineCode = '$version/regulars/regulars/magazine/code'; // POST雑誌コードで定期購読雑誌情報取得
   static const String getRegularByMagazineName = '$version/regulars/regulars/magazine/name'; // POST雑誌コードで定期購読雑誌情報取得
   static const String registerRegular = '$version/regulars/register'; // POST定期購読登録
-  static const String deleteRegular = '$version/regulars/delete'; // POST定期購読更新
+  static const String deleteRegular = '$version/regulars/delete'; // 
+  
+  // test
+  static const String csvMagazine = '$version/csv/magazines'; // POST csvから雑誌登録
+  static const String csvRegular = '$version/csv/regulars'; // POST csvから定期購読登録
+  static const String csvCustomer = '$version/csv/customers'; // POST csvから定期購読数取得
 }

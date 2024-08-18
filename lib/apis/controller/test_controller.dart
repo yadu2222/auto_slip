@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../service/test_service.dart';
@@ -11,7 +13,7 @@ class TestReq {
   TestReq({required this.context});
 
   // 接続テスト
-  Future<void> connectTestHandler() async {
+  static Future<void> connectTestHandler() async {
     try {
       await TestService.connectTest(); // ログイン処理を待つ
       // // ログイン完了後の処理
@@ -19,7 +21,34 @@ class TestReq {
       debugPrint("接続に成功しました"); // 登録成功メッセージ
     } catch (error) {
       debugPrint(error.toString());
-      debugPrint( "接続に失敗しました"); // 登録失敗メッセージ
+      debugPrint("接続に失敗しました"); // 登録失敗メッセージ
+    }
+  }
+
+  // csvで情報登録
+  Future<void> csvRegisterHandler(File file, int type) async {
+    try {
+      switch (type) {
+        case 1:
+          {
+            await TestService.csvCustomer(file); // 取得処理を待つ
+            return;
+          }
+        case 2:
+          {
+            await TestService.csvMagazine(file); // 取得処理を待つ
+            return;
+          }
+        case 3:
+          {
+            await TestService.csvRegular(file); // 取得処理を待つ
+            return;
+          }
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+      return;
     }
   }
 }

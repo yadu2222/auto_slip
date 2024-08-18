@@ -117,4 +117,22 @@ class MagazineService {
     debugPrint(resData.toString());
     // 返す
   }
+
+  // 雑誌情報更新
+  static Future<void> updateMagazine(Magazine magazine,String oldMagazineCode) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.updateMagazine,
+      reqType: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: {
+        'magazineName': magazine.magazineName,
+        'magazineCode': magazine.magazineCode,
+      },
+      parData: oldMagazineCode
+    );
+    // リクエストメソッドにオブジェクトを投げる
+   await HttpReq.httpReq(reqData);
+   
+  }
 }

@@ -31,7 +31,7 @@ class MainMenu extends StatelessWidget {
           movePass: '/',
         ),
         MenuTile(
-          title: "てすと",
+          title: "ファイル読み込み",
           movePass: '/test',
         ),
       ],

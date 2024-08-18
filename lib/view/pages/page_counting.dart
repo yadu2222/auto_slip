@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
-import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
 import 'package:flutter_auto_flip/view/components/organisms/counting_list.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

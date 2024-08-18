@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/view/components/atoms/alert_dialog.dart';
+import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -17,6 +19,8 @@ class PageMagazine extends HookWidget {
   // コントローラー
   final _magazineController = TextEditingController();
   final _magazineNameController = TextEditingController();
+  final _newMagazineController = TextEditingController();
+  final _newMagazineNameController = TextEditingController();
 
   // どちらで検索しているかを判別する変数
 
@@ -58,15 +62,92 @@ class PageMagazine extends HookWidget {
       });
     }
 
-    void onTap(Magazine magazine) {
-      // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
-      // ダイアログ表示
-    }
-
     useEffect(() {
       getMagazine();
       return null;
     }, []);
+
+    void onTapMagazine(Magazine magazine) {
+      // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
+      // ダイアログ表示
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return HookBuilder(builder: (BuildContext context) {
+
+         
+
+              useEffect(() {
+                _newMagazineController.text = magazine.magazineCode;
+                _newMagazineNameController.text = magazine.magazineName;
+
+                return null;
+              }, []);
+
+              void close() {
+                // 初期化しダイアログをとじる
+                Navigator.of(context).pop();
+              }
+
+              void update() {
+                // 更新処理
+                Magazine newMagazine = Magazine(
+                  magazineCode: _newMagazineController.text,
+                  magazineName: _newMagazineNameController.text,
+                );
+                magazineReq.updateMagazineHandler(newMagazine,magazine.magazineCode).then((value) {
+                  getMagazine();
+                  close();
+                });
+              }
+
+              return AleatDialogUtil(
+                  height: 300,
+                  contents: Center(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        const Text(
+                          '編集',
+                        ),
+                        const SizedBox(height: 10),
+
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.local_offer,
+                          hintText: '雑誌コード',
+                          controller: _newMagazineController,
+                        ),
+
+                        // 電話番号
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.import_contacts,
+                          hintText: '雑誌名',
+                          controller: _newMagazineNameController,
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(13),
+                          ],
+                        ),
+
+                        const Spacer(),
+
+                        // 編集、やめるボタン
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            BasicButton(text: 'とじる', isColor: true, onPressed: close),
+                            const SizedBox(width: 10),
+                            BasicButton(text: '編集完了', isColor: false, onPressed: update),
+                          ],
+                        )
+                      ],
+                    ),
+                  ));
+            });
+          });
+    }
 
     return BasicTemplate(
         title: title,
@@ -95,7 +176,7 @@ class PageMagazine extends HookWidget {
             controller: _magazineNameController,
             search: serchMagazineName,
           ),
-          MagazineList(magazines: magazines.value, onRefresh: getMagazine, onTap: onTap)
+          MagazineList(magazines: magazines.value, onRefresh: getMagazine, onTap: onTapMagazine)
         ]);
   }
 }
