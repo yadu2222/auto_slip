@@ -50,6 +50,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   csv: ^6.0.0
   window_manager: ^0.4.0
+  shared_preferences: ^2.0.15
   
 
 dev_dependencies:
@@ -58,6 +59,7 @@ dev_dependencies:
   path_provider: any
   sqflite: ^2.2.0+3
   excel: ^2.0.4
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

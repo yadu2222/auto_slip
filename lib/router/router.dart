@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/view/pages/page_customer.dart';
 import 'package:flutter_auto_flip/view/pages/page_magazine.dart';
+import 'package:flutter_auto_flip/view/pages/page_setting.dart';
 import 'package:go_router/go_router.dart';
 
 // 遷移先
@@ -82,6 +83,13 @@ Future<GoRouter> createRouter() async {
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: PageCustomer(),
+        ),
+      ),
+      GoRoute(
+        path: '/setting',
+        pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: PageSetting(),
         ),
       ),
       GoRoute(

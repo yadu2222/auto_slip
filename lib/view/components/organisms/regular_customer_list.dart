@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_auto_flip/models/counting_model.dart';
 
 import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/count_icon.dart';
@@ -22,7 +23,7 @@ class RegularCustomerList extends StatelessWidget {
 
   final bool isCustomer; // どちらを優先して表示するか
   final List<LoadRegular> regularList; // 表示する定期のリスト
-  final void Function(Customer) onTap;
+  final void Function(CountingCustomer) onTap;
 
   IconData getCountIconType(int value) {
     switch (value) {
@@ -62,7 +63,9 @@ class RegularCustomerList extends StatelessWidget {
               SizedBox(
                 child: Column(
                   children: item.regular!.map((regularItem) {
-                    return MagazineCard(magazine: regularItem);
+                    return InkWell(
+                      onTap: () => onTap(CountingCustomer(customer: item.customer!, regular: regularItem.regular)),
+                      child: MagazineCard(magazine: regularItem));
                   }).toList(),
                 ),
               ),

@@ -168,7 +168,7 @@ class PageRegularMagazine extends HookWidget {
         regularList.value = value;
         view.value = RegularCustomerList(
           regularList: regularList.value,
-          onTap: (customer) => print(customer),
+          onTap: customerTap,
         );
       });
     }
@@ -185,7 +185,7 @@ class PageRegularMagazine extends HookWidget {
         view.value = RegularList(
           regularList: regularList.value,
           customerTap: customerTap,
-          magazineTap: (magazine) => print(magazine),
+          magazineTap: addRegularByMagazine,
           onRefresh: getRegular,
         );
       });
@@ -203,7 +203,7 @@ class PageRegularMagazine extends HookWidget {
         view.value = RegularList(
           regularList: regularList.value,
           customerTap: customerTap,
-          magazineTap: (magazine) => print(magazine),
+          magazineTap: addRegularByMagazine,
           onRefresh: getRegular,
         );
       });

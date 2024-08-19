@@ -9,11 +9,17 @@ import '../constant/urls.dart';
 import 'package:mime/mime.dart'; // MIMEタイプを推測するためのパッケージ
 import 'package:http_parser/http_parser.dart'; // ファイルのアップロードに必要
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpReq {
   static Future<Map> httpReq(Request reqData) async {
     // Employee user = await Employee.getUser(); // user情報をdbから取得
-    String url = Urls.baseUrl + reqData.url; // リクエスト先のURL
+
+    // host部を取得
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String host = prefs.getString('ip') ?? Urls.host;
+
+    String url = '${Urls.protocol}$host:${Urls.port}${reqData.url}'; // リクエスト先のURL
     // パラメータがあればurlと合成
     if (reqData.parData != null) {
       url += "/${reqData.parData}";
@@ -57,7 +63,7 @@ class HttpReq {
             );
           }
         }
-        
+
         var streamedResponse = await request.send();
         response = await http.Response.fromStream(streamedResponse);
         break;
