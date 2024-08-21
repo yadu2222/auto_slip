@@ -29,7 +29,7 @@ class CustomerCard extends StatelessWidget {
       case 4:
         return CountIconType.library.getIcon();
       case 5:
-        return CountIconType.delivery.getIcon();
+        return CountIconType.library.getIcon();
       case 6:
         return CountIconType.marucho.getIcon();
       case 7:

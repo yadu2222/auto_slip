@@ -70,6 +70,9 @@ class PageCustomer extends HookWidget {
                 {'display': '店取', 'value': 2, 'icon': Icons.storefront},
                 {'display': '配達', 'value': 1, 'icon': Icons.delivery_dining},
                 {'display': '店取伝票', 'value': 3, 'icon': Icons.edit},
+                {'display': '図書館', 'value': 4, 'icon': Icons.local_library_rounded},
+                {'display': '暁光高校', 'value': 5, 'icon': Icons.edit},
+                {'display': '丸長', 'value': 6, 'icon': Icons.local_shipping},
               ];
               final List<Map<String, dynamic>> tellTypes = [
                 // userType

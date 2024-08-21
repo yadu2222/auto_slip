@@ -4,7 +4,7 @@ import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
 import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
 import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
-import 'package:flutter_auto_flip/view/components/atoms/list_builder.dart';
+import 'package:flutter_auto_flip/view/components/atoms/listview_builder.dart';
 import 'package:flutter_auto_flip/view/components/molecles/edit_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -149,9 +149,8 @@ class PageAdd extends HookWidget {
         );
         // リスト初期化
         registerList.value = [];
-        storeController.clear();  
+        storeController.clear();
         customer.value = null;
-        
       } else {
         DialogUtil.show(context: context, title: Messages.errorTitle, message: errorText);
       }
@@ -171,7 +170,7 @@ class PageAdd extends HookWidget {
           : SizedBox(
               height: 100,
               width: 400,
-              child: ListBuilder<Customer>(
+              child: ListViewBuilder<Customer>(
                   itemDatas: customers.value,
                   listItem: (item) => InkWell(
                       onTap: () {
@@ -203,7 +202,6 @@ class PageAdd extends HookWidget {
         onChanged: searchMagazineCode,
       ),
       EditBarView(
-        
         icon: Icons.menu_book_rounded,
         controller: magazineController,
         hintText: '雑誌名',
@@ -214,7 +212,7 @@ class PageAdd extends HookWidget {
           : SizedBox(
               height: 100,
               width: 400,
-              child: ListBuilder<Magazine>(
+              child: ListViewBuilder<Magazine>(
                   itemDatas: magazines.value,
                   listItem: (item) => InkWell(
                       onTap: () {
