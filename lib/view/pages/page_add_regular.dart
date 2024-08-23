@@ -59,7 +59,7 @@ class PageAdd extends HookWidget {
     void controllerClear() {
       magazineController.clear();
       magezineCodeController.clear();
-      quantityController.clear();
+      quantityController.text = "1";
     }
 
     // 配列追加処理
@@ -156,6 +156,11 @@ class PageAdd extends HookWidget {
       }
     }
 
+    useEffect(() {
+      quantityController.text = "1";
+      return null;
+    }, []);
+
     return BasicTemplate(title: title, children: [
       EditBarView(
         controller: storeController,
@@ -231,7 +236,7 @@ class PageAdd extends HookWidget {
             size: 20,
           ),
           SizedBox(width: 5),
-          Text('新しい定期先ですか？'),
+          Text('新しい雑誌ですか？'),
         ]),
       ),
 

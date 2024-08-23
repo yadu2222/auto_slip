@@ -1,4 +1,12 @@
 class Messages {
+  // version
+
+  // ひとつめ：メイン
+  // ふたつめ：サブ
+  // みっつめ：パッチ
+  // くりあげない！！！
+  static const version = "1.1.0";
+
   // 定期追加成功
   static const String registerSuccess = "登録が完了しました";
 

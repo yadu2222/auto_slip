@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
+import 'package:flutter_auto_flip/constant/messages.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
+import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
+import 'package:flutter_auto_flip/view/components/molecles/dialog.dart';
+import 'package:flutter_auto_flip/view/components/organisms/add_regular_dialog.dart';
 import 'package:flutter_auto_flip/view/components/organisms/counting_list.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
@@ -13,11 +18,16 @@ import 'package:file_picker/file_picker.dart'; // アプリがファイルを読
 import 'dart:io';
 
 class PageCounting extends HookWidget {
-  const PageCounting({super.key});
+  PageCounting({super.key});
+
+    // 新規登録
+  final TextEditingController newStoreNameController = TextEditingController(); // 新しい店舗名
+  final TextEditingController newCountController = TextEditingController(); // 新しい店舗名
 
   @override
   Widget build(BuildContext context) {
     final RegularReq regularReq = RegularReq(context: context);
+    final CustomerReq customerReq = CustomerReq(context: context);
     final countList = useState<List<Counting>>([]);
     final isCustomer = useState<bool>(true);
 
@@ -43,7 +53,79 @@ class PageCounting extends HookWidget {
     }
 
     void onTapCutomer(CountingCustomer customer) {}
-    void onTapCounting(Counting counting) {}
+
+
+    // 押した雑誌から定期の登録を行う
+    void onTapCounting(Counting counting) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return HookBuilder(
+            builder: (BuildContext context) {
+              final customers = useState<List<Customer>>([]);
+              final selectCustomer = useState<Customer?>(null);
+
+              // 定期先検索処理
+              Future<void> searchStoreName(String name) async {
+                final result = await customerReq.searchCustomerNameHandler(name);
+                customers.value = result;
+              }
+
+              void close() {
+                // 初期化しダイアログをとじる
+                newCountController.clear();
+                newStoreNameController.clear();
+                customers.value = [];
+                Navigator.of(context).pop();
+              }
+
+              // 顧客を選択
+              void choise(Customer customer) {
+                selectCustomer.value = customer;
+                customers.value = [];
+
+                newStoreNameController.text = customer.customerName;
+              }
+
+              // 登録処理
+              void register() {
+                // 顧客を選択していなければ弾く
+                if (selectCustomer.value == null) {
+                  DialogUtil.show(message: '顧客を選択してください', context: context);
+                  return;
+                }
+                // 冊数の未入力を弾く
+                if (newCountController.text == "") {
+                  DialogUtil.show(message: '冊数が未入力です', context: context);
+                  return;
+                }
+                // 登録処理
+                regularReq.registerRegularHandler(counting.magazine.magazineCode, selectCustomer.value!.customerUUID, newCountController.text).then((value) {
+                  // 登録できたよダイアログを出してあげる
+                  DialogUtil.show(message: Messages.registerSuccess, context: context);
+                });
+
+                close();
+              }
+
+              return AddRegularDialog(
+                magazine:counting.magazine,
+                close: close,
+                newStoreNameController: newStoreNameController,
+                newCountController: newCountController,
+                onChanged: searchStoreName,
+                customers: customers.value,
+                choise: choise,
+                register: register,
+              );
+            },
+          );
+        },
+      );
+
+
+    }
 
     void show() {
       isCustomer.value = !isCustomer.value;

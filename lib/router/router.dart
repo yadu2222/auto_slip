@@ -11,7 +11,7 @@ import '../view/pages/page_regular.dart';
 import '../view/pages/page_add_customer.dart';
 import '../view/pages/page_add_magazine.dart';
 // import '../view/pages/page_salary.dart';
-import '../view/page_test.dart';
+import '../view/pages/page_test.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 // ルーターの作成

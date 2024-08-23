@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
 
-import 'package:flutter_auto_flip/models/customer_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/count_icon.dart';
 import 'package:flutter_auto_flip/view/components/atoms/magazine_card.dart';
 
