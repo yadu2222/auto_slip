@@ -8,7 +8,10 @@ class DeliveryList extends StatelessWidget {
     super.key,
     required this.deliveryDate,
     required this.deliveries,
+    required this.onTapDelite,
   });
+
+  final void Function(Delivery) onTapDelite; // タップ時の処理
 
   final DateTime deliveryDate;
   final List<Delivery> deliveries; // 表示する定期のリスト
@@ -27,8 +30,8 @@ class DeliveryList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              DeliveryCard(deliveryData: deliveries[startIndex],deliveryDate: deliveryDate,),
-              if (endIndex < deliveries.length) DeliveryCard(deliveryData: deliveries[endIndex],deliveryDate: deliveryDate,),
+              DeliveryCard(deliveryData: deliveries[startIndex],deliveryDate: deliveryDate,onTapDelite: onTapDelite,),
+              if (endIndex < deliveries.length) DeliveryCard(deliveryData: deliveries[endIndex],deliveryDate: deliveryDate,onTapDelite: onTapDelite,),
             ],
           );
         },

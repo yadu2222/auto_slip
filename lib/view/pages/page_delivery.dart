@@ -27,6 +27,46 @@ class PageDelivery extends HookWidget {
     final deliveryList = useState<List<Delivery>>(Delivery.sampleDelibery);
     final deliveryDate = useState<DateTime>(DateTime.now());
 
+    // 押したカードを配列から削除
+    void deleteDelivery(Delivery delivery) {
+      // リストのコピーを作成してから削除
+      final updatedList = List<Delivery>.from(deliveryList.value);
+      updatedList.remove(delivery);
+      // リストを再代入してUIを更新
+      deliveryList.value = updatedList;
+    }
+
+    // 消していいか確認のダイアログ
+    void deliteDialog(Delivery delivery) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('削除確認'),
+            content: Text('${delivery.storeName}様の納品書を削除しますか？'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0), // 角を丸くしない
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('キャンセル'),
+              ),
+              TextButton(
+                onPressed: () {
+                  deleteDelivery(delivery);
+                  Navigator.of(context).pop();
+                },
+                child: const Text('削除'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     // カンマを入れるメソッド
     String formatNumberWithComma(num number) {
       final formatter = NumberFormat('#,###');
@@ -226,6 +266,7 @@ class PageDelivery extends HookWidget {
                         : Expanded(
                             child: SingleChildScrollView(
                             child: DeliveryList(
+                              onTapDelite: deliteDialog,
                               deliveries: deliveryList.value,
                               deliveryDate: deliveryDate.value,
                             ),
