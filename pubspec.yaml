@@ -81,6 +81,7 @@ flutter:
   assets:
     - assets/fonts/NotoSansJP-VariableFont_wght.ttf
     - assets/fonts/NotoSansJP-Bold.ttf
+    - assets/fonts/NotoSansJP-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

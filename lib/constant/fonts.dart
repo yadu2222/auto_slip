@@ -10,6 +10,8 @@ class Fonts {
   static const TextStyle h2 = TextStyle(fontSize: 24, fontFamily: 'Noto Sans JP', color: AppColors.font, fontWeight: FontWeight.bold);
   static const TextStyle h3 = TextStyle(fontSize: 20, fontFamily: 'Noto Sans JP', color: AppColors.font, fontWeight: FontWeight.bold);
   static const TextStyle h4 = TextStyle(fontSize: 18, fontFamily: 'Noto Sans JP', color: AppColors.font, fontWeight: FontWeight.bold);
+  static const TextStyle h5 = TextStyle(fontSize: 16, fontFamily: 'Noto Sans JP', color: AppColors.font, fontWeight: FontWeight.bold);
+
   static const TextStyle p = TextStyle(fontSize: 15, fontFamily: 'Noto Sans JP', color: AppColors.font, fontWeight: FontWeight.bold);
 
   // 白文字用

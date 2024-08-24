@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/apis/controller/customer_controller.dart';
 import 'package:flutter_auto_flip/constant/messages.dart';
 import 'package:flutter_auto_flip/models/counting_model.dart';
@@ -20,7 +20,7 @@ import 'dart:io';
 class PageCounting extends HookWidget {
   PageCounting({super.key});
 
-    // 新規登録
+  // 新規登録
   final TextEditingController newStoreNameController = TextEditingController(); // 新しい店舗名
   final TextEditingController newCountController = TextEditingController(); // 新しい店舗名
 
@@ -53,7 +53,6 @@ class PageCounting extends HookWidget {
     }
 
     void onTapCutomer(CountingCustomer customer) {}
-
 
     // 押した雑誌から定期の登録を行う
     void onTapCounting(Counting counting) {
@@ -110,7 +109,7 @@ class PageCounting extends HookWidget {
               }
 
               return AddRegularDialog(
-                magazine:counting.magazine,
+                magazine: counting.magazine,
                 close: close,
                 newStoreNameController: newStoreNameController,
                 newCountController: newCountController,
@@ -123,8 +122,6 @@ class PageCounting extends HookWidget {
           );
         },
       );
-
-
     }
 
     void show() {
@@ -162,7 +159,10 @@ class PageCounting extends HookWidget {
                       const CountIcons(), // 各アイコンの説明
                     ]),
               // 数取リストの有無で表示を制御
-              countList.value.isEmpty ? const SizedBox.shrink() : CountingList(loadData: countList.value, onTapCutomer: onTapCutomer, onTapCounting: onTapCounting, isCustomer: isCustomer.value)
+              countList.value.isEmpty ? const SizedBox.shrink() : CountingList(loadData: countList.value, onTapCutomer: onTapCutomer, onTapCounting: onTapCounting, isCustomer: isCustomer.value),
+              countList.value.isEmpty ? const SizedBox.shrink() : BasicButton(width: 300, text: '納品書をつくりますか？', isColor: true, onPressed: () {
+                context.go('/delivery');
+              }),
             ],
           ),
         )
