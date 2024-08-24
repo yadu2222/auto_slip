@@ -6,9 +6,11 @@ import 'package:flutter_auto_flip/view/components/molecles/delivery_card.dart';
 class DeliveryList extends StatelessWidget {
   const DeliveryList({
     super.key,
+    required this.deliveryDate,
     required this.deliveries,
   });
 
+  final DateTime deliveryDate;
   final List<Delivery> deliveries; // 表示する定期のリスト
 
   @override
@@ -25,8 +27,8 @@ class DeliveryList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              DeliveryCard(deliveryData: deliveries[startIndex]),
-              if (endIndex < deliveries.length) DeliveryCard(deliveryData: deliveries[endIndex]),
+              DeliveryCard(deliveryData: deliveries[startIndex],deliveryDate: deliveryDate,),
+              if (endIndex < deliveries.length) DeliveryCard(deliveryData: deliveries[endIndex],deliveryDate: deliveryDate,),
             ],
           );
         },

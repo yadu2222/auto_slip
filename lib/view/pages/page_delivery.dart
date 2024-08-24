@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
+import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:flutter_auto_flip/view/components/organisms/delivery_list.dart';
+import 'package:flutter_auto_flip/view/components/organisms/main_menu.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 // view
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
@@ -11,6 +13,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:intl/intl.dart';
 
 class PageDelivery extends HookWidget {
   PageDelivery({super.key});
@@ -22,8 +25,13 @@ class PageDelivery extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final deliveryList = useState<List<Delivery>>(Delivery.sampleDelibery);
+    final deliveryDate = useState<DateTime>(DateTime.now());
 
-    final GlobalKey printKey = GlobalKey();
+    // カンマを入れるメソッド
+    String formatNumberWithComma(num number) {
+      final formatter = NumberFormat('#,###');
+      return formatter.format(number);
+    }
 
     Future<void> print(pw.Document pdf) async {
       final Uint8List pdfData = await pdf.save();
@@ -32,7 +40,7 @@ class PageDelivery extends HookWidget {
       );
     }
 
-    Future<void> printWidgetToPdf(GlobalKey widgetKey) async {
+    Future<void> printWidgetToPdf() async {
       // コンテンツを分割してPDFページを作成
       final pdf = pw.Document();
       const itemsPerRow = 2; // 1行あたりのカード数
@@ -113,8 +121,8 @@ class PageDelivery extends HookWidget {
                                     buildTableCell(magazine.magazineName, left: true),
                                     buildTableCell(magazine.magazineNumber),
                                     buildTableCell(magazine.quantity.toString()),
-                                    magazine.quantity == 1 ? buildTableCell('') : buildTableCell(magazine.unitPrice.toString()),
-                                    buildTableCell((magazine.quantity * magazine.unitPrice).toString()),
+                                    magazine.quantity == 1 ? buildTableCell('') : buildTableCell(formatNumberWithComma(magazine.unitPrice)),
+                                    buildTableCell(formatNumberWithComma(magazine.quantity * magazine.unitPrice)),
                                   ]),
                                 // データが5行未満の場合に空行を追加
                                 if (delivery.magazines.length < 5)
@@ -129,7 +137,7 @@ class PageDelivery extends HookWidget {
                               ],
                             ),
                             pw.Row(mainAxisAlignment: pw.MainAxisAlignment.end, children: [
-                              pw.Text(delivery.date, style: pw.TextStyle(font: ttf, fontSize: 8)),
+                              pw.Text('${deliveryDate.value.year}/${deliveryDate.value.month}/${deliveryDate.value.day}', style: pw.TextStyle(font: ttf, fontSize: 8)),
                             ]),
                           ],
                         ),
@@ -175,31 +183,54 @@ class PageDelivery extends HookWidget {
       // await regularReq.getRegularHandler(file).then((value) => deliveryList.value = value);
     }
 
+    Future<void> _selectDate(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: deliveryDate.value,
+        firstDate: DateTime(deliveryDate.value.year - 1),
+        lastDate: DateTime(deliveryDate.value.year + 5),
+      );
+
+      if (picked != null) {
+        deliveryDate.value = picked;
+      }
+    }
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('伝票を作ろう'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                printWidgetToPdf(printKey);
-              },
-              icon: const Icon(
-                Icons.print,
-                size: 30,
-              ),
-            ),
-          ],
-        ),
         body: Center(
-            child:
-                // 数取リストの有無で表示を制御
-                deliveryList.value.isEmpty
-                    ? const SizedBox.shrink()
-                    : SingleChildScrollView(
-                        child: RepaintBoundary(
-                          key: printKey,
-                          child: DeliveryList(deliveries: deliveryList.value),
+            child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Row(children: [
+                  const MainMenu(),
+                  Expanded(
+                      child: Column(children: [
+                    AppBar(
+                      title: const Text('伝票を作ろう'),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            printWidgetToPdf();
+                          },
+                          icon: const Icon(
+                            Icons.print,
+                            size: 30,
+                          ),
                         ),
-                      )));
+                      ],
+                    ),
+                    // 日付を入れてもらう
+                    BasicButton(width: 300, text: '納品する日付 : ${deliveryDate.value.year}/${deliveryDate.value.month}/${deliveryDate.value.day}', isColor: true, onPressed: () => _selectDate(context)),
+                    // 数取リストの有無で表示を制御
+                    deliveryList.value.isEmpty
+                        ? const SizedBox.shrink()
+                        : Expanded(
+                            child: SingleChildScrollView(
+                            child: DeliveryList(
+                              deliveries: deliveryList.value,
+                              deliveryDate: deliveryDate.value,
+                            ),
+                          ))
+                  ]))
+                ]))));
   }
 }

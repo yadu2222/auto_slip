@@ -2,24 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/constant/colors.dart';
 import 'package:flutter_auto_flip/constant/fonts.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
+import 'package:intl/intl.dart';
 // import 'package:flutter_auto_flip/constant/colors.dart';
 
-// お客様情報を表示するカード
+// 納品書を表示するカード
 class DeliveryCard extends StatelessWidget {
   const DeliveryCard({
     super.key,
+    required this.deliveryDate,
     required this.deliveryData,
     this.isRed = false,
   });
 
+  final DateTime deliveryDate;
   final Delivery deliveryData;
   final bool isRed; // 赤文字表示
+
+  // カンマを入れるメソッド
+  String formatNumberWithComma(num number) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(number);
+  }
 
   @override
   Widget build(BuildContext context) {
     // セルにパディングを設定
-    Widget buildTableCell(String text) {
-      return Padding(
+    Widget buildTableCell(String text, {bool isLeft = false}) {
+      return Container(
+        alignment: isLeft ? Alignment.centerLeft : Alignment.center,
         padding: const EdgeInsets.only(top: 2, bottom: 2, left: 5, right: 5),
         child: Text(text, textAlign: TextAlign.center),
       );
@@ -27,15 +37,23 @@ class DeliveryCard extends StatelessWidget {
 
     return Container(
       width: 450,
-      height: 200,
+      height: 240,
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
       decoration: BoxDecoration(border: Border.all(color: AppColors.font)),
       child: Column(
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          const Text(
+            '納品書',
+            style: Fonts.h5,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               '${deliveryData.storeName} 様',
               style: Fonts.h5,
+            ),
+            const Text(
+              '松田書店',
+              style: Fonts.p,
             ),
           ]),
           const SizedBox(height: 3),
@@ -58,16 +76,26 @@ class DeliveryCard extends StatelessWidget {
               ]),
               for (var magazine in deliveryData.magazines)
                 TableRow(children: [
-                  buildTableCell(magazine.magazineName),
+                  buildTableCell(magazine.magazineName, isLeft: true),
                   buildTableCell(magazine.magazineNumber),
                   buildTableCell(magazine.quantity.toString()),
-                  magazine.quantity == 1 ? buildTableCell('') : buildTableCell(magazine.unitPrice.toString()),
-                  buildTableCell((magazine.quantity * magazine.unitPrice).toString()),
-                ])
+                  magazine.quantity == 1 ? buildTableCell('') : buildTableCell(formatNumberWithComma(magazine.unitPrice)),
+                  buildTableCell(formatNumberWithComma(magazine.quantity * magazine.unitPrice)),
+                ]),
+              // データが5行未満の場合に空行を追加
+              if (deliveryData.magazines.length < 5)
+                for (var i = 0; i < 5 - deliveryData.magazines.length; i++)
+                  TableRow(children: [
+                    buildTableCell(''),
+                    buildTableCell(''),
+                    buildTableCell(''),
+                    buildTableCell(''),
+                    buildTableCell(''),
+                  ]),
             ],
           ),
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(deliveryData.date),
+            Text('${deliveryDate.year}/${deliveryDate.month}/${deliveryDate.day}'),
           ]),
         ],
       ),
