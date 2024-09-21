@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/apis/controller/delivery_controller.dart';
+import 'package:flutter_auto_flip/common/number_format.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:flutter_auto_flip/view/components/organisms/delivery_list.dart';
@@ -13,7 +15,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:intl/intl.dart';
 
 class PageDelivery extends HookWidget {
   PageDelivery({super.key});
@@ -24,7 +25,8 @@ class PageDelivery extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deliveryList = useState<List<Delivery>>(Delivery.sampleDelibery);
+    DeliveryReq deliveryReq = DeliveryReq(context: context);
+    final deliveryList = useState<List<Delivery>>([]);
     final deliveryDate = useState<DateTime>(DateTime.now());
 
     // 押したカードを配列から削除
@@ -43,7 +45,7 @@ class PageDelivery extends HookWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('削除確認'),
-            content: Text('${delivery.storeName}様の納品書を削除しますか？'),
+            content: Text('${delivery.customerName}様の納品書を削除しますか？'),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(0), // 角を丸くしない
             ),
@@ -67,12 +69,6 @@ class PageDelivery extends HookWidget {
       );
     }
 
-    // カンマを入れるメソッド
-    String formatNumberWithComma(num number) {
-      final formatter = NumberFormat('#,###');
-      return formatter.format(number);
-    }
-
     Future<void> print(pw.Document pdf) async {
       final Uint8List pdfData = await pdf.save();
       await Printing.layoutPdf(
@@ -89,7 +85,7 @@ class PageDelivery extends HookWidget {
       const cardWidth = 270.0; // カードの幅
       const cardHeight = 155.0; // カードの高さ
 
-      final fontData = await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf');
+      final fontData = await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'); // 文字化け対策にフォントを読み込み
       final ttf = pw.Font.ttf(fontData);
 
       for (int i = 0; i < deliveryList.value.length; i += cardsPerPage) {
@@ -118,10 +114,11 @@ class PageDelivery extends HookWidget {
             build: (pw.Context context) {
               return pw.Center(
                   child: pw.Column(
+                // 1ページに表示する行数分だけ繰り返す
                 children: List.generate((pageItems.length / itemsPerRow).ceil(), (rowIndex) {
-                  final startIndex = rowIndex * itemsPerRow;
-                  final endIndex = startIndex + itemsPerRow;
-                  final rowItems = pageItems.sublist(startIndex, endIndex > pageItems.length ? pageItems.length : endIndex);
+                  final startIndex = rowIndex * itemsPerRow; // 左
+                  final endIndex = startIndex + itemsPerRow; // 右
+                  final rowItems = pageItems.sublist(startIndex, endIndex > pageItems.length ? pageItems.length : endIndex); // 1行分のデータを取得
 
                   return pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.start,
@@ -135,13 +132,14 @@ class PageDelivery extends HookWidget {
                           children: [
                             pw.Text('納品書', style: pw.TextStyle(font: ttf, fontSize: 10)),
                             pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                              pw.Text('${delivery.storeName} 様', style: pw.TextStyle(font: ttf, fontSize: 10)),
+                              pw.Text('${delivery.customerName} 様', style: pw.TextStyle(font: ttf, fontSize: 10)),
                               pw.Text('松田書店', style: pw.TextStyle(font: ttf, fontSize: 8)),
                             ]),
                             pw.SizedBox(height: 3),
                             pw.Table(
                               border: pw.TableBorder.all(),
                               columnWidths: {
+                                // 幅を固定
                                 0: const pw.FixedColumnWidth(120),
                                 1: const pw.FixedColumnWidth(30),
                                 2: const pw.FixedColumnWidth(25),
@@ -161,8 +159,8 @@ class PageDelivery extends HookWidget {
                                     buildTableCell(magazine.magazineName, left: true),
                                     buildTableCell(magazine.magazineNumber),
                                     buildTableCell(magazine.quantity.toString()),
-                                    magazine.quantity == 1 ? buildTableCell('') : buildTableCell(formatNumberWithComma(magazine.unitPrice)),
-                                    buildTableCell(formatNumberWithComma(magazine.quantity * magazine.unitPrice)),
+                                    magazine.quantity == 1 ? buildTableCell('') : buildTableCell(NumberFormatProcess.formatNumberWithComma(magazine.unitPrice)),
+                                    buildTableCell(NumberFormatProcess.formatNumberWithComma(magazine.quantity * magazine.unitPrice)),
                                   ]),
                                 // データが5行未満の場合に空行を追加
                                 if (delivery.magazines.length < 5)
@@ -213,14 +211,14 @@ class PageDelivery extends HookWidget {
 
     // TODO:バリデーション
     // csvのみ受付？
-    Future<void> counting() async {
+    Future<void> getDelivery() async {
       // ファイルを読み込み
       File? file = await loadFile();
       if (file == null) {
         // TODO: ファイルが選択されなかった場合の処理
         return;
       }
-      // await regularReq.getRegularHandler(file).then((value) => deliveryList.value = value);
+      await deliveryReq.getDeliveryHandler(file).then((value) => deliveryList.value = value);
     }
 
     Future<void> _selectDate(BuildContext context) async {
@@ -259,6 +257,7 @@ class PageDelivery extends HookWidget {
                       ],
                     ),
                     // 日付を入れてもらう
+                    BasicButton(width: 300, text: 'ファイルを選択してね', isColor: true, onPressed: () => getDelivery()),
                     BasicButton(width: 300, text: '納品する日付 : ${deliveryDate.value.year}/${deliveryDate.value.month}/${deliveryDate.value.day}', isColor: true, onPressed: () => _selectDate(context)),
                     // 数取リストの有無で表示を制御
                     deliveryList.value.isEmpty

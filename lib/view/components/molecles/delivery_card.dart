@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/common/number_format.dart';
 import 'package:flutter_auto_flip/constant/colors.dart';
 import 'package:flutter_auto_flip/constant/fonts.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
-import 'package:intl/intl.dart';
 // import 'package:flutter_auto_flip/constant/colors.dart';
 
 // 納品書を表示するカード
@@ -19,12 +19,6 @@ class DeliveryCard extends StatelessWidget {
   final DateTime deliveryDate;
   final Delivery deliveryData;
   final bool isRed; // 赤文字表示
-
-  // カンマを入れるメソッド
-  String formatNumberWithComma(num number) {
-    final formatter = NumberFormat('#,###');
-    return formatter.format(number);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +46,7 @@ class DeliveryCard extends StatelessWidget {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                  '${deliveryData.storeName} 様',
+                  '${deliveryData.customerName} 様',
                   style: Fonts.h5,
                 ),
                 const Text(
@@ -83,8 +77,8 @@ class DeliveryCard extends StatelessWidget {
                       buildTableCell(magazine.magazineName, isLeft: true),
                       buildTableCell(magazine.magazineNumber),
                       buildTableCell(magazine.quantity.toString()),
-                      magazine.quantity == 1 ? buildTableCell('') : buildTableCell(formatNumberWithComma(magazine.unitPrice)),
-                      buildTableCell(formatNumberWithComma(magazine.quantity * magazine.unitPrice)),
+                      magazine.quantity == 1 ? buildTableCell('') : buildTableCell(NumberFormatProcess.formatNumberWithComma(magazine.unitPrice)),
+                      buildTableCell(NumberFormatProcess.formatNumberWithComma(magazine.quantity * magazine.unitPrice)),
                     ]),
                   // データが5行未満の場合に空行を追加
                   if (deliveryData.magazines.length < 5)

@@ -15,6 +15,7 @@ class Urls {
   static const String registerCustomer = '$version/customers/register'; // POSTユーザー登録
   static const String login = '$version/users/login'; // POSTログイン
   static const String updateUser = '$version/customers/update'; // POSTuser情報更新
+  static const String deliteCustomer = '$version/customers/delete'; // POSTユーザー削除
 
   // employee
 
@@ -33,10 +34,13 @@ class Urls {
   static const String getRegularByMagazineCode = '$version/regulars/regulars/magazine/code'; // POST雑誌コードで定期購読雑誌情報取得
   static const String getRegularByMagazineName = '$version/regulars/regulars/magazine/name'; // POST雑誌コードで定期購読雑誌情報取得
   static const String registerRegular = '$version/regulars/register'; // POST定期購読登録
-  static const String deleteRegular = '$version/regulars/delete'; // 
-  
+  static const String deleteRegular = '$version/regulars/delete'; //
+
   // test
   static const String csvMagazine = '$version/csv/magazines'; // POST csvから雑誌登録
   static const String csvRegular = '$version/csv/regulars'; // POST csvから定期購読登録
   static const String csvCustomer = '$version/csv/customers'; // POST csvから定期購読数取得
+
+  // delivery
+  static const String getDelivery = '$version/deliveries/deliveries'; // GET配送情報取得
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/view/pages/page_customer.dart';
 import 'package:flutter_auto_flip/view/pages/page_delivery.dart';
+import 'package:flutter_auto_flip/view/pages/page_invoice.dart';
 import 'package:flutter_auto_flip/view/pages/page_magazine.dart';
 import 'package:flutter_auto_flip/view/pages/page_setting.dart';
 import 'package:go_router/go_router.dart';
@@ -24,37 +25,27 @@ Future<GoRouter> createRouter() async {
       // ホーム
       GoRoute(
         path: '/',
-         routes: [
-          // 登録
-          GoRoute(
-            path: 'delivery',
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: PageDelivery(),
-            ),
-          ),
-        ],
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: PageCounting(),
         ),
         // てすと
       ),
-      
+
       // 編集
       GoRoute(
-          path: '/regular',
-          routes: [
-            // 登録
-            GoRoute(
-              path: 'add',
-              pageBuilder: (context, state) => NoTransitionPage(
-                key: state.pageKey,
-                child: PageAdd(),
-              ),
+        path: '/regular',
+        routes: [
+          // 登録
+          GoRoute(
+            path: 'add',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: PageAdd(),
             ),
-          ],
-          pageBuilder: (context, state) => NoTransitionPage(
+          ),
+        ],
+        pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: PageRegularMagazine(),
         ),
@@ -63,7 +54,7 @@ Future<GoRouter> createRouter() async {
       GoRoute(
         path: '/magazine',
         routes: [
-           // 登録
+          // 登録
           GoRoute(
             path: 'add',
             pageBuilder: (context, state) => NoTransitionPage(
@@ -71,7 +62,6 @@ Future<GoRouter> createRouter() async {
               child: PageAddMagazine(),
             ),
           ),
-
         ],
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
@@ -81,7 +71,7 @@ Future<GoRouter> createRouter() async {
       // 顧客
       GoRoute(
         path: '/customer',
-         routes: [
+        routes: [
           // 登録
           GoRoute(
             path: 'add',
@@ -94,6 +84,20 @@ Future<GoRouter> createRouter() async {
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: PageCustomer(),
+        ),
+      ),
+      GoRoute(
+        path: '/delivery',
+        pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: PageDelivery(),
+        ),
+      ),
+      GoRoute(
+        path: '/invoice',
+        pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: PageInvoice(),
         ),
       ),
       GoRoute(

@@ -31,6 +31,14 @@ class MainMenu extends StatelessWidget {
           movePass: '/',
         ),
         MenuTile(
+          title: "納品書",
+          movePass: '/delivery',
+        ),
+        MenuTile(
+          title: "請求書",
+          movePass: '/invoice',
+        ),
+        MenuTile(
           title: "設定",
           movePass: '/setting',
         ),
@@ -38,7 +46,6 @@ class MainMenu extends StatelessWidget {
           title: "ファイル読み込み",
           movePass: '/test',
         ),
-        
       ],
     );
   }

@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:http/http.dart';
 // model
 
 // api
@@ -34,6 +35,7 @@ class PageCustomer extends HookWidget {
   Widget build(BuildContext context) {
     CustomerReq customerReq = CustomerReq(context: context);
     final customers = useState<List<Customer>>([]);
+    final delite = useState<bool>(false);
 
     // 一覧取得
     Future<void> getCustomer() async {
@@ -53,7 +55,7 @@ class PageCustomer extends HookWidget {
       });
     }
 
-    void onTapCustomer(Customer customer) {
+    void EditCustomer(Customer customer) {
       // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
       // ダイアログ表示
       showDialog(
@@ -191,20 +193,72 @@ class PageCustomer extends HookWidget {
           });
     }
 
+    void deliteCustomer(Customer customer) {
+      // 削除処理
+
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('削除しますか？'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('やめる'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    customerReq.deliteCustomerHandler(customer.customerUUID).then((value) {
+                      getCustomer();
+                      Navigator.of(context).pop();
+                    });
+                  },
+                  child: const Text('削除'),
+                ),
+              ],
+            );
+          });
+    }
+
+    void onTapCustomer(Customer customer) {
+      delite.value ? deliteCustomer(customer) : EditCustomer(customer);
+    }
+
     useEffect(() {
       getCustomer();
       return null;
     }, []);
 
+    void showDelite() {
+      delite.value = !delite.value;
+    }
+
     return BasicTemplate(
         title: title,
-        floatingActionButton: IconButton(
-          onPressed: () {
-            // 追加画面に遷移
-            context.push('/customer/add').then((value) => getCustomer());
-          },
-          icon: const Icon(Icons.add, size: 30),
-        ),
+        floatingActionButton: Row(children: [
+          // ごみばこ
+          IconButton(
+            onPressed: () {
+              showDelite();
+            },
+            icon: Icon(
+              Icons.delete,
+              size: 30,
+              color: delite.value ? Colors.red : null,
+            ),
+          ),
+          // 追加
+          IconButton(
+            onPressed: () {
+              // 追加画面に遷移
+              context.push('/customer/add').then((value) => getCustomer());
+            },
+            icon: const Icon(Icons.add, size: 30),
+          ),
+        ]),
         children: [
           // 検索バー
           // 名前で検索

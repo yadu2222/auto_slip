@@ -54,5 +54,14 @@ class CustomerReq {
     }
   }
 
+  Future<void> deliteCustomerHandler(String customerUUID) async{
+    try {
+      await CustomerService.deliteCustomer(customerUUID); // 削除処理を待つ
+      debugPrint("せいこう"); // 削除成功メッセージ
+    } catch (error) {
+      debugPrint("しっぱい"); // 削除失敗メッセージ
+    }
+  }
+
   
 }

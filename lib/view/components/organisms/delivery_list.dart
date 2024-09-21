@@ -24,7 +24,7 @@ class DeliveryList extends StatelessWidget {
         (deliveries.length / 2).ceil(),
         (index) {
           int startIndex = index * 2;
-          int endIndex = startIndex + 2;
+          int endIndex = startIndex + 1;
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.start,

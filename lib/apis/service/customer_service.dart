@@ -52,4 +52,16 @@ class CustomerService {
     );
     await HttpReq.httpReq(reqData);
   }
+
+  // 顧客を削除
+  static Future<void> deliteCustomer(String customerUUID) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.deliteCustomer,
+      reqType: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      parData: customerUUID
+    );
+    await HttpReq.httpReq(reqData);
+  }
 }

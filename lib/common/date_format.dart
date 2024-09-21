@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 
-class DateFormatProces{
+class DateFormatProcess{
 
    // 日付を変換して返す
   static String dateformat(String dateTime, int type) {
