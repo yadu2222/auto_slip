@@ -83,4 +83,15 @@ class MagazineReq {
       debugPrint("しっぱい"); // 取得失敗メッセージ
     }
   }
+
+  // 雑誌情報削除
+  Future<void> deleteMagazineHandler(String magazineCode) async {
+    try {
+      await MagazineService.deleteMagazine(magazineCode); // 取得処理を待つ
+      debugPrint("せいこう"); // 取得成功メッセージ
+    } catch (error) {
+      debugPrint(error.toString());
+      debugPrint("しっぱい"); // 取得失敗メッセージ
+    }
+  }
 }

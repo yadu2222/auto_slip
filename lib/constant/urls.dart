@@ -26,6 +26,7 @@ class Urls {
   static const String getMagazineByName = '$version/magazines/magazines'; // POST雑誌登録
   static const String registerMagazine = '$version/magazines/register'; // POST雑誌登録
   static const String updateMagazine = '$version/magazines/update'; // POST雑誌更新
+  static const String deleteMagazine = '$version/magazines/delete'; // POST雑誌削除
 
   // regular
   static const String getMagazineRegular = '$version/regulars/regulars'; // GET定期購読雑誌情報取得

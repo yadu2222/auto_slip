@@ -32,6 +32,7 @@ class PageMagazine extends HookWidget {
   Widget build(BuildContext context) {
     MagazineReq magazineReq = MagazineReq(context: context);
     final magazines = useState<List<Magazine>>([]);
+    final delete = useState<bool>(false);
 
     // 一覧取得
     Future<void> getMagazine() async {
@@ -67,7 +68,11 @@ class PageMagazine extends HookWidget {
       return null;
     }, []);
 
-    void onTapMagazine(Magazine magazine) {
+    void switchDelete() {
+      delete.value = !delete.value;
+    }
+
+    void editMagazine(Magazine magazine) {
       // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
       // ダイアログ表示
       showDialog(
@@ -75,9 +80,6 @@ class PageMagazine extends HookWidget {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return HookBuilder(builder: (BuildContext context) {
-
-         
-
               useEffect(() {
                 _newMagazineController.text = magazine.magazineCode;
                 _newMagazineNameController.text = magazine.magazineName;
@@ -96,7 +98,7 @@ class PageMagazine extends HookWidget {
                   magazineCode: _newMagazineController.text,
                   magazineName: _newMagazineNameController.text,
                 );
-                magazineReq.updateMagazineHandler(newMagazine,magazine.magazineCode).then((value) {
+                magazineReq.updateMagazineHandler(newMagazine, magazine.magazineCode).then((value) {
                   getMagazine();
                   close();
                 });
@@ -149,15 +151,67 @@ class PageMagazine extends HookWidget {
           });
     }
 
+    void deleteMagazine(Magazine magazine) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                // dialogの角丸
+                borderRadius: BorderRadius.circular(1.0),
+              ),
+              title: const Text("削除"),
+              content: Text("「${magazine.magazineName}」を削除しますか？"),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('いいえ'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text('削除'),
+                  onPressed: () {
+                    magazineReq.deleteMagazineHandler(magazine.magazineCode).then((value) {
+                      getMagazine();
+                    });
+
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    }
+
+    void onTapMagazine(Magazine magazine) {
+      delete.value ? deleteMagazine(magazine) : editMagazine(magazine);
+    }
+
     return BasicTemplate(
         title: title,
-        floatingActionButton: IconButton(
-          onPressed: () {
-            // 追加画面に遷移
-            context.go('/magazine/add');
-          },
-          icon: const Icon(Icons.add, size: 30),
-        ),
+        floatingActionButton: Row(children: [
+          // ごみばこ
+          IconButton(
+            onPressed: () {
+              switchDelete();
+            },
+            icon: Icon(
+              Icons.delete,
+              size: 30,
+              color: delete.value ? Colors.red : null,
+            ),
+          ),
+          // 追加
+          IconButton(
+            onPressed: () {
+              // 追加画面に遷移
+              context.go('/magazine/add');
+            },
+            icon: const Icon(Icons.add, size: 30),
+          ),
+        ]),
         children: [
           // 検索バー
           // 雑誌コード

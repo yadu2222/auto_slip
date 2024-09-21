@@ -10,9 +10,6 @@ import 'package:flutter_auto_flip/view/components/organisms/customer_list.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-// model
-
-// api
 
 // view
 import '../components/templates/basic_template.dart';
@@ -33,7 +30,7 @@ class PageCustomer extends HookWidget {
   Widget build(BuildContext context) {
     CustomerReq customerReq = CustomerReq(context: context);
     final customers = useState<List<Customer>>([]);
-    final delite = useState<bool>(false);
+    final delete = useState<bool>(false);
 
     // 一覧取得
     Future<void> getCustomer() async {
@@ -227,7 +224,7 @@ class PageCustomer extends HookWidget {
     }
 
     void onTapCustomer(Customer customer) {
-      delite.value ? deliteCustomer(customer) : EditCustomer(customer);
+      delete.value ? deliteCustomer(customer) : EditCustomer(customer);
     }
 
     useEffect(() {
@@ -235,8 +232,8 @@ class PageCustomer extends HookWidget {
       return null;
     }, []);
 
-    void showDelite() {
-      delite.value = !delite.value;
+    void switchDelete() {
+      delete.value = !delete.value;
     }
 
     return BasicTemplate(
@@ -245,12 +242,12 @@ class PageCustomer extends HookWidget {
           // ごみばこ
           IconButton(
             onPressed: () {
-              showDelite();
+              switchDelete();
             },
             icon: Icon(
               Icons.delete,
               size: 30,
-              color: delite.value ? Colors.red : null,
+              color: delete.value ? Colors.red : null,
             ),
           ),
           // 追加

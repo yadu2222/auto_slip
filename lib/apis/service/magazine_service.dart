@@ -135,4 +135,17 @@ class MagazineService {
    await HttpReq.httpReq(reqData);
    
   }
+
+  // 雑誌情報削除
+  static Future<void> deleteMagazine(String magazineCode) async {
+    // リクエストを生成
+    final reqData = Request(
+      url: Urls.deleteMagazine,
+      reqType: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      parData: magazineCode,
+    );
+    // リクエストメソッドにオブジェクトを投げる
+    await HttpReq.httpReq(reqData);
+  }
 }
