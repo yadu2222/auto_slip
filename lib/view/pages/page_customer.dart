@@ -9,8 +9,6 @@ import 'package:flutter_auto_flip/view/components/molecles/tell_icons.dart';
 import 'package:flutter_auto_flip/view/components/organisms/customer_list.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_auto_flip/view/components/molecles/dialog.dart';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 // model
 
