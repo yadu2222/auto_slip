@@ -12,10 +12,10 @@ class DeliveryCard extends StatelessWidget {
     required this.deliveryDate,
     required this.deliveryData,
     this.isRed = false,
-    required this.onTapDelite,
+    this.onTapDelite,
   });
 
-  final void Function(Delivery) onTapDelite; // タップ時の処理
+  final void Function(Delivery)? onTapDelite; // タップ時の処理
   final DateTime deliveryDate;
   final Delivery deliveryData;
   final bool isRed; // 赤文字表示
@@ -32,7 +32,7 @@ class DeliveryCard extends StatelessWidget {
     }
 
     return InkWell(
-        onTap: () => onTapDelite(deliveryData),
+        onTap: onTapDelite != null ? () => onTapDelite!(deliveryData) : null,
         child: Container(
           width: 450,
           height: 240,
