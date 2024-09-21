@@ -108,7 +108,7 @@ class PageDelivery extends HookWidget {
 
         pdf.addPage(
           pw.Page(
-            margin: pw.EdgeInsets.zero, // 余白をなくす
+            margin: const pw.EdgeInsets.all(30),
 
             // pageFormat: pageSize,
             build: (pw.Context context) {
