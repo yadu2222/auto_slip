@@ -9,9 +9,9 @@ import 'package:flutter_auto_flip/view/components/molecles/tell_icons.dart';
 import 'package:flutter_auto_flip/view/components/organisms/customer_list.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auto_flip/view/components/molecles/dialog.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:http/http.dart';
 // model
 
 // api
@@ -201,22 +201,27 @@ class PageCustomer extends HookWidget {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('削除しますか？'),
-              actions: [
+              shape: RoundedRectangleBorder(
+                // dialogの角丸
+                borderRadius: BorderRadius.circular(1.0),
+              ),
+              title: const Text("削除"),
+              content: Text("「${customer.customerName}」を削除しますか？"),
+              actions: <Widget>[
                 TextButton(
+                  child: const Text('いいえ'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('やめる'),
                 ),
                 TextButton(
+                  child: const Text('削除'),
                   onPressed: () {
                     customerReq.deliteCustomerHandler(customer.customerUUID).then((value) {
                       getCustomer();
-                      Navigator.of(context).pop();
                     });
+                    Navigator.of(context).pop();
                   },
-                  child: const Text('削除'),
                 ),
               ],
             );
