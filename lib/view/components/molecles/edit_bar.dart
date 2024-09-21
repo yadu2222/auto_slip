@@ -75,6 +75,13 @@ class EditBarView extends StatelessWidget {
                 onChanged: (value) => {
                   if (onChanged != null) {onChanged!(value)}
                 },
+                // エンターキーで処理をトリガーする
+                onSubmitted: (value) {
+                  if (search != null) {
+                    FocusScope.of(context).unfocus(); // キーボードを閉じる
+                    search!(); // suffixIcon の検索ボタンと同じ処理を呼び出す
+                  }
+                },
               ),
             ),
           ),
