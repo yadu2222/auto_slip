@@ -3,7 +3,6 @@ import 'package:flutter_auto_flip/apis/controller/delivery_controller.dart';
 import 'package:flutter_auto_flip/common/pdf_adupter.dart';
 import 'package:flutter_auto_flip/constant/fonts.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
-import 'package:flutter_auto_flip/models/magazine_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 import 'package:flutter_auto_flip/view/components/molecles/delivery_card.dart';
 import 'package:flutter_auto_flip/view/components/organisms/delivery_list.dart';
@@ -96,11 +95,11 @@ class PageDelivery extends HookWidget {
       }
       for (int i = delivery.magazines.length; i < 5; i++) {
         editController.add({
-          'magazineCode': TextEditingController(),
-          'magazineName': TextEditingController(),
-          'magazineNumber': TextEditingController(),
-          'quantity': TextEditingController(),
-          'price': TextEditingController(),
+          'magazineCode': TextEditingController(text: ''),
+          'magazineName': TextEditingController(text: ''),
+          'magazineNumber': TextEditingController(text: ''),
+          'quantity': TextEditingController(text: ''),
+          'price': TextEditingController(text: ''),
         });
       }
 
@@ -129,9 +128,13 @@ class PageDelivery extends HookWidget {
                       onPressed: () {
                         List<DeliveryMagazine> magazines = [];
                         for (Map controller in editController) {
-                          debugPrint('aruy');
+                          // debugPrint('aruy');
+
                           if (controller['quantity'].text == '') {
+                            debugPrint(controller['quantity'].text);
                             continue;
+                          } else {
+                            debugPrint(controller['quantity'].text);
                           }
                           debugPrint(controller['magazineName'].text);
 
