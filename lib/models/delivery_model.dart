@@ -14,13 +14,20 @@ class Delivery {
 
   List<DeliveryMagazine> magazines;
 
-  Delivery({required this.customerName,required this.customerUUID, required this.magazines});
+  Delivery({required this.customerName, required this.customerUUID, required this.magazines});
 
   static List<Delivery> sampleDelibery = [
-    Delivery(customerName: 'A店',customerUUID: '1234565432', magazines: [
+    Delivery(customerName: 'A店', customerUUID: '1234565432', magazines: [
       DeliveryMagazine(magazineCode: '12345', magazineName: '週刊少年ジャンプ', magazineNumber: '10/01', quantity: 1, unitPrice: 100),
       DeliveryMagazine(magazineCode: '12343', magazineName: '週刊少年マガジン', magazineNumber: '10/01', quantity: 2, unitPrice: 200),
       DeliveryMagazine(magazineCode: '12342', magazineName: '週刊少年サンデー', magazineNumber: '10/01', quantity: 1, unitPrice: 300),
+    ]),
+    Delivery(customerName: 'B店', customerUUID: '1234565432', magazines: [
+      DeliveryMagazine(magazineCode: '12342', magazineName: '週刊少年サンデー', magazineNumber: '10/01', quantity: 1, unitPrice: 300),
+    ]),
+    Delivery(customerName: 'C店', customerUUID: '1234565432', magazines: [
+      DeliveryMagazine(magazineCode: '12345', magazineName: '週刊少年ジャンプ', magazineNumber: '10/01', quantity: 1, unitPrice: 100),
+      DeliveryMagazine(magazineCode: '12343', magazineName: '週刊少年マガジン', magazineNumber: '10/01', quantity: 2, unitPrice: 200),
     ]),
   ];
 
