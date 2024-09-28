@@ -4,6 +4,7 @@ import 'package:flutter_auto_flip/common/pdf_adupter.dart';
 import 'package:flutter_auto_flip/constant/fonts.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
+import 'package:flutter_auto_flip/view/components/atoms/listview_builder.dart';
 import 'package:flutter_auto_flip/view/components/molecles/delivery_card.dart';
 import 'package:flutter_auto_flip/view/components/organisms/delivery_list.dart';
 import 'package:flutter_auto_flip/view/components/organisms/main_menu.dart';
@@ -28,9 +29,12 @@ class PageDelivery extends HookWidget {
   @override
   Widget build(BuildContext context) {
     DeliveryReq deliveryReq = DeliveryReq(context: context);
-    final deliveryList = useState<List<Delivery>>(Delivery.sampleDelibery);
+    final deliveryList = useState<List<Delivery>>([]);
     final deliveryDate = useState<DateTime>(DateTime.now());
     final delete = useState<bool>(false);
+    final edit = useState<bool>(false);
+    final magazines = useState<List<DeliveryMagazine>>([]);
+    final editControllers = useState<List<Map<String, TextEditingController>>>([]);
 
     // 押したカードを配列から削除
     void deleteDelivery(Delivery delivery) {
@@ -81,10 +85,10 @@ class PageDelivery extends HookWidget {
       deliveryList.value = updatedList;
     }
 
-    void editDelivery(Delivery delivery) {
+    // TextEditingControllerを取得
+    List<Map<String, TextEditingController>> getEditController(List<DeliveryMagazine> magazines) {
       List<Map<String, TextEditingController>> editController = [];
-
-      for (DeliveryMagazine magazine in delivery.magazines) {
+      for (DeliveryMagazine magazine in magazines) {
         editController.add({
           'magazineCode': TextEditingController(text: magazine.magazineCode),
           'magazineName': TextEditingController(text: magazine.magazineName),
@@ -93,14 +97,21 @@ class PageDelivery extends HookWidget {
           'price': TextEditingController(text: magazine.unitPrice.toString()),
         });
       }
-      for (int i = delivery.magazines.length; i < 5; i++) {
-        editController.add({
-          'magazineCode': TextEditingController(text: ''),
-          'magazineName': TextEditingController(text: ''),
-          'magazineNumber': TextEditingController(text: ''),
-          'quantity': TextEditingController(text: ''),
-          'price': TextEditingController(text: ''),
-        });
+      return editController;
+    }
+
+    void editDelivery(Delivery delivery) {
+      final editController = getEditController(delivery.magazines);
+      if (editController.length < 5) {
+        for (int i = editController.length; i < 5; i++) {
+          editController.add({
+            'magazineCode': TextEditingController(text: ''),
+            'magazineName': TextEditingController(text: ''),
+            'magazineNumber': TextEditingController(text: ''),
+            'quantity': TextEditingController(text: ''),
+            'price': TextEditingController(text: ''),
+          });
+        }
       }
 
       showDialog(
@@ -154,8 +165,6 @@ class PageDelivery extends HookWidget {
                           magazines: [...magazines],
                         );
 
-                        debugPrint(magazines[0].magazineName);
-
                         editDeliverySuccess(delivery, edit);
 
                         Navigator.of(context, rootNavigator: true).pop();
@@ -178,12 +187,6 @@ class PageDelivery extends HookWidget {
       PdfAdupter pdfAdupter = PdfAdupter();
       final pdf = await pdfAdupter.getDeliveryDocument(deliveryList.value, deliveryDate.value);
 
-      // // PDFをファイルに保存
-      // final directory = await getApplicationDocumentsDirectory();
-      // final file = File('${directory.path}/paged_listview.pdf');
-      // await file.writeAsBytes(await pdf.save());
-      // print('PDF saved to ${file.path}');
-
       // PDFを印刷
       print(pdf);
     }
@@ -205,7 +208,8 @@ class PageDelivery extends HookWidget {
       if (file == null) {
         return;
       }
-      await deliveryReq.getDeliveryHandler(file).then((value) => deliveryList.value = value);
+      await deliveryReq.getDeliveryHandler(file).then((value) => deliveryList.value = value); // ファイルを読み込んでリストに変換
+      magazines.value = Delivery.listToMagazine(deliveryList.value); // 雑誌リストを取得
     }
 
     Future<void> selectDate(BuildContext context) async {
@@ -226,8 +230,90 @@ class PageDelivery extends HookWidget {
       delete.value = !delete.value;
     }
 
+    // 編集モードと切り替え
+    void editSwitch() {
+      if (edit.value) {
+        // 現在の編集内容を適用
+        magazines.value = Delivery.editToList(editControllers.value);
+        deliveryList.value = Delivery.editDeliveryList(deliveryList.value, magazines.value);
+        magazines.value = Delivery.listToMagazine(deliveryList.value);
+      }
+      edit.value = !edit.value;
+    }
+
     Future<void> onTapCard(Delivery delivery) async {
       delete.value ? deliteDialog(delivery) : editDelivery(delivery);
+    }
+
+    Widget widget(List<Delivery> list) {
+      editControllers.value = getEditController(magazines.value);
+
+      return Expanded(
+        child: Column(
+          children: [
+            // ヘッダー部分
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Text('一括編集モード', style: Fonts.h3),
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 40,
+                ),
+                SizedBox(width: 400, child: Text('雑誌名')),
+                SizedBox(width: 200, child: Text('号数')),
+              ],
+            ),
+            SizedBox(height: 8), // ヘッダーとリストの間にスペースを追加
+            // リストビュー部分
+            Expanded(
+              child: ListViewBuilder<Map<String, TextEditingController>>(
+                itemDatas: editControllers.value,
+                listItem: (item) => Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          // リストのコピーを作成してから変更する
+                          List<Delivery> updatedList = List.from(deliveryList.value);
+                          // 親リストから要素を削除
+                          Delivery.deleteMagazine(updatedList, item['magazineName']!.text);
+                          magazines.value = Delivery.listToMagazine(deliveryList.value);
+                        },
+                        icon: Icon(Icons.highlight_off_rounded),
+                        color: Colors.red),
+                    // `Expanded`で幅を均等に分割
+                    SizedBox(
+                      width: 400,
+                      child: TextField(
+                        controller: item['magazineName'],
+                      ),
+                    ),
+                    SizedBox(width: 8), // テキストフィールドの間にスペースを追加
+                    SizedBox(
+                      width: 200,
+                      child: TextField(
+                        controller: item['magazineNumber'],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget actionButton(Function() onPressed, IconData icon, bool isColor) {
+      return IconButton(
+        onPressed: onPressed,
+        icon: Icon(
+          icon,
+          size: 30,
+          color: isColor ? Colors.red : null,
+        ),
+      );
     }
 
     return Scaffold(
@@ -242,26 +328,23 @@ class PageDelivery extends HookWidget {
                       title: const Text('伝票を作ろう'),
                       actions: [
                         Row(children: [
+                          // 編集
+                          actionButton(
+                            editSwitch,
+                            Icons.edit,
+                            edit.value,
+                          ),
                           // ごみばこ
-                          IconButton(
-                            onPressed: () {
-                              deliteSwitch();
-                            },
-                            icon: Icon(
-                              Icons.delete,
-                              size: 30,
-                              color: delete.value ? Colors.red : null,
-                            ),
+                          actionButton(
+                            deliteSwitch,
+                            Icons.delete,
+                            delete.value,
                           ),
                           // 印刷
-                          IconButton(
-                            onPressed: () {
-                              printWidgetToPdf();
-                            },
-                            icon: const Icon(
-                              Icons.print,
-                              size: 30,
-                            ),
+                          actionButton(
+                            printWidgetToPdf,
+                            Icons.print,
+                            false,
                           ),
                         ])
                       ],
@@ -272,14 +355,16 @@ class PageDelivery extends HookWidget {
                     // 数取リストの有無で表示を制御
                     deliveryList.value.isEmpty
                         ? const SizedBox.shrink()
-                        : Expanded(
-                            child: SingleChildScrollView(
-                            child: DeliveryList(
-                              onTapDelite: onTapCard,
-                              deliveries: deliveryList.value,
-                              deliveryDate: deliveryDate.value,
-                            ),
-                          ))
+                        : edit.value
+                            ? widget(deliveryList.value)
+                            : Expanded(
+                                child: SingleChildScrollView(
+                                child: DeliveryList(
+                                  onTapDelite: onTapCard,
+                                  deliveries: deliveryList.value,
+                                  deliveryDate: deliveryDate.value,
+                                ),
+                              ))
                   ]))
                 ]))));
   }
