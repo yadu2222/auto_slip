@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_flip/apis/controller/delivery_controller.dart';
 import 'package:flutter_auto_flip/common/pdf_adupter.dart';
+import 'package:flutter_auto_flip/constant/fonts.dart';
 import 'package:flutter_auto_flip/models/delivery_model.dart';
+import 'package:flutter_auto_flip/models/magazine_model.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
+import 'package:flutter_auto_flip/view/components/molecles/delivery_card.dart';
 import 'package:flutter_auto_flip/view/components/organisms/delivery_list.dart';
 import 'package:flutter_auto_flip/view/components/organisms/main_menu.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_auto_flip/view/components/atoms/alert_dialog.dart';
 // view
 import 'package:file_picker/file_picker.dart'; // アプリがファイルを読み取るためのライブラリ
 
@@ -25,7 +29,7 @@ class PageDelivery extends HookWidget {
   @override
   Widget build(BuildContext context) {
     DeliveryReq deliveryReq = DeliveryReq(context: context);
-    final deliveryList = useState<List<Delivery>>([]);
+    final deliveryList = useState<List<Delivery>>(Delivery.sampleDelibery);
     final deliveryDate = useState<DateTime>(DateTime.now());
     final delete = useState<bool>(false);
 
@@ -67,6 +71,96 @@ class PageDelivery extends HookWidget {
           );
         },
       );
+    }
+
+    void editDeliverySuccess(Delivery oldDelivery, Delivery delivery) {
+      // リストのコピーを作成してから削除
+      final updatedList = List<Delivery>.from(deliveryList.value);
+      updatedList.remove(oldDelivery);
+      updatedList.add(delivery);
+      // リストを再代入してUIを更新
+      deliveryList.value = updatedList;
+    }
+
+    void editDelivery(Delivery delivery) {
+      List<Map<String, TextEditingController>> editController = [];
+
+      for (DeliveryMagazine magazine in delivery.magazines) {
+        editController.add({
+          'magazineCode': TextEditingController(text: magazine.magazineCode),
+          'magazineName': TextEditingController(text: magazine.magazineName),
+          'magazineNumber': TextEditingController(text: magazine.magazineNumber.toString()),
+          'quantity': TextEditingController(text: magazine.quantity.toString()),
+          'price': TextEditingController(text: magazine.unitPrice.toString()),
+        });
+      }
+      for (int i = delivery.magazines.length; i < 5; i++) {
+        editController.add({
+          'magazineCode': TextEditingController(),
+          'magazineName': TextEditingController(),
+          'magazineNumber': TextEditingController(),
+          'quantity': TextEditingController(),
+          'price': TextEditingController(),
+        });
+      }
+
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return HookBuilder(builder: (BuildContext context) {
+              return AleatDialogUtil(
+                  width: 500,
+                  height: 400,
+                  padding: EdgeInsets.zero,
+                  contents: Center(
+                      child: Column(children: [
+                    const Padding(padding: EdgeInsets.all(15), child: Text('編集', style: Fonts.h3)),
+                    DeliveryCard(
+                      deliveryData: delivery,
+                      deliveryDate: deliveryDate.value,
+                      edit: true,
+                      editController: editController,
+                    ),
+                    const SizedBox(height: 10),
+                    BasicButton(
+                      text: '確定',
+                      isColor: true,
+                      onPressed: () {
+                        List<DeliveryMagazine> magazines = [];
+                        for (Map controller in editController) {
+                          debugPrint('aruy');
+                          if (controller['quantity'].text == '') {
+                            continue;
+                          }
+                          debugPrint(controller['magazineName'].text);
+
+                          magazines.add(DeliveryMagazine(
+                            magazineCode: controller['magazineCode'].text,
+                            magazineName: controller['magazineName'].text,
+                            magazineNumber: controller['magazineNumber'].text,
+                            quantity: int.parse(controller['quantity'].text),
+                            unitPrice: int.parse(controller['price'].text),
+                          ));
+                        }
+
+                        // 編集内容を取得
+                        Delivery edit = Delivery(
+                          customerUUID: delivery.customerUUID,
+                          customerName: delivery.customerName,
+                          magazines: [...magazines],
+                        );
+
+                        debugPrint(magazines[0].magazineName);
+
+                        editDeliverySuccess(delivery, edit);
+
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    )
+                  ])));
+            });
+          });
     }
 
     Future<void> print(pw.Document pdf) async {
@@ -130,7 +224,7 @@ class PageDelivery extends HookWidget {
     }
 
     Future<void> onTapCard(Delivery delivery) async {
-      delete.value ? deliteDialog(delivery) : null;
+      delete.value ? deliteDialog(delivery) : editDelivery(delivery);
     }
 
     return Scaffold(

@@ -50,7 +50,7 @@ class PageCustomer extends HookWidget {
       });
     }
 
-    void EditCustomer(Customer customer) {
+    void editCustomer(Customer customer) {
       // context.push('/regular', extra: {'serachWord': magazine.magazineCode});
       // ダイアログ表示
       showDialog(
@@ -224,7 +224,7 @@ class PageCustomer extends HookWidget {
     }
 
     void onTapCustomer(Customer customer) {
-      delete.value ? deliteCustomer(customer) : EditCustomer(customer);
+      delete.value ? deliteCustomer(customer) : editCustomer(customer);
     }
 
     useEffect(() {

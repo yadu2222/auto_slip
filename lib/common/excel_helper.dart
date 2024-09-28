@@ -5,32 +5,32 @@ import 'package:excel/excel.dart';
 
 
 class ExcelHandler {
-  Future<void> writeExcel(String fileName, List<List<dynamic>> data) async {
-    // Excelファイルインスタンスの作成
-    var excel = Excel.createExcel();
-    // シートのインスタンス作成
-    var sheet = excel['Sheet1'];
+  // Future<void> writeExcel(String fileName, List<List<dynamic>> data) async {
+  //   // Excelファイルインスタンスの作成
+  //   var excel = Excel.createExcel();
+  //   // シートのインスタンス作成
+  //   var sheet = excel['Sheet1'];
 
-    // データをシートに追加
-    for (var row in data) {
-      sheet.appendRow(row);
-    }
+  //   // データをシートに追加
+  //   for (var row in data) {
+  //     sheet.appendRow(row);
+  //   }
 
-    // ディレクトリの取得
-    var directory = await getApplicationDocumentsDirectory();
-    // ファイルのパスを取得
-    var filePath = '${directory.path}/$fileName';
+  //   // ディレクトリの取得
+  //   var directory = await getApplicationDocumentsDirectory();
+  //   // ファイルのパスを取得
+  //   var filePath = '${directory.path}/$fileName';
 
-    // エンコード
-    var encodedExcel = excel.encode();
-    // エンコードが成功しているかファイルに書き込む前に確認
-    if (encodedExcel != null) {
-      // ファイルを生成し、ディレクトリ構造が存在することを確認
-      File(filePath)
-        ..createSync(recursive: true)
-        ..writeAsBytesSync(encodedExcel);
-    }
-  }
+  //   // エンコード
+  //   var encodedExcel = excel.encode();
+  //   // エンコードが成功しているかファイルに書き込む前に確認
+  //   if (encodedExcel != null) {
+  //     // ファイルを生成し、ディレクトリ構造が存在することを確認
+  //     File(filePath)
+  //       ..createSync(recursive: true)
+  //       ..writeAsBytesSync(encodedExcel);
+  //   }
+  // }
 
   // Excelファイルの読み込み
   Future<List<List<dynamic>>> readExcel(String fileName) async {

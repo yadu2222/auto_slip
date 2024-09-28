@@ -30,12 +30,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.18.1
+  intl: ^0.19.0
   pdf: ^3.6.4
   printing: ^5.10.0
   flutter_localizations:
     sdk: flutter
-  file_picker: ^4.0.0
+  file_picker: ^8.1.2
   charset_converter: ^2.2.0
   go_router: ^14.1.4
   flutter_hooks: ^0.20.5
@@ -43,6 +43,7 @@ dependencies:
   fluttertoast: ^8.0.8
   http: ^1.2.1  # ここに最新バージョンを指定します
   mime: ^1.0.0
+  archive: ^3.4.10  # エラーメッセージで問題が報告されているバージョン
  
 
   # The following adds the Cupertino Icons font to your application.
@@ -58,7 +59,7 @@ dev_dependencies:
     sdk: flutter
   path_provider: any
   sqflite: ^2.2.0+3
-  excel: ^2.0.4
+  excel: ^4.0.6
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -66,7 +67,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
