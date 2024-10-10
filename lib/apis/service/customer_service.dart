@@ -36,7 +36,7 @@ class CustomerService {
       url: Urls.registerCustomer,
       reqType: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: {'customerName': customer.customerName, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
+      body: {'customerName': customer.customerName,'ruby':customer.ruby, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
     );
     await HttpReq.httpReq(reqData);
   }
@@ -48,7 +48,7 @@ class CustomerService {
       url: Urls.updateUser,
       reqType: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: { 'customerUUId':customer.customerUUID,'customerName': customer.customerName, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
+      body: { 'customerUUId':customer.customerUUID,'ruby':customer.ruby,'customerName': customer.customerName, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
     );
     await HttpReq.httpReq(reqData);
   }

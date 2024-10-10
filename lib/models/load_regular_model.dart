@@ -45,6 +45,7 @@ class LoadRegular {
         regulars.add(CountingCustomer(
             customer: Customer(
               customerUUID: regular['customer']['customerUUID'] ?? '',
+              ruby:regular['customer']['ruby'] ?? '',
               customerName: regular['customer']['customerName'] ?? '',
               regularType: regular['customer']['methodType'],
             ),
@@ -53,6 +54,10 @@ class LoadRegular {
               quantity: regular['quantity'] ?? 0,
             )));
       }
+
+       // customerName順に並べ替え
+      regulars.sort((a, b) => a.customer.ruby!.compareTo(b.customer.ruby!));
+
       result.add(LoadRegular(
           magazine: Magazine(
             magazineCode: load['magazine']['magazineCode'],

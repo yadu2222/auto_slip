@@ -17,6 +17,7 @@ class PageAddCustomer extends HookWidget {
 
   // コントローラー
   final storeNameController = TextEditingController();
+  final rubyController = TextEditingController();
   final addressController = TextEditingController();
   final noteController = TextEditingController();
 
@@ -36,6 +37,7 @@ class PageAddCustomer extends HookWidget {
 
   final String title = '顧客登録';
   final String storeNameHint = '顧客名を入力';
+  final String rubyHint = 'ふりがなを入力';
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +59,15 @@ class PageAddCustomer extends HookWidget {
         DialogUtil.show(title: 'エラー', message: '顧客名は必須です', context: context);
         return;
       }
+      if (rubyController.text == '') {
+        DialogUtil.show(title: 'エラー', message: 'ふりがなは必須です', context: context);
+        return;
+      }
       // 登録処理
       // customerReq.
       Customer customer = Customer(
         customerName: storeNameController.text,
+        ruby: rubyController.text,
         address: addressController.text,
         regularType: methodType.value,
         tellType: tellType.value,
@@ -70,6 +77,7 @@ class PageAddCustomer extends HookWidget {
         // 戻る
         DialogUtil.show(message: '登録に成功しました', context: context);
         storeNameController.clear();
+        rubyController.clear();
         addressController.clear();
         noteController.clear();
 
@@ -86,7 +94,17 @@ class PageAddCustomer extends HookWidget {
         inputFormatter: [LengthLimitingTextInputFormatter(18)],
       ),
 
-      const SizedBox(height: 15),
+      const SizedBox(height: 10),
+
+      // 顧客名
+      edit.EditBarView(
+        icon: Icons.local_offer,
+        hintText: rubyHint,
+        controller: rubyController,
+        inputFormatter: [LengthLimitingTextInputFormatter(18)],
+      ),
+
+      const SizedBox(height: 10),
 
       // 電話番号
       edit.EditBarView(
@@ -104,7 +122,7 @@ class PageAddCustomer extends HookWidget {
         onChanged: onChangeMehod,
         value: methodType.value,
       ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 15),
       // 電話の処理
       DropDownUtil(
         items: tellTypes,
@@ -112,7 +130,7 @@ class PageAddCustomer extends HookWidget {
         value: tellType.value,
       ),
 
-      const SizedBox(height: 25),
+      const SizedBox(height: 15),
       // note
       edit.EditBarView(
         icon: Icons.edit,
