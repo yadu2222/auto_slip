@@ -52,6 +52,7 @@ class Counting {
           customer: Customer(
             customerUUID: customer['customerUUID'] ?? '',
             customerName: customer['customerName'] ?? '',
+            ruby: customer['ruby'] ?? '',
             regularType: customer['methodType'] ?? 0,
             tellType: customer['tellType'] ?? 0,
             address: customer['address'] ?? '',
@@ -59,7 +60,7 @@ class Counting {
         ));
       }
 
-      // customerName順に並べ替え
+      // ふりがな順に並べ替え
       countingCustomers.sort((a, b) => a.customer.ruby!.compareTo(b.customer.ruby!));
 
       countings.add(Counting(
