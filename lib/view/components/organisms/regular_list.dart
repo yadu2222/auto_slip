@@ -16,11 +16,9 @@ class RegularList extends StatelessWidget {
     required this.regularList,
     required this.customerTap,
     required this.magazineTap,
-    this.isCustomer = true,
     required this.onRefresh,
   });
 
-  final bool isCustomer; // どちらを優先して表示するか
   final List<LoadRegular> regularList; // 表示する定期のリスト
   final void Function(CountingCustomer) customerTap;
   final void Function(Magazine) magazineTap;
@@ -38,7 +36,7 @@ class RegularList extends StatelessWidget {
                 magazine: item.magazine!,
                 edit: (magazine) => magazineTap(item.magazine!),
               ),
-              SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.regulars, onTapCountCustomer: customerTap))
+              SizedBox(child: CustomerList.horizontal(regularData: item.regulars, onTapCountCustomer: customerTap))
             ]));
   }
 }

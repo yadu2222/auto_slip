@@ -39,12 +39,35 @@ class CustomerCard extends StatelessWidget {
     }
   }
 
+  Color get countIconColor {
+    switch (regularData.customer.regularType) {
+      case 1:
+        return CountIconType.delivery.color;
+      case 2:
+        return CountIconType.store.color;
+      case 3:
+        return CountIconType.slip.color;
+      case 4:
+        return CountIconType.library.color;
+      case 5:
+        return CountIconType.library.color;
+      case 6:
+        return CountIconType.marucho.color;
+      case 7:
+        return CountIconType.library.color;
+      default:
+        return CountIconType.store.color;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () => onTap(regularData),
         child: ItemCard(
+            height: 100,
             width: 0.15,
+            color: countIconColor,
             widget: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
