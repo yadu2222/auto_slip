@@ -30,4 +30,12 @@ class AppColors {
 
   // つかいやすい色
   static const Color glay = Color(0xFFE8EAED);
+
+  // 配達タイプごとの色
+  static const Color library = Color.fromARGB(255, 214, 230, 173);
+  static const Color delivery = Color.fromARGB(255, 193, 227, 145);
+  static const Color store = Color.fromARGB(255, 223, 243, 173);
+  static const Color slip = Color.fromARGB(255, 240, 223, 204);
+  static const Color marucho = Color.fromARGB(255, 239, 224, 165);
+  static const Color other = Color.fromARGB(255, 255, 255, 255);
 }

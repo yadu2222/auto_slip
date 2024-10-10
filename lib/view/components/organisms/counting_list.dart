@@ -28,7 +28,7 @@ class CountingList extends StatelessWidget {
         CountingCard(countData: item, onTap: onTapCounting), // 雑誌情報を表示するカード
 
         // 顧客情報を表示
-        isCustomer ? SizedBox(height: 120, child: CustomerList.horizontal(regularData: item.countingCustomers, onTapCountCustomer: onTapCutomer)) : const SizedBox.shrink()
+        isCustomer ? SizedBox(child: CustomerList.horizontal(regularData: item.countingCustomers, onTapCountCustomer: onTapCutomer)) : const SizedBox.shrink()
       ]),
     );
   }
