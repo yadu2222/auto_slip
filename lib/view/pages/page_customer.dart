@@ -23,6 +23,7 @@ class PageCustomer extends HookWidget {
   final String magazineCodeSearch = 'お名前で検索';
 
   final newCustomerNameController = TextEditingController(); // コントローラー
+  final newRubyController = TextEditingController(); // コントローラー
   final addressController = TextEditingController(); // コントローラー
   final noteController = TextEditingController(); // コントローラー
 
@@ -80,6 +81,7 @@ class PageCustomer extends HookWidget {
 
               useEffect(() {
                 newCustomerNameController.text = customer.customerName;
+                newRubyController.text = customer.ruby ?? '';
                 addressController.text = customer.address ?? '';
                 noteController.text = customer.note ?? '';
 
@@ -104,6 +106,7 @@ class PageCustomer extends HookWidget {
                 Customer updateCustomer = Customer(
                   customerUUID: customer.customerUUID,
                   customerName: newCustomerNameController.text,
+                  ruby: newRubyController.text,
                   address: addressController.text,
                   regularType: methodType.value,
                   tellType: tellType.value,
@@ -116,74 +119,81 @@ class PageCustomer extends HookWidget {
               }
 
               return AleatDialogUtil(
+                  height: 450,
                   contents: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    const Text(
-                      '編集',
-                    ),
-                    const SizedBox(height: 10),
-
-                    edit.EditBarView(
-                      width: 300,
-                      icon: Icons.person,
-                      hintText: '名前',
-                      controller: newCustomerNameController,
-                    ),
-                    // 電話番号
-                    edit.EditBarView(
-                      width: 300,
-                      icon: Icons.phone,
-                      hintText: '電話番号',
-                      controller: addressController,
-                      inputFormatter: [
-                        LengthLimitingTextInputFormatter(13),
-                      ],
-                    ),
-
-                    // 配達タイプ
-                    DropDownUtil(
-                      width: 290,
-                      height: 45,
-                      items: methodTypes,
-                      onChanged: onChangeMehod,
-                      value: methodType.value,
-                    ),
-                    const SizedBox(height: 10),
-                    // 電話の処理
-                    DropDownUtil(
-                      width: 290,
-                      height: 45,
-                      items: tellTypes,
-                      onChanged: onChangeTellType,
-                      value: tellType.value,
-                    ),
-                    const SizedBox(height: 10),
-                    edit.EditBarView(
-                      width: 300,
-                      icon: Icons.edit,
-                      hintText: '備考',
-                      controller: noteController,
-                      inputFormatter: [
-                        LengthLimitingTextInputFormatter(13),
-                      ],
-                    ),
-
-                    const Spacer(),
-
-                    // 編集、やめるボタン
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
+                    child: Column(
                       children: [
-                        BasicButton(text: 'とじる', isColor: true, onPressed: close),
-                        const SizedBox(width: 10),
-                        BasicButton(text: '編集完了', isColor: false, onPressed: update),
+                        const SizedBox(height: 10),
+                        const Text(
+                          '編集',
+                        ),
+                        const SizedBox(height: 10),
+
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.person,
+                          hintText: '名前',
+                          controller: newCustomerNameController,
+                        ),
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.local_offer,
+                          hintText: 'ふりがな',
+                          controller: newRubyController,
+                        ),
+                        // 電話番号
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.phone,
+                          hintText: '電話番号',
+                          controller: addressController,
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(13),
+                          ],
+                        ),
+
+                        // 配達タイプ
+                        DropDownUtil(
+                          width: 290,
+                          height: 45,
+                          items: methodTypes,
+                          onChanged: onChangeMehod,
+                          value: methodType.value,
+                        ),
+                        const SizedBox(height: 10),
+                        // 電話の処理
+                        DropDownUtil(
+                          width: 290,
+                          height: 45,
+                          items: tellTypes,
+                          onChanged: onChangeTellType,
+                          value: tellType.value,
+                        ),
+                        const SizedBox(height: 10),
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.edit,
+                          hintText: '備考',
+                          controller: noteController,
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(13),
+                          ],
+                        ),
+
+                        const Spacer(),
+
+                        // 編集、やめるボタン
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            BasicButton(text: 'とじる', isColor: true, onPressed: close),
+                            const SizedBox(width: 10),
+                            BasicButton(text: '編集完了', isColor: false, onPressed: update),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
-              ));
+                    ),
+                  ));
             });
           });
     }

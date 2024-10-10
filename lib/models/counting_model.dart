@@ -59,6 +59,9 @@ class Counting {
         ));
       }
 
+      // customerName順に並べ替え
+      countingCustomers.sort((a, b) => a.customer.ruby!.compareTo(b.customer.ruby!));
+
       countings.add(Counting(
         countingUUID: data['agency']['countingUUID'] ?? '',
         countingFlag: data['countFlag'] ?? false,

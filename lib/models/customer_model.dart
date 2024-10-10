@@ -1,5 +1,6 @@
 class Customer {
   String customerUUID;
+  String? ruby;
   String customerName;
   int regularType;
 
@@ -9,6 +10,7 @@ class Customer {
 
   Customer({
     this.customerUUID = "",
+    this.ruby = "",
     this.customerName = "",
     this.regularType = 0,
     this.tellType = 0,
@@ -17,13 +19,14 @@ class Customer {
   });
 
   // エラー時のCustomer
-  static Customer errCustomer = Customer(customerUUID: "", customerName: "エラー", regularType: 0, tellType: 0, address: "");
+  static Customer errCustomer = Customer(customerUUID: "", customerName: "エラー", regularType: 0, tellType: 0, address: "",ruby:"");
 
   // 変換
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
       customerUUID: json['customerUUID'],
       customerName: json['customerName'],
+      ruby:json['ruby'],
       regularType: json['regularType'],
       tellType: json['tellType'],
       address: json['address'],
@@ -38,6 +41,7 @@ class Customer {
         customerList.add(Customer(
             customerUUID: loadData['customerUUId'] ?? '',
             customerName: loadData['customerName'] ?? '',
+            ruby:loadData['ruby'] ?? '',
             regularType: loadData['methodType'] ?? 0,
             tellType: loadData['tellType'] ?? 0,
             address: loadData['tellAddress'] ?? '',

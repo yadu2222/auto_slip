@@ -36,7 +36,7 @@ class CustomerService {
       url: Urls.registerCustomer,
       reqType: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: {'customerName': customer.customerName, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
+      body: {'customerName': customer.customerName,'ruby':customer.ruby, 'methodType': customer.regularType, 'tellType': customer.tellType, 'tellAddress': customer.address, 'note': customer.note},
     );
     await HttpReq.httpReq(reqData);
   }
