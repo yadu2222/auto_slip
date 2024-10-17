@@ -8,12 +8,14 @@ class SampleData {
     magazineCode: "code1",
     magazineName: "name1",
     quantityStock: 1,
+    note:''
   );
 
   static Magazine magazine2 = Magazine(
     magazineCode: "code2",
     magazineName: "name2",
     quantityStock: 2,
+    note: ''
   );
 
   static Customer customer1 = Customer(

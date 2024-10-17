@@ -5,7 +5,7 @@ class Magazine {
   int quantityStock;
   String? number;
   String note;
-  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode, this.quantityStock = 0, this.number,this.note = ''});
+  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode, this.quantityStock = 0, this.number , required this.note });
 
   static List<Magazine> resToMagazines(List res) {
     List<Magazine> magazines = [];
@@ -13,6 +13,7 @@ class Magazine {
       magazines.add(Magazine(
         magazineName: item['magazineName'],
         magazineCode: item['magazineCode'],
+        note:item['note'] ?? '',
       ));
     }
     return magazines;

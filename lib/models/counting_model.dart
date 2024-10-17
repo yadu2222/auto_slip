@@ -79,6 +79,7 @@ class Counting {
           magazineCode: data['agency']['magazineCode'] ?? '',
           quantityStock: data['agency']['quantity'] ?? 0,
           number: data['agency']['number'] ?? '',
+          note:data['note'] ?? ''
         ),
         countingCustomers: countingCustomers,
       ));

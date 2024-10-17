@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_auto_flip/constant/colors.dart';
 
 class EditBarView extends StatelessWidget {
   const EditBarView({

@@ -17,6 +17,7 @@ class PageAddMagazine extends HookWidget {
   // コントローラー
   final _magazineController = TextEditingController();
   final _magazineNameController = TextEditingController();
+  final _magazineNoteController = TextEditingController();
 
   // どちらで検索しているかを判別する変数
 
@@ -30,21 +31,19 @@ class PageAddMagazine extends HookWidget {
     void register() {
       if (_magazineController.text == '' || _magazineNameController.text == '') {
         DialogUtil.show(title: 'エラー', message: '雑誌コードと雑誌名は必須です', context: context);
-      }else{
-
+      } else {
         Magazine magazine = Magazine(
           magazineCode: _magazineController.text,
           magazineName: _magazineNameController.text,
+          note:_magazineNoteController.text
         );
         // 登録処理
         magazineReq.registerMagazineHandler(magazine).then((value) {
           DialogUtil.show(title: '登録完了', message: '雑誌を登録しました', context: context);
           _magazineController.clear();
           _magazineNameController.clear();
-         
         });
       }
-
     }
 
     return BasicTemplate(title: title, children: [
@@ -63,6 +62,19 @@ class PageAddMagazine extends HookWidget {
         icon: Icons.import_contacts,
         hintText: magazineNameSearch,
         controller: _magazineNameController,
+        inputFormatter: [
+          LengthLimitingTextInputFormatter(13),
+        ],
+      ),
+
+      edit.EditBarView(
+        icon: Icons.edit,
+        controller: _magazineNoteController,
+        inputType: TextInputType.multiline,
+        hintText: '備考',
+        inputFormatter: [
+          LengthLimitingTextInputFormatter(100),
+        ],
       ),
 
       const SizedBox(height: 30),

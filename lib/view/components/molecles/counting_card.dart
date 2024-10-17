@@ -50,6 +50,8 @@ class CountingCard extends StatelessWidget {
 
             // みぎがわ
             Row(children: [
+              Text(countData.magazine.note),
+              const SizedBox(width: 20),
               // 入荷冊数
               Icon(
                 CountIconType.book.getIcon(),

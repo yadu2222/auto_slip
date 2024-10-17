@@ -32,6 +32,7 @@ class MagazineCard extends StatelessWidget {
         ]),
         Row(children: [
           Text(magazine.note),
+          const SizedBox(width: 20),
           InkWell(
               onTap: () {
                 if (edit != null) {
