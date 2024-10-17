@@ -4,7 +4,8 @@ class Magazine {
   String magazineCode;
   int quantityStock;
   String? number;
-  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode, this.quantityStock = 0,this.number});
+  String note;
+  Magazine({this.magazineUUID, required this.magazineName, required this.magazineCode, this.quantityStock = 0, this.number,this.note = ''});
 
   static List<Magazine> resToMagazines(List res) {
     List<Magazine> magazines = [];
@@ -21,8 +22,9 @@ class Magazine {
     if (res['magazineName'] == '') return null;
     try {
       return Magazine(
-        magazineName: res['magazineName'],
-        magazineCode: res['magazineCode'],
+        magazineName: res['magazineName'] ?? '',
+        magazineCode: res['magazineCode'] ?? '',
+        note: res['note'] ?? '',
       );
     } catch (e) {
       return null;

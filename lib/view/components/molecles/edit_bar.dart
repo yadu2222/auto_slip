@@ -31,6 +31,13 @@ class EditBarView extends StatelessWidget {
   // TODO:サイズエラー解消
   @override
   Widget build(BuildContext context) {
+    final OutlineInputBorder _inputBorder = OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1.0, // 枠線の太さ
+      ),
+      borderRadius: BorderRadius.circular(30), // 角の丸み
+    );
+
     return Container(
       // width: double.infinity * 0.6, // 横幅を親要素に合わせる
       width: width,
@@ -49,6 +56,8 @@ class EditBarView extends StatelessWidget {
                 controller: controller,
                 decoration: InputDecoration(
                   hintText: hintText,
+                  focusedBorder: _inputBorder,
+                  enabledBorder: _inputBorder,
                   // 左側のアイコン
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 10), // アイコンの周りに余白を追加
@@ -67,10 +76,6 @@ class EditBarView extends StatelessWidget {
                           ),
                         )
                       : const SizedBox.shrink(),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: AppColors.glay, width: 2.0),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
                 ),
                 onChanged: (value) => {
                   if (onChanged != null) {onChanged!(value)}

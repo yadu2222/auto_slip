@@ -103,7 +103,7 @@ class MagazineService {
       body: {
         'magazineName': magazine.magazineName,
         'magazineCode': magazine.magazineCode,
-        
+        'note': magazine.note,
       },
     );
     // リクエストメソッドにオブジェクトを投げる
@@ -128,6 +128,7 @@ class MagazineService {
       body: {
         'magazineName': magazine.magazineName,
         'magazineCode': magazine.magazineCode,
+        'note': magazine.note, 
       },
       parData: oldMagazineCode
     );
