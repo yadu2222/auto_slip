@@ -38,19 +38,28 @@ class CustomerList extends StatelessWidget {
                 context: context,
                 removeTop: true,
                 removeBottom: true,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: regularData!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CustomerCard(regularData: regularData![index], onTap: onTapCountCustomer!);
-                  },
+                child: Wrap(
+                  direction: Axis.horizontal, // 水平方向に並べる
+                  spacing: 8.0, // 要素の間隔を設定
+                  runSpacing: 8.0, // 折り返し時の間隔を設定
+                  children: List.generate(
+                    regularData!.length,
+                    (index) {
+                      return CustomerCard(
+                        regularData: regularData![index],
+                        onTap: onTapCountCustomer!,
+                      );
+                    },
+                  ),
                 )))
-        : ListBuilder<Customer>(itemDatas: customerData!, listItem: (item) => InkWell(
-          onTap: (){
-            if(onTap != null){
-              onTap!(item);
-            }
-          },
-          child: CustomerInfoCard(customer: item)));
+        : ListBuilder<Customer>(
+            itemDatas: customerData!,
+            listItem: (item) => InkWell(
+                onTap: () {
+                  if (onTap != null) {
+                    onTap!(item);
+                  }
+                },
+                child: CustomerInfoCard(customer: item)));
   }
 }

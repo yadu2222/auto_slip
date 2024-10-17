@@ -9,6 +9,7 @@ class ItemCard extends StatelessWidget {
     this.height,
     this.width = 0.92,
     required this.widget,
+    this.color = Colors.white,
   });
 
   final EdgeInsetsGeometry padding; // デフォルト値を用意しているので渡さなくても良い
@@ -16,6 +17,7 @@ class ItemCard extends StatelessWidget {
   final double? height; // 値を入れなければ中身に合わせて調整される
   final double width;
   final Widget widget; // 中身
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,8 @@ class ItemCard extends StatelessWidget {
       margin: margin,
       height: height,
       width: MediaQuery.of(context).size.width * width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
