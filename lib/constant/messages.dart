@@ -5,7 +5,7 @@ class Messages {
   // ふたつめ：サブ
   // みっつめ：パッチ
   // くりあげない！！！
-  static const version = "1.4.0";
+  static const version = "1.5.1";
 
   // 定期追加成功
   static const String registerSuccess = "登録が完了しました";

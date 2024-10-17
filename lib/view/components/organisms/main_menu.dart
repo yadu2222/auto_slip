@@ -42,10 +42,10 @@ class MainMenu extends StatelessWidget {
           title: "設定",
           movePass: '/setting',
         ),
-        MenuTile(
-          title: "ファイル読み込み",
-          movePass: '/test',
-        ),
+        // MenuTile(
+        //   title: "ファイル読み込み",
+        //   movePass: '/test',
+        // ),
       ],
     );
   }
