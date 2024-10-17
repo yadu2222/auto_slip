@@ -70,7 +70,10 @@ class PageAdd extends HookWidget {
         // Magazine addMagazine = Magazine(magazineCode: magezineCodeController.text, magazineName: magazineController.text);
 
         Regular addRegular = Regular(quantity: int.parse(quantityController.text));
-        registerList.value = [...registerList.value, (CountingRegular(regular: addRegular, magazine: Magazine(magazineName: magazineController.text, magazineCode: magezineCodeController.text)))];
+        registerList.value = [
+          ...registerList.value,
+          (CountingRegular(regular: addRegular, magazine: Magazine(magazineName: magazineController.text, magazineCode: magezineCodeController.text, note: '')))
+        ];
         controllerClear();
       } else {
         DialogUtil.show(

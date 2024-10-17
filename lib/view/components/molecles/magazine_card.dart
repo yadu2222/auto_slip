@@ -30,18 +30,22 @@ class MagazineCard extends StatelessWidget {
           const SizedBox(width: 10),
           Text(magazine.magazineName),
         ]),
-        InkWell(
-            onTap: () {
-              if (edit != null) {
-                edit!(magazine);
-              }
-            },
-            child: SizedBox(
-                child: Icon(
-              icon,
-              size: 20,
-              color: AppColors.iconGlay,
-            )))
+        Row(children: [
+          Text(magazine.note),
+          const SizedBox(width: 20),
+          InkWell(
+              onTap: () {
+                if (edit != null) {
+                  edit!(magazine);
+                }
+              },
+              child: SizedBox(
+                  child: Icon(
+                icon,
+                size: 20,
+                color: AppColors.iconGlay,
+              )))
+        ])
       ],
     ));
   }

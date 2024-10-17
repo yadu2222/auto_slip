@@ -10,24 +10,19 @@ import 'package:flutter_auto_flip/models/regular_model.dart';
 
 // どっちにせよ型が不安全
 class LoadRegular {
-
-
   // 定期情報のリスト
   // どちらかを主キーとする
   Customer? customer;
-   List<CountingRegular>? regular;
-
+  List<CountingRegular>? regular;
 
   Magazine? magazine;
   List<CountingCustomer>? regulars;
-
 
   LoadRegular({
     this.customer,
     this.magazine,
     this.regular,
-   this.regulars,
-
+    this.regulars,
   });
 
   // 雑誌を主キーとして変換
@@ -45,7 +40,7 @@ class LoadRegular {
         regulars.add(CountingCustomer(
             customer: Customer(
               customerUUID: regular['customer']['customerUUID'] ?? '',
-              ruby:regular['customer']['ruby'] ?? '',
+              ruby: regular['customer']['ruby'] ?? '',
               customerName: regular['customer']['customerName'] ?? '',
               regularType: regular['customer']['methodType'],
             ),
@@ -55,13 +50,14 @@ class LoadRegular {
             )));
       }
 
-       // customerName順に並べ替え
+      // customerName順に並べ替え
       regulars.sort((a, b) => a.customer.ruby!.compareTo(b.customer.ruby!));
 
       result.add(LoadRegular(
           magazine: Magazine(
             magazineCode: load['magazine']['magazineCode'],
             magazineName: load['magazine']['magazineName'],
+            note: load['magazine']['note'],
           ),
           regulars: regulars));
     }
@@ -84,6 +80,7 @@ class LoadRegular {
             magazine: Magazine(
               magazineCode: regular['magazine']['magazineCode'] ?? '',
               magazineName: regular['magazine']['magazineName'] ?? '',
+              note: regular['magazine']['note'] ?? '',
             ),
             regular: Regular(
               regularUUID: regular['regularUUID'] ?? '',

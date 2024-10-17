@@ -21,6 +21,7 @@ class PageMagazine extends HookWidget {
   final _magazineNameController = TextEditingController();
   final _newMagazineController = TextEditingController();
   final _newMagazineNameController = TextEditingController();
+  final _newNoteController = TextEditingController();
 
   // どちらで検索しているかを判別する変数
 
@@ -83,7 +84,7 @@ class PageMagazine extends HookWidget {
               useEffect(() {
                 _newMagazineController.text = magazine.magazineCode;
                 _newMagazineNameController.text = magazine.magazineName;
-
+                _newNoteController.text = magazine.note;
                 return null;
               }, []);
 
@@ -97,6 +98,7 @@ class PageMagazine extends HookWidget {
                 Magazine newMagazine = Magazine(
                   magazineCode: _newMagazineController.text,
                   magazineName: _newMagazineNameController.text,
+                  note: _newNoteController.text,
                 );
                 magazineReq.updateMagazineHandler(newMagazine, magazine.magazineCode).then((value) {
                   getMagazine();
@@ -105,7 +107,7 @@ class PageMagazine extends HookWidget {
               }
 
               return AleatDialogUtil(
-                  height: 300,
+                  height: 320,
                   contents: Center(
                     child: Column(
                       children: [
@@ -122,7 +124,6 @@ class PageMagazine extends HookWidget {
                           controller: _newMagazineController,
                         ),
 
-                        // 電話番号
                         edit.EditBarView(
                           width: 300,
                           icon: Icons.import_contacts,
@@ -130,6 +131,16 @@ class PageMagazine extends HookWidget {
                           controller: _newMagazineNameController,
                           inputFormatter: [
                             LengthLimitingTextInputFormatter(13),
+                          ],
+                        ),
+                        edit.EditBarView(
+                          width: 300,
+                          icon: Icons.edit,
+                          controller: _newNoteController,
+                          inputType: TextInputType.multiline,
+                          hintText: '備考',
+                          inputFormatter: [
+                            LengthLimitingTextInputFormatter(100),
                           ],
                         ),
 
