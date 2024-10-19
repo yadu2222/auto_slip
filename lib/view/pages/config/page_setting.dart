@@ -13,8 +13,8 @@ class PageSetting extends HookWidget {
   Widget build(BuildContext context) {
     List<Map<String, String>> setting = [
       {
-        'name': 'ネットワーク',
-        'movePage': '/setting/network',
+        'name': 'ログイン',
+        'movePage': '/setting/login',
       },
       {
         'name': 'ネットワーク',

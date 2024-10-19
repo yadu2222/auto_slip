@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_flip/constant/messages.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 
 import 'package:flutter_auto_flip/view/components/molecles/edit_bar.dart';

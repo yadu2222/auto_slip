@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/view/pages/config/page_login.dart';
 import 'package:flutter_auto_flip/view/pages/customer/page_customer.dart';
 import 'package:flutter_auto_flip/view/pages/take/page_delivery.dart';
 import 'package:flutter_auto_flip/view/pages/take/page_invoice.dart';
@@ -113,6 +114,13 @@ Future<GoRouter> createRouter() async {
               pageBuilder: (context, state) => NoTransitionPage(
                 key: state.pageKey,
                 child: PageNetWorkConfig(),
+              ),
+            ),
+            GoRoute(
+              path: 'login',
+              pageBuilder: (context, state) => NoTransitionPage(
+                key: state.pageKey,
+                child: PageLogin(),
               ),
             ),
         ]
