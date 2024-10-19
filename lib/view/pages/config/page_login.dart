@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_flip/apis/service/login_service.dart';
 import 'package:flutter_auto_flip/view/components/atoms/basic_button.dart';
 
 import 'package:flutter_auto_flip/view/components/molecles/edit_bar.dart';
@@ -15,9 +16,12 @@ class PageLogin extends HookWidget {
   Widget build(BuildContext context) {
     // ログイン情報を保存
     Future<void> setIp() async {
+      final token = await LoginService.login(idController.text, passwordController.text);
+
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('id', idController.text);
       prefs.setString('password', passwordController.text);
+      prefs.setString('token', token);
     }
 
     useEffect(() {

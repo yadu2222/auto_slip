@@ -15,6 +15,17 @@ class HttpReq {
   static Future<Map> httpReq(Request reqData) async {
     // Employee user = await Employee.getUser(); // user情報をdbから取得
 
+    if (reqData.isAuth) {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString("token");   // tokenを取得
+
+      if (token == null) {
+        throw Exception('token is null');
+      } else {
+        reqData.headers['Authorization'] = token; // ヘッダーに認証トークンを追加
+      }
+    }
+
     // host部を取得
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String host = prefs.getString('ip') ?? Urls.host;
