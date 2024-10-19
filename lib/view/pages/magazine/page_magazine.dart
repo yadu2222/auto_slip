@@ -9,8 +9,8 @@ import 'package:flutter_auto_flip/models/magazine_model.dart';
 // api
 import 'package:flutter_auto_flip/apis/controller/magazine_controller.dart';
 // view
-import '../components/templates/basic_template.dart';
-import '../components/molecles/edit_bar.dart' as edit;
+import '../../components/templates/basic_template.dart';
+import '../../components/molecles/edit_bar.dart' as edit;
 import 'package:flutter_auto_flip/view/components/organisms/magazine_list.dart';
 
 class PageMagazine extends HookWidget {

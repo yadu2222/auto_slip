@@ -13,13 +13,13 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_auto_flip/view/components/molecles/count_icons.dart';
 import 'package:flutter_auto_flip/view/components/templates/basic_template.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../components/atoms/alert_dialog.dart';
+import '../../components/atoms/alert_dialog.dart';
 
-import '../components/molecles/edit_bar.dart' as edit;
+import '../../components/molecles/edit_bar.dart' as edit;
 import 'package:flutter_auto_flip/apis/controller/regular_controller.dart';
 // mode;
-import '../../models/load_regular_model.dart';
-import '../components/organisms/regular_list.dart';
+import '../../../models/load_regular_model.dart';
+import '../../components/organisms/regular_list.dart';
 
 class PageRegularMagazine extends HookWidget {
   final TextEditingController userNameController = TextEditingController(); // 編集者の名前
