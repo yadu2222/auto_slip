@@ -32,7 +32,7 @@ class PageNetWorkConfig extends HookWidget {
       return null;
     }, []);
 
-    return BasicTemplate(title: '設定', children: [
+    return BasicTemplate(title: 'ネットワーク', children: [
       const Text('サーバーのipアドレスを入力してください'),
       EditBarView(controller: controller, hintText: 'ip', icon: Icons.computer),
       const Text('あまりさわる場所ではないです'),

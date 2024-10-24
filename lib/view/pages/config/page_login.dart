@@ -38,7 +38,7 @@ class PageLogin extends HookWidget {
       return null;
     }, []);
 
-    return BasicTemplate(title: '設定', children: [
+    return BasicTemplate(title: 'ログイン', children: [
       const Text('ログイン情報を入力してください'),
       EditBarView(controller: idController, hintText: 'id', icon: Icons.supervised_user_circle_rounded),
       EditBarView(controller: passwordController, hintText: 'password', icon: Icons.password),

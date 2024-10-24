@@ -3,7 +3,6 @@ class Urls {
   static const String protocol = 'http://';
   static const String host = 'localhost';
   static const String port = '8080';
-  static const String baseUrl = '$protocol$host:$port';
   static const String version = '/v2'; // version
   static const String auth = '/auth';
 
@@ -13,7 +12,7 @@ class Urls {
   // ここにURLを追加していく
 
   // login 
-  static const String login = '$version/login'; // POSTログイン
+  static const String login = '$version/login/'; // POSTログイン
 
   // customer
   static const String getCustomer = '$version$auth/customers/customers'; // GETお客様情報取得

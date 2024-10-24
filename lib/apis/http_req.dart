@@ -15,6 +15,7 @@ class HttpReq {
   static Future<Map> httpReq(Request reqData) async {
     // Employee user = await Employee.getUser(); // user情報をdbから取得
 
+    // 認証が必要な場合はトークンをヘッダーに追加
     if (reqData.isAuth) {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");   // tokenを取得
