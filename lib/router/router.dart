@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_flip/view/pages/page_customer.dart';
-import 'package:flutter_auto_flip/view/pages/page_delivery.dart';
-import 'package:flutter_auto_flip/view/pages/page_invoice.dart';
-import 'package:flutter_auto_flip/view/pages/page_magazine.dart';
-import 'package:flutter_auto_flip/view/pages/page_setting.dart';
+import 'package:flutter_auto_flip/view/pages/config/page_login.dart';
+import 'package:flutter_auto_flip/view/pages/customer/page_customer.dart';
+import 'package:flutter_auto_flip/view/pages/take/page_delivery.dart';
+import 'package:flutter_auto_flip/view/pages/take/page_invoice.dart';
+import 'package:flutter_auto_flip/view/pages/magazine/page_magazine.dart';
+import 'package:flutter_auto_flip/view/pages/config/page_network_config.dart';
+import 'package:flutter_auto_flip/view/pages/config/page_setting.dart';
 import 'package:go_router/go_router.dart';
 
 // 遷移先
-import '../view/pages/page_counting.dart';
-import '../view/pages/page_add_regular.dart';
-import '../view/pages/page_regular.dart';
-import '../view/pages/page_add_customer.dart';
-import '../view/pages/page_add_magazine.dart';
+import '../view/pages/take/page_counting.dart';
+import '../view/pages/regular/page_add_regular.dart';
+import '../view/pages/regular/page_regular.dart';
+import '../view/pages/customer/page_add_customer.dart';
+import '../view/pages/magazine/page_add_magazine.dart';
 // import '../view/pages/page_salary.dart';
 import '../view/pages/page_test.dart';
 
@@ -106,6 +108,22 @@ Future<GoRouter> createRouter() async {
           key: state.pageKey,
           child: PageSetting(),
         ),
+        routes: [
+          GoRoute(
+              path: 'network',
+              pageBuilder: (context, state) => NoTransitionPage(
+                key: state.pageKey,
+                child: PageNetWorkConfig(),
+              ),
+            ),
+            GoRoute(
+              path: 'login',
+              pageBuilder: (context, state) => NoTransitionPage(
+                key: state.pageKey,
+                child: PageLogin(),
+              ),
+            ),
+        ]
       ),
       GoRoute(
         path: '/test',

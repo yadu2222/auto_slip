@@ -12,8 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 // view
-import '../components/templates/basic_template.dart';
-import '../components/molecles/edit_bar.dart' as edit;
+import '../../components/templates/basic_template.dart';
+import '../../components/molecles/edit_bar.dart' as edit;
 
 class PageCustomer extends HookWidget {
   PageCustomer({super.key});

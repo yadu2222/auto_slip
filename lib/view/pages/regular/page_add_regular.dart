@@ -8,18 +8,18 @@ import 'package:flutter_auto_flip/view/components/atoms/listview_builder.dart';
 import 'package:flutter_auto_flip/view/components/molecles/edit_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import '../components/molecles/add_magazine_button.dart';
+import '../../components/molecles/add_magazine_button.dart';
 
 // view
-import '../components/templates/basic_template.dart';
-import '../components/molecles/dialog.dart';
-import '../components/organisms/add_regular_list.dart';
-import '../components/atoms/basic_button.dart';
+import '../../components/templates/basic_template.dart';
+import '../../components/molecles/dialog.dart';
+import '../../components/organisms/add_regular_list.dart';
+import '../../components/atoms/basic_button.dart';
 // constant
-import '../../constant/messages.dart';
-import '../../models/regular_model.dart';
-import '../../models/magazine_model.dart';
-import '../../models/customer_model.dart';
+import '../../../constant/messages.dart';
+import '../../../models/regular_model.dart';
+import '../../../models/magazine_model.dart';
+import '../../../models/customer_model.dart';
 
 // TODO: 定期追加ページ
 class PageAdd extends HookWidget {
