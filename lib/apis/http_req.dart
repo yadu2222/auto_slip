@@ -18,7 +18,7 @@ class HttpReq {
     // 認証が必要な場合はトークンをヘッダーに追加
     if (reqData.isAuth) {
       final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString("token");   // tokenを取得
+      final token = prefs.getString("token"); // tokenを取得
 
       if (token == null) {
         throw Exception('token is null');
@@ -90,7 +90,8 @@ class HttpReq {
       return jsonDecode(response.body) as Map<String, dynamic>;
       // 失敗時の処理
     } else {
-      return reqData.errorHandling(response);
+      reqData.errorHandling(response);
+      return {};
     }
   }
 }

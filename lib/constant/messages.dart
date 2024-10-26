@@ -22,4 +22,7 @@ class Messages {
   static const String getCustomerSuccess = "お客様情報の取得が完了しました";
   // 取得エラー
   static const String getCustomerError = "お客様情報の取得に失敗しました";
+
+  static const String StatusUnauthorized = "認証エラー";
+  static const String StatusInternalServerError = "エラーが発生しました";
 }
