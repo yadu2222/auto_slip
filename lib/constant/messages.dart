@@ -5,7 +5,7 @@ class Messages {
   // ふたつめ：サブ
   // みっつめ：パッチ
   // くりあげない！！！
-  static const version = "1.6.1";
+  static const version = "1.6.2";
 
   // 定期追加成功
   static const String registerSuccess = "登録が完了しました";
@@ -22,4 +22,7 @@ class Messages {
   static const String getCustomerSuccess = "お客様情報の取得が完了しました";
   // 取得エラー
   static const String getCustomerError = "お客様情報の取得に失敗しました";
+
+  static const String StatusUnauthorized = "認証エラー";
+  static const String StatusInternalServerError = "エラーが発生しました";
 }
