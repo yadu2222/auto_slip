@@ -34,6 +34,7 @@ class PageDelivery extends HookWidget {
     final delete = useState<bool>(false);
     final edit = useState<bool>(false);
     final magazines = useState<List<DeliveryMagazine>>([]);
+    final isLoading = useState<bool>(false);
     final editControllers = useState<List<Map<String, TextEditingController>>>([]);
 
     // 押したカードを配列から削除
@@ -208,8 +209,10 @@ class PageDelivery extends HookWidget {
       if (file == null) {
         return;
       }
+      isLoading.value = true;
       await deliveryReq.getDeliveryHandler(file).then((value) => deliveryList.value = value); // ファイルを読み込んでリストに変換
       magazines.value = Delivery.listToMagazine(deliveryList.value); // 雑誌リストを取得
+      isLoading.value = false;
     }
 
     Future<void> selectDate(BuildContext context) async {
@@ -354,7 +357,10 @@ class PageDelivery extends HookWidget {
                     BasicButton(width: 300, text: '納品する日付 : ${deliveryDate.value.year}/${deliveryDate.value.month}/${deliveryDate.value.day}', isColor: true, onPressed: () => selectDate(context)),
                     // 数取リストの有無で表示を制御
                     deliveryList.value.isEmpty
-                        ? const SizedBox.shrink()
+                        ?  isLoading.value
+                            ? const CircularProgressIndicator()
+                            :
+                        const SizedBox.shrink()
                         : edit.value
                             ? widget(deliveryList.value)
                             : Expanded(
